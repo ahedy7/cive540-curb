@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "CIVE 540 study area (approximate, verify)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.5888,
+              45.4917
+            ],
+            [
+              -73.5718,
+              45.5105
+            ],
+            [
+              -73.564,
+              45.505
+            ],
+            [
+              -73.583,
+              45.4868
+            ],
+            [
+              -73.5888,
+              45.4917
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

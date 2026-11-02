@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+.venv/
+
+# Over GitHub's 100 MB file limit -- re-download with fetch_data.py
+data/raw/collisions/Collisions_routières.geojson
+data/raw/road_signs/Signalisation_routière.geojson
+data/raw/property_units/Extrait_géographique_des_unités_d_évaluation_foncière.zip
