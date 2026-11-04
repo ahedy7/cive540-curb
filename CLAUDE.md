@@ -52,10 +52,11 @@ cive540-curb/
     raw/<dataset>/       # original downloads, never edit
     clipped/study_area.gpkg   # one layer per dataset, EPSG:32188
     clipped/tables/      # non-spatial tables (paid parking regulations etc.)
+    derived/blockfaces.gpkg   # block faces (analysis/blockfaces.py)
   video/                 # (to create) raw iPhone clips + GPX tracks, gitignored
   frames/                # (to create) extracted frames, gitignored
   pipeline/              # (to create) video processing scripts
-  analysis/              # (to create) supply, demand, metrics, models
+  analysis/              # supply, demand, metrics, models. blockfaces.py done
   web/ or docs/          # (to create) MapLibre site for GitHub Pages
 ```
 
@@ -98,7 +99,10 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 - [x] Re-run `python fetch_data.py --clip-only` with the fixed script. All datasets now clip, including signs, loading zones, all commercial years and collision polygons (Nov 2)
 - [x] Fix study_area.geojson. Now traced from the géobase centre lines of the 4 boundary streets (1.405 km2). Re-clipped (Nov 2)
 - [x] Verify clipped layers in QGIS. Boundary and layers line up with OSM (Nov 3)
-- [ ] Build block faces with stable IDs
+- [x] Build block faces with stable IDs. 524 faces, 49.1 km of curb, data/derived/blockfaces.gpkg (Nov 4)
+- [ ] Curb supply: parse sign RPA rules, assign to block faces by arrow
+- [ ] Delivery demand from 2025 commercial premises
+- [ ] First mismatch map (no video yet)
 - [ ] Filming (see plan)
 - [ ] Video pipeline
 - [ ] Analysis
@@ -184,3 +188,4 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Filming is front-loaded bef
 - Nov 2: fetch_data.py checks file content, not extension, for zips (some City .geojson downloads are zips). GPKG layer names are ASCII and keep the end of the file name so years stay distinct.
 - Nov 2: study area boundary follows the actual street centre lines, not 4 straight corners. René-Lévesque curves up to 130 m and Sherbrooke up to 84 m from a straight line, so a corner polygon cut off or added whole blocks.
 - Nov 3: filming moved to the week of Nov 9. Computer work (block faces, supply, demand) comes first. Timeline below needs shifting.
+- Nov 4: block faces built from géobase double side lines, chained between intersections on the centre lines. ID = <street>_<from>_<to>_<side>. Side is N/S/E/W in Montréal grid terms (grid east = 34 degrees true). from/to run grid west to east or south to north. "split" = where a street splits into two carriageways, "end" = dead end. Median sides of divided streets and junction connectors with no addresses are dropped. Boundary streets keep both sides.

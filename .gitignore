@@ -17,3 +17,6 @@ frames/
 # Large or generated outputs
 *.zip
 *.qgz~
+
+# Derived outputs are rebuilt by the analysis scripts
+data/derived/
