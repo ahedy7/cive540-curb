@@ -35,6 +35,7 @@ GRID_EAST_BEARING = 34.0
 MEDIAN_PROBES_M = (6, 12, 20)  # distances past a side line to look for the other carriageway
 MEDIAN_HIT_M = 6               # other carriageway this close to a probe = median side, not a curb
 BOUNDARY_STREETS = {"Sherbrooke", "René-Lévesque", "Atwater", "De Bleury"}
+CORNER_STUB_M = 20  # boundary-street block ending this far outside the area = stub past a corner
 MEDIAN_CROSSING_M = 30  # same street at both ends and shorter than this = median crossing
 MIN_SHARE_INSIDE = 0.5  # keep blocks with at least half their length in the study area
 
@@ -133,6 +134,10 @@ def main():
         reach = area.buffer(30 if street in BOUNDARY_STREETS else 5)
         if line.intersection(reach).length / line.length < MIN_SHARE_INSIDE:
             continue
+        if street in BOUNDARY_STREETS and any(
+                not area.contains(Point(p)) and area.exterior.distance(Point(p)) > CORNER_STUB_M
+                for p in (line.coords[0], line.coords[-1])):
+            continue  # a piece of a boundary street that runs past a corner
 
         # orient grid west -> east, or grid south -> north
         ang = grid_angle(line)
