@@ -104,12 +104,12 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 - [x] Fix study_area.geojson. Now traced from the géobase centre lines of the 4 boundary streets (1.405 km2). Re-clipped (Nov 2)
 - [x] Verify clipped layers in QGIS. Boundary and layers line up with OSM (Nov 3)
 - [x] Build block faces with stable IDs. 522 faces, 49.0 km of curb, data/derived/blockfaces.gpkg (Nov 4)
-- [ ] Task 1, curb supply
+- [x] Task 1, curb supply (Nov 4). analysis/supply.py -> data/derived/curb_supply.gpkg (stretches, supply_by_window) + supply_by_window.csv
   - [x] Hydrant data found and added (220). Driveways: no usable City data (sidewalk value list is access-denied), so video-only on sampled faces, a limitation
   - [x] Paid parking source chosen: Places.csv + regulation tables. The 11 "STATIONNEMENT TARIFÉ" signs are a cross-check only
-  - [x] Arrow codes inferred from 929 same-rule sign pairs: 2 = left, 3 = right (about 80% agreement), 0 = no arrow. Waiting on Street View check by Arvin
-  - [x] Rule draft: analysis/rpa_rules_draft.csv (130 rules). Waiting on Arvin's review. Reviewed copy goes to analysis/rpa_rules.csv
-  - [ ] Stretch file + summary table (after review)
+  - [x] Arrow codes: 2 = left, 3 = right, 0 = no arrow, 8 = both. Inferred from 929 same-rule sign pairs (about 80% agreement) and confirmed by the Agence's signalec_to_curblr code, prkng and Savoir-faire Linux's converter. Street View was not usable (construction, trucks)
+  - [x] Rules reviewed and approved by Arvin as drafted: analysis/rpa_rules.csv (130 rules)
+  - [x] Stretch file (4,785 stretches) + summary table (522 faces x 3 windows). Uses sum to face length within 0.2 m. 50 of 62 official loading zones sit on a loading stretch
 - [ ] Task 2, stratified sample (about 55 faces) and bike route with GPX, map and pilot segment. Due Sat Nov 7
 - [ ] Delivery demand from 2025 commercial premises
 - [ ] First mismatch map (no video yet)
@@ -214,3 +214,8 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 - Nov 4: paid parking comes from Places.csv and its regulation tables, not signs. Places has every paid space with a position and its paid hours. Signs only carry 11 zone-level "STATIONNEMENT TARIFÉ" plates. Using one source avoids double counting. Time-specific bans on signs (rush hour no stopping, street cleaning) still override paid space in the windows they apply.
 - Nov 4: arrow codes (FLECHE_PAN) read for a viewer standing in the street facing the sign: 2 = left, 3 = right, 0 = no arrow (rule runs both ways from the pole), 8 = rare (4 signs), treated as both ways. Inferred from same-rule sign pairs, to be confirmed on Street View.
 - Nov 4: fetch_data.py bug fixed. clip_all deleted the whole GeoPackage even with --only. Now it only rebuilds from scratch on a full run.
+- Nov 4: sign extents follow the Agence's chaining logic. A rule runs from its pole in the arrow's direction to the next pole with the same rule, or to the end of the face. No arrow = both ways. 76% of sign stretches reach a face end, which may overstate a few zones. Video on sampled faces tests this.
+- Nov 4: supply is resolved per weekday half-hour, 07:00 to 19:00, on reference date Nov 10, 2026 (filming week, street cleaning still in force). Strictest rule wins: no_stopping > bus_stop > no_parking > implicit_no_parking > reserved > permit > loading > short_term > paid > free. Metres per window are averages over its half-hours.
+- Nov 4: short-term parking (P 15 MIN etc.) counts as usable by delivery drivers but is kept separate from loading.
+- Nov 4: paid spaces from Places are 6 m each (median centre spacing 6.1 m). Neighbours up to 9 m apart form one continuous row. Hydrants and intersections get 5 m no parking (Quebec Highway Safety Code). Intersection clearance is applied at both ends of every face, including the 4 dead-end faces.
+- Nov 4: 12 of 62 official loading zones (Aires de livraison) have no matching loading sign within 15 m. 3 have no rule code, 1 (SL-JL) has no active sign. Signs stay the source for loading. All 12 faces go into the video sample so the street settles it (side finding for the sign check).
