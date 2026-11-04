@@ -45,6 +45,7 @@ DATASETS = {
     "bike_network":        ("pistes-cyclables", None, ["geojson", "shp"], False),
     "pedestrian_streets":  (None, "rues piétonnes et partagées", ["geojson", "csv"], False),
     "property_units":      (None, "unités d'évaluation foncière", ["geojson", "csv"], False),
+    "hydrants":            ("geolocalisation-des-bornes-fontaines", None, ["json", "csv"], False),
 }
 
 # Approximate corners of the study area (lon, lat). CHECK THESE: open study_area.geojson
@@ -258,8 +259,10 @@ def clip_all(keys):
     CLIPPED.mkdir(parents=True, exist_ok=True)
     (CLIPPED / "tables").mkdir(exist_ok=True)
     gpkg = CLIPPED / "study_area.gpkg"
-    if gpkg.exists():
-        gpkg.unlink()  # rebuild from scratch so old layers don't linger
+    # rebuild from scratch on a full run so old layers don't linger.
+    # With --only, keep the file and just overwrite those datasets' layers
+    if gpkg.exists() and set(keys) == set(DATASETS):
+        gpkg.unlink()
     summary = []
     for key in keys:
         folder = RAW / key

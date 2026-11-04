@@ -23,8 +23,9 @@ This file is the full context for this project. Read it at the start of every se
 
 - Course: CIVE 540 Urban Transportation Planning, McGill, Fall 2026. Instructor: Prof. Luis Miranda-Moreno. This is the final term project.
 - Topic: curb management and urban delivery policies.
-- Team of two. I cover the commercial and delivery side. My partner covers safety and livability.
+- Team of two. I cover the commercial and delivery side. My partner covers safety and livability. The split is being rebalanced (partner likely owns the website and validation labelling). TBD.
 - Study area: downtown Montréal bounded by Sherbrooke St W (north), René-Lévesque Blvd W (south), Atwater Ave (west), de Bleury St (east).
+- **Headline question:** where does downtown lack loading space, does that predict double parking, and how much curb would fix it. Everything serves this. The sign check (City records vs street) is a side finding.
 - Core idea: a curb mismatch analysis. Compare curb supply (how curb space is allocated, from City data checked by video) with delivery demand (modelled from businesses) and observed behaviour (occupancy, double parking, bike-lane blocking, from my own video). Produce a mismatch index per block face.
 - Miranda-Moreno suggested using video plus vision-language models (VLMs) to read the curb, because curb data is scarce and costly.
 - Final deliverable: a report, a presentation, and an interactive website where users adjust curb parameters and see the mismatch change.
@@ -36,7 +37,7 @@ This must be three things at once:
 2. A portfolio piece showing end-to-end spatial data science (data engineering, computer vision, statistics, web mapping). It will go on arvinhedayat.com and my resume. I'm targeting geospatial analytics and urban data science roles.
 3. Something the City of Montréal and the Agence de mobilité durable could actually use.
 
-So: clean public repo, reproducible pipeline, data in a standard curb format (CurbLR, mapped to the Open Mobility Foundation Curb Data Specification), honest accuracy numbers, and a one-page method note. Code quality and documentation matter.
+So: clean public repo, reproducible pipeline, data in our own simple, clearly named schema, honest accuracy numbers, and a one-page method note. An Open Mobility Foundation CDS export is an optional extra at the very end, only if time allows. Code quality and documentation matter.
 
 Ethics and privacy review are not in scope for now (class project). Still, never commit raw unblurred video or frames to the public repo, and blur faces and plates in anything published on the website.
 
@@ -53,6 +54,8 @@ cive540-curb/
     clipped/study_area.gpkg   # one layer per dataset, EPSG:32188
     clipped/tables/      # non-spatial tables (paid parking regulations etc.)
     derived/blockfaces.gpkg   # block faces (analysis/blockfaces.py)
+    derived/curb_supply.gpkg  # curb stretches + supply per block face and window (analysis/supply.py)
+    derived/sample.gpkg       # stratified sample and bike route (analysis/sample.py)
   video/                 # (to create) raw iPhone clips + GPX tracks, gitignored
   frames/                # (to create) extracted frames, gitignored
   pipeline/              # (to create) video processing scripts
@@ -86,6 +89,7 @@ Add a `.gitignore` covering `data/raw/`, `video/`, `frames/`, `.venv/`, large fi
 | bike_network | bike_network__Reseau_cyclable | 38 | |
 | pedestrian_streets | pedestrian_streets__Liste_des_rues_pietonnes | 2 | Points only |
 | property_units | property_units__eographique_des_unites_d_evaluation_fonciere | 14,551 | Floor area and use codes. Demand proxy |
+| hydrants | hydrants__Bornes_d_incendie | 220 | All active. City of Montréal, CC BY 4.0. Used for 5 m no-parking around each hydrant |
 
 Also downloaded but not yet used: the RPA and RTP sign code tables (CSV) inside the signs dataset, sign images, the 2015 sign catalogue PDF.
 
@@ -99,11 +103,18 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 - [x] Re-run `python fetch_data.py --clip-only` with the fixed script. All datasets now clip, including signs, loading zones, all commercial years and collision polygons (Nov 2)
 - [x] Fix study_area.geojson. Now traced from the géobase centre lines of the 4 boundary streets (1.405 km2). Re-clipped (Nov 2)
 - [x] Verify clipped layers in QGIS. Boundary and layers line up with OSM (Nov 3)
-- [x] Build block faces with stable IDs. 524 faces, 49.1 km of curb, data/derived/blockfaces.gpkg (Nov 4)
-- [ ] Curb supply: parse sign RPA rules, assign to block faces by arrow
+- [x] Build block faces with stable IDs. 522 faces, 49.0 km of curb, data/derived/blockfaces.gpkg (Nov 4)
+- [ ] Task 1, curb supply
+  - [x] Hydrant data found and added (220). Driveways: no usable City data (sidewalk value list is access-denied), so video-only on sampled faces, a limitation
+  - [x] Paid parking source chosen: Places.csv + regulation tables. The 11 "STATIONNEMENT TARIFÉ" signs are a cross-check only
+  - [x] Arrow codes inferred from 929 same-rule sign pairs: 2 = left, 3 = right (about 80% agreement), 0 = no arrow. Waiting on Street View check by Arvin
+  - [x] Rule draft: analysis/rpa_rules_draft.csv (130 rules). Waiting on Arvin's review. Reviewed copy goes to analysis/rpa_rules.csv
+  - [ ] Stretch file + summary table (after review)
+- [ ] Task 2, stratified sample (about 55 faces) and bike route with GPX, map and pilot segment. Due Sat Nov 7
 - [ ] Delivery demand from 2025 commercial premises
 - [ ] First mismatch map (no video yet)
-- [ ] Filming (see plan)
+- [ ] Test clip near home (mount, GPX sync, sign readability). Before Mon Nov 9
+- [ ] Filming: pilot Mon Nov 9, morning passes Tue to Thu Nov 10 to 12
 - [ ] Video pipeline
 - [ ] Analysis
 - [ ] Website
@@ -111,17 +122,19 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 
 ## Timeline
 
-Deadline assumed around Dec 7 to 11, 2026 (confirm). Filming is front-loaded before the weather gets worse. Sunset is around 4:15 pm.
+Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset is around 4:15 pm.
 
-- **Nov 2 to 8:** setup, data, route planning. Pilot ride Wednesday (10 to 15 block faces on de la Montagne and Ste-Catherine near Peel). Full inventory pass Thursday to Saturday, 10:00 to 14:00, every block face once.
-- **Nov 9 to 15:** morning activity passes Tue, Wed, Thu 08:00 to 11:00 on the delivery core (Ste-Catherine, de Maisonneuve, cross streets from Guy to Robert-Bourassa). Fixed-point filming at 3 to 5 loading zones, 60 to 90 min each, for dwell time. Sunday coverage check.
-- **Nov 16 to 22:** reshoots, build and run the pipeline, join sign inventory to block faces, hand-label 300 frames.
-- **Nov 23 to 29:** analysis (supply, demand, observed metrics, mismatch index, model).
-- **Nov 30 to Dec 6:** website and report draft.
+- **Nov 4 to 8:** no riding. Computer work: curb supply (Task 1), stratified sample and bike route (Task 2, ready by Sat Nov 7). Before Monday: a 2-minute test clip near home to check the mount, GPX sync and sign readability.
+- **Mon Nov 9:** pilot ride, midday, on 10 to 15 sampled faces near Peel and Ste-Catherine.
+- **Tue Nov 10, Wed Nov 11, Thu Nov 12:** morning passes 08:00 to 11:00 on the sample route. Backup mornings Fri Nov 13 and Mon Nov 16 if it rains.
+- **Nov 13 to 24:** build and run the video pipeline, validation set, sign check. (Shifted back a few days.)
+- **Nov 25 to Dec 1:** analysis (supply, demand, observed metrics, mismatch index, model).
+- **Dec 2 to 6:** website and report draft.
 - **Dec 7 to 11:** finish and submit.
 
 ## Video capture (iPhone, no GoPro)
 
+- Scope: 3 weekday morning bike passes (08:00 to 11:00) on the sample route, about 55 block faces. No full inventory ride. No fixed-camera sessions.
 - iPhone, 4K at 30 fps, High Efficiency format, 1x lens (not 0.5x ultrawide), focus and exposure locked.
 - Handlebar mount angled 30 to 45 degrees toward the curb. Walk with the phone on one-way streets and dense sign clusters.
 - iPhone video stores only one location per clip, not a track. A separate GPX logger app (Open GPX Tracker or Strava) records the track. Sync frames to GPS by timestamp.
@@ -131,12 +144,12 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Filming is front-loaded bef
 ## Video pipeline spec (to build in pipeline/)
 
 1. **Ingest:** list clips in video/, read start time and duration with ffprobe, pair each clip with its GPX file. Save a clips manifest CSV.
-2. **Frames:** extract 2 frames per second with ffmpeg (`-vf fps=2 -q:v 2`). Record each frame's timestamp = clip start + index / 2.
+2. **Frames:** extract 1 frame per second with ffmpeg (`-vf fps=1 -q:v 2`). Record each frame's timestamp = clip start + index.
 3. **Geotag:** interpolate lat/lon and heading from the GPX track for each frame timestamp.
 4. **Snap to block faces:** nearest géobase segment within 15 m (in EPSG:32188). Use heading and which side the camera faces (right by default, configurable per clip) to pick the block face side. Drop frames within about 10 m of intersections.
 5. **Blur:** faces and licence plates with EgoBlur (`pip install egoblur`) on frames that will be published. Analysis can run on unblurred frames locally.
-6. **Filter:** run Ultralytics YOLO11 (pretrained COCO) on all frames. Keep frames with a curbside vehicle, a sign-like object, or a hydrant. Cuts VLM calls a lot.
-7. **VLM extraction:** send filtered frames (or sign crops) to a vision-language model with a fixed JSON schema. Use the Anthropic API (Claude) unless I say otherwise. Run a 50 to 100 frame sample first and report cost before the full run. Use batching if available. Cache every response to disk keyed by frame ID so nothing is paid for twice. Schema:
+6. **Filter:** run Ultralytics YOLO11 (pretrained COCO) on all frames, only as a free pre-filter before Claude. Keep frames with a curbside vehicle, a sign-like object, or a hydrant.
+7. **VLM extraction:** send filtered frames (or sign crops) to a vision-language model with a fixed JSON schema. Pilot photos and the validation set run through Claude Code within Arvin's plan. For the full run, first compare a free local model with the Anthropic API on 100 photos, then choose. Ask before spending more than $5. Use batching if available. Cache every response to disk keyed by frame ID so nothing is paid for twice. Schema:
    ```json
    {"signs":[{"type":"no_parking|no_stopping|paid|loading|reserved|other",
      "text_fr":"", "hours":"", "days":"", "arrow":"left|right|both|none"}],
@@ -147,17 +160,18 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Filming is front-loaded bef
     "confidence":0.0}
    ```
    Include a few RPA code descriptions in the prompt so the model maps French sign text ("Livraison seulement", "Arrêt interdit", "Stationnement interdit") to the categories.
-8. **Validation:** a labelling helper (simple local HTML page or notebook) for hand-labelling 300 stratified frames. Compute precision, recall and F1 per class and Cohen's kappa on 50 double-labelled frames.
-9. **Reconcile:** compare video sign reads with City sign records within 10 m. Label each as confirmed, missing in data, missing on street, or conflicting.
+8. **Validation (owner TBD, likely partner):** a labelling helper (simple local HTML page or notebook) for hand-labelling 300 stratified frames. Compute precision, recall and F1 per class and Cohen's kappa on 50 double-labelled frames.
+9. **Reconcile (side finding):** compare video sign reads with City sign records within 10 m. Label each as confirmed, missing in data, missing on street, or conflicting.
 
 ## Analysis spec (to build in analysis/)
 
-- **Unit:** block face (one side of a street between two intersections) by time window (07 to 11, 11 to 15, 15 to 19, weekdays).
-- **Block faces:** from géobase or géobase double. Stable ID like `<street>_<from>_<to>_<L|R>`. Store length in metres.
-- **Supply:** linear metres per block face by use and time window: paid parking, unpaid or permit, loading, no stopping or no parking, implicit no parking (hydrants, driveways, intersection clearances), bus stop, reserved or taxi, other. Parse RPA descriptions into use, hours and days. Paid spaces from Places.csv at about 6 m each if no length is given.
+- **Unit:** block face (one side of a street between two intersections) by time window (07 to 11, 11 to 15, 15 to 19, weekdays). Supply and demand cover all 522 faces. Observed behaviour covers the sample only.
+- **Block faces:** done, see analysis/blockfaces.py. ID `<street>_<from>_<to>_<N|S|E|W>`. Length in metres.
+- **Sample:** stratified cluster sample of about 55 block faces. 4 strata = arterial vs local (géobase class) x occupied 2025 commercial premises per 100 m above vs below median. Whole blocks (both sides) sampled at random, seed 540, about 12 to 15 faces per stratum, high-commercial oversampled. Every face with a loading zone is forced in. Keep design weights for estimates.
+- **Supply:** linear metres per block face by use and time window. Uses: paid, free, loading, no stopping, no parking, permit (S3R), reserved (taxi, hotel, police, diplomatic, disabled, EV, moto, bus), implicit no parking (5 m intersection clearance, hydrants, driveways). Parse RPA descriptions into use, hours and days through a rule CSV Arvin reviews. Street cleaning counts only on its days and hours. Permit and reserved space is not available for deliveries but stays as separate categories. Pick one source for paid parking (signs or Places.csv) to avoid double counting. Hydrants and driveways: City data if it exists, otherwise only on sampled faces from video (limitation).
 - **Demand:** 2025 commercial premises, occupied only. Map use categories to groups (food retail, restaurants, general retail, services, offices). Daily freight trips per establishment from NCFRP Report 37 constant-per-establishment rates. Spread over the day with a peak share in 08 to 11. Assign to the frontage block face (or nearest legal block face within 50 to 75 m if on a pedestrian street).
-- **Required loading length:** peak arrivals per hour, mean dwell (from fixed-camera data or 10 to 20 min default), space length 9 to 12 m. Erlang-B / M/M/c so P(all busy) < 10 percent. Required length = spaces × length.
-- **Observed:** occupancy share across passes, misuse rate of loading zones, double-parking rate per 100 m per pass, bike-lane blockage rate, dwell and turnover at fixed sites.
+- **Required loading length:** peak arrivals per hour, mean dwell from the literature (10 to 20 min, with sensitivity analysis), space length 9 to 12 m. Erlang-B / M/M/c so P(all busy) < 10 percent. Required length = spaces × length.
+- **Observed (sample faces, 3 passes):** occupancy share across passes, misuse rate of loading zones, double-parking rate per 100 m per pass, bike-lane blockage rate.
 - **Mismatch index:** MI = (required − supplied) / max(required, supplied), from −1 (oversupply) to +1 (undersupply).
 - **Model:** negative binomial GLM of double-parking counts on MI, commercial density, bike-lane presence, street type, with block-face random effects or clustered errors. Report rate ratios. This is the key validation that the demand model means something.
 - **Partner's side (support when asked):** collisions within 25 to 30 m of loading activity, bike-lane blocking, sidewalk width samples, curb share for people versus vehicle storage.
@@ -170,7 +184,7 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Filming is front-loaded bef
 - Summary panel: block faces in undersupply, loading metres added, parking spaces and estimated revenue lost (rates from Places.csv), estimated change in double parking.
 - 3 or 4 preset scenarios.
 - Distinctive, clean design. It must not look like a generic template or AI-generated. Works on phone width.
-- Data per block face follows a CurbLR-aligned schema, with a mapping table to CDS field names.
+- Data per block face uses our own simple schema. CDS export is optional, only if time allows.
 
 ## Repo and portfolio requirements
 
@@ -189,3 +203,14 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Filming is front-loaded bef
 - Nov 2: study area boundary follows the actual street centre lines, not 4 straight corners. René-Lévesque curves up to 130 m and Sherbrooke up to 84 m from a straight line, so a corner polygon cut off or added whole blocks.
 - Nov 3: filming moved to the week of Nov 9. Computer work (block faces, supply, demand) comes first. Timeline below needs shifting.
 - Nov 4: block faces built from géobase double side lines, chained between intersections on the centre lines. ID = <street>_<from>_<to>_<side>. Side is N/S/E/W in Montréal grid terms (grid east = 34 degrees true). from/to run grid west to east or south to north. "split" = where a street splits into two carriageways, "end" = dead end. Median sides of divided streets and junction connectors with no addresses are dropped. Boundary streets keep both sides.
+- Nov 4: final scope is "Option 2": stratified cluster sample of about 55 block faces, 3 weekday morning bike passes (08:00 to 11:00). No full inventory ride. No fixed-camera sessions. Delivery dwell time from the literature (10 to 20 min) with sensitivity.
+- Nov 4: headline question is where downtown lacks loading space, whether that predicts double parking, and how much curb would fix it. The sign check is a side finding.
+- Nov 4: CurbLR dropped. Own simple schema. OMF CDS export optional at the very end.
+- Nov 4: YOLO only as a free pre-filter before Claude. 1 frame per second on the passes.
+- Nov 4: pilot photos and the validation set run through Claude Code within Arvin's plan. Full run: compare a free local model with the API on 100 photos first. Ask before spending more than $5.
+- Nov 4: partner split being rebalanced (partner likely owns website and validation labelling). TBD.
+- Nov 4: no riding this week. Test clip before Monday. Pilot Mon Nov 9 midday. Morning passes Tue to Thu Nov 10 to 12, backups Fri Nov 13 and Mon Nov 16.
+- Nov 4: supply rules. Street cleaning counts only on its days and hours. S3R permit and reserved spots are not available for deliveries but stay as separate categories.
+- Nov 4: paid parking comes from Places.csv and its regulation tables, not signs. Places has every paid space with a position and its paid hours. Signs only carry 11 zone-level "STATIONNEMENT TARIFÉ" plates. Using one source avoids double counting. Time-specific bans on signs (rush hour no stopping, street cleaning) still override paid space in the windows they apply.
+- Nov 4: arrow codes (FLECHE_PAN) read for a viewer standing in the street facing the sign: 2 = left, 3 = right, 0 = no arrow (rule runs both ways from the pole), 8 = rare (4 signs), treated as both ways. Inferred from same-rule sign pairs, to be confirmed on Street View.
+- Nov 4: fetch_data.py bug fixed. clip_all deleted the whole GeoPackage even with --only. Now it only rebuilds from scratch on a full run.

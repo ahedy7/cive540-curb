@@ -1,0 +1,131 @@
+﻿code_rpa,sign_text,n_signs,use,beneficiary,schedule,season,time_limit_min,needs_review,note
+R-RE,\P 18h-23h LUN A VEN 9h-23h SAM DIM EXCEPTE S3R,4,permit,resident_permit,"Mo-Fr 18:00-23:00 | Sa,Su 09:00-23:00",all_year,,yes,
+R-SX,\P 17h-23h LUN A VEN ET 9h-23 SAM ET DIM EXCEPTE S3R,1,permit,resident_permit,"Mo-Fr 17:00-23:00 | Sa,Su 09:00-23:00",all_year,,yes,
+AD-TT,\A EN TOUT TEMPS,561,no_stopping,,always,all_year,,,
+SD-TT,\P EN TOUT TEMPS,176,no_parking,,always,all_year,,,
+R-PF,\P 9h-23h EXCEPTE S3R,121,permit,resident_permit,Mo-Su 09:00-23:00,all_year,,,
+SV-AF-A,\P 8h-9h LUN A VEN 1 AVRIL AU 1 DEC,80,no_parking,,Mo-Fr 08:00-09:00,04-01..12-01,,,Street cleaning
+AV-RR,\A 06h-10h ET 14h30-19h30 LUN A VEN,78,no_stopping,,"Mo-Fr 06:00-10:00,14:30-19:30",all_year,,,
+PD-TD,P 15 MIN. RESERVE HOTEL,78,reserved,hotel,always,all_year,15,,"Short-term, reserved for this group"
+SV-AD-A,\P 7h-8h LUN A VEN 1 AVRIL AU 1 DEC,52,no_parking,,Mo-Fr 07:00-08:00,04-01..12-01,,,Street cleaning
+R-QG,\P (EN TOUT TEMPS) EXCEPTE S3R,49,permit,resident_permit,always,all_year,,,
+R-TA,\P EXCEPTE TAXIS,48,reserved,taxi,always,all_year,,,
+SL-TT,\P EXCEPTE LIVRAISON (EN TOUT TEMPS),46,loading,delivery,always,all_year,,,
+SV-AE-A,\P 7h30-8h30 LUN A VEN 1 AVRIL AU 1 DEC,46,no_parking,,Mo-Fr 07:30-08:30,04-01..12-01,,,Street cleaning
+SV-AB-A,\P 6h30-7h30 LUN A VEN 1 AVRIL AU 1 DEC,44,no_parking,,Mo-Fr 06:30-07:30,04-01..12-01,,,Street cleaning
+AR-CD,\A EXCEPTÉ CORPS CONSULAIRES ET DIPLOMATIQUES,42,reserved,diplomatic,always,all_year,,,No stopping except this group
+RD-TB,\P EXCEPTE PICTOGRAMME VOITURE ELECTRIQUE - EN RECHARGE,39,reserved,ev_charging,always,all_year,,,
+SB-JD-A,\P 9h30-10h30 LUNDI JEUDI 1 AVRIL AU 1 DEC,39,no_parking,,"Mo,Th 09:30-10:30",04-01..12-01,,,Street cleaning
+SB-VD-A,\P 9h30-10h30 MARDI VENDREDI 1 AVRIL AU 1 DEC,35,no_parking,,"Tu,Fr 09:30-10:30",04-01..12-01,,,Street cleaning
+SB-JE-A,\P 10h-11h LUNDI JEUDI 1 AVRIL AU 1 DEC,34,no_parking,,"Mo,Th 10:00-11:00",04-01..12-01,,,Street cleaning
+SB-VE-A,\P 10h-11h MARDI VENDREDI 1 AVRIL AU 1 DEC,33,no_parking,,"Tu,Fr 10:00-11:00",04-01..12-01,,,Street cleaning
+PD-TG,P 5 MIN.,28,short_term,,always,all_year,5,,
+AV-PB,\A 15h30-17h30 LUN. AU VEN.,26,no_stopping,,Mo-Fr 15:30-17:30,all_year,,,
+R-TD,\P EXCEPTE HANDICAPES (PICTO),23,reserved,disabled,always,all_year,,,
+SB-VV-A,\P 7h30-8h30 MARDI VENDREDI 1 AVRIL AU 1 DEC,22,no_parking,,"Tu,Fr 07:30-08:30",04-01..12-01,,,Street cleaning
+SD-TC,\P DEUX COTES,22,no_parking,,always,all_year,,,Sign says both sides of the street
+SV-AA-A,\P 6h-7h LUN A VEN 1 AVRIL AU 1 DEC,20,no_parking,,Mo-Fr 06:00-07:00,04-01..12-01,,,Street cleaning
+AV-AA,\A 07h-09h30 LUN. AU VEN.,19,no_stopping,,Mo-Fr 07:00-09:30,all_year,,,
+R-QG-2S,\P (EN TOUT TEMPS) EXCEPTE S3R (2 SECTEURS),18,permit,resident_permit,always,all_year,,,
+SV-OD,\P 8h-18h LUN A VEN,18,no_parking,,Mo-Fr 08:00-18:00,all_year,,,
+AD-TU,\A POMPIER URGENCE,17,no_stopping,fire,always,all_year,,,Fire lane
+PD-DT,P 15 min,17,short_term,,always,all_year,15,,
+AR-TT,\A RESERVE AUTOBUS,16,bus_stop,bus,always,all_year,,,
+RD-TA,\P EXCEPTE PICTOGRAMME VOITURE ELECTRIQUE,15,reserved,ev_charging,always,all_year,,,
+RD-TT,\P EXCEPTE HANDICAPES DEBARCADERE SEULEMENT,15,reserved,disabled_dropoff,always,all_year,,,
+R-MO,\P EXCEPTE MOTOS,14,reserved,motorcycle,always,all_year,,,
+SD-AJ-A,\P 5H-7H 1 AVRIL AU 1 DEC,12,no_parking,,Mo-Su 05:00-07:00,04-01..12-01,,,Street cleaning
+PP-AQ,STATIONNEMENT TARIFÉ,11,paid_zone,,always,all_year,,,Cross-check only. Paid metres come from Places.csv
+SB-MV-A,\P 7h30-8h30 LUNDI JEUDI 1 AVRIL AU 1 DEC,11,no_parking,,"Mo,Th 07:30-08:30",04-01..12-01,,,Street cleaning
+R-TN,\P EXCEPTE MOTOS - MOTOCYCLES (PICTOGRAMMES),10,reserved,motorcycle,always,all_year,,,
+R-VP,\P RESERVE VEHICULES DU SERVICE DE LA POLICE,10,reserved,police,always,all_year,,,
+PV-DB,P 15 min 07h-18h LUN. AU VEN.,9,short_term,,Mo-Fr 07:00-18:00,all_year,15,,
+PV-QG,P 15 MIN   7h-9h30 ET 15h-18h  LUN A VEN  GARDERIE SEULEMENT,9,reserved,daycare,"Mo-Fr 07:00-09:30,15:00-18:00",all_year,15,,"Short-term, reserved for this group"
+R-PJ,\P 17h-23h EXCEPTE S3R,9,permit,resident_permit,Mo-Su 17:00-23:00,all_year,,,
+SL-AK,\P 6h-12h LUN A VEN EXCEPTE LIVRAISON,9,loading,delivery,Mo-Fr 06:00-12:00,all_year,,,
+R-AT,\P EXCEPTEAUTOBUS TOURISTIQUE,8,reserved,tour_bus,always,all_year,,,
+SB-JL,\P 9h-17h MARDI VENDREDI,8,no_parking,,"Tu,Fr 09:00-17:00",all_year,,,
+SD-SR,\P 18h-24h,8,no_parking,,Mo-Su 18:00-24:00,all_year,,,
+SL-JW,\P 7h-15h LUN A VEN EXCEPTE LIVRAISON,8,loading,delivery,Mo-Fr 07:00-15:00,all_year,,,
+R-RB,\P 17h30-23h EXCEPTE S3R,7,permit,resident_permit,Mo-Su 17:30-23:00,all_year,,,
+SB-VA-A,\P 8h-9h MARDI VENDREDI 1 AVRIL AU 1 DEC,7,no_parking,,"Tu,Fr 08:00-09:00",04-01..12-01,,,Street cleaning
+SL-JD,\P 8h-19h LUN A VEN EXCEPTE LIVRAISON,7,loading,delivery,Mo-Fr 08:00-19:00,all_year,,,
+SL-JK,\P 7h-18h LUN A VEN EXCEPTE LIVRAISON,7,loading,delivery,Mo-Fr 07:00-18:00,all_year,,,
+AV-DB,\A 06h30-09h30  15h30-18h30 LUN. AU VEN.,6,no_stopping,,"Mo-Fr 06:30-09:30,15:30-18:30",all_year,,,
+AV-DC,\A 06h30-09h30 LUN. AU VEN.,6,no_stopping,,Mo-Fr 06:30-09:30,all_year,,,
+SD-AB-A,\P 6h-7h 1 AVRIL AU 1 DEC,6,no_parking,,Mo-Su 06:00-07:00,04-01..12-01,,,Street cleaning
+SL-JC,\P 8h-17h LUN A VEN EXCEPTE LIVRAISON,6,loading,delivery,Mo-Fr 08:00-17:00,all_year,,,
+ST-JJ,\P 9h-17h LUNDI MERCREDI JEUDI,6,no_parking,,"Mo,We,Th 09:00-17:00",all_year,,,
+AV-PJ,\A 16h-18h LUN. AU VEN.,5,no_stopping,,Mo-Fr 16:00-18:00,all_year,,,
+PD-JN,P 2h 9h-23h,5,short_term,,Mo-Su 09:00-23:00,all_year,120,,
+R-AW,\P EXCEPTE DEBARCADERE AUTOBUS TOURISTIQUE,5,reserved,tour_bus,always,all_year,,,
+SB-JA-A,\P 8h-9h LUNDI JEUDI 1 AVRIL AU 1 DEC,5,no_parking,,"Mo,Th 08:00-09:00",04-01..12-01,,,Street cleaning
+SB-SG-A,\P 22h-23h LUNDI JEUDI 1 AVRIL AU 1 DEC,5,no_parking,,"Mo,Th 22:00-23:00",04-01..12-01,,,Street cleaning
+SD-AI-A,\P 4H-5H 1 AVRIL AU 1 DEC,5,no_parking,,Mo-Su 04:00-05:00,04-01..12-01,,,Street cleaning
+SS-OC,\P 7h-18h LUN A SAM,5,no_parking,,Mo-Sa 07:00-18:00,all_year,,,
+AV-AB,\A 08h-09h30 LUN. AU VEN.,4,no_stopping,,Mo-Fr 08:00-09:30,all_year,,,
+AV-AK,\A 6h30-09h LUN A VEN,4,no_stopping,,Mo-Fr 06:30-09:00,all_year,,,
+PV-DF,P 15 min 09h-16h LUN. AU VEN.,4,short_term,,Mo-Fr 09:00-16:00,all_year,15,,
+R-PD,\P 9h-21h EXCEPTE S3R,4,permit,resident_permit,Mo-Su 09:00-21:00,all_year,,,
+R-VM,\P EXCEPTE VEHICULES MILITAIRES,4,reserved,military,always,all_year,,,
+SL-AN,\P 8h-12h LUN A VEN EXCEPTE LIVRAISON,4,loading,delivery,Mo-Fr 08:00-12:00,all_year,,,
+SU-LS-A,\P 7h-8h LUNDI 1 AVRIL AU 1 DEC,4,no_parking,,Mo 07:00-08:00,04-01..12-01,,,Street cleaning
+SV-JH,\P 9h-17h LUN A VEN,4,no_parking,,Mo-Fr 09:00-17:00,all_year,,,
+AV-AG,\A 07h30-09h30 LUN. AU VEN.,3,no_stopping,,Mo-Fr 07:30-09:30,all_year,,,
+AV-AP,\A 7h-8h30 LUN A VEN,3,no_stopping,,Mo-Fr 07:00-08:30,all_year,,,
+AV-PR,\A 14h30-18h30 LUN A VEN,3,no_stopping,,Mo-Fr 14:30-18:30,all_year,,,
+PD-DA,P 15 min RESERVE AUTOBUS,3,reserved,bus,always,all_year,15,,
+R-RL,\P 16h-23h EXCEPTE S3R,3,permit,resident_permit,Mo-Su 16:00-23:00,all_year,,,
+SL-AO,\P 8h30-12h LUN A VEN EXCEPTE LIVRAISON,3,loading,delivery,Mo-Fr 08:30-12:00,all_year,,,
+SL-JB,\P 8h-16h LUN A VEN EXCEPTE LIVRAISON,3,loading,delivery,Mo-Fr 08:00-16:00,all_year,,,
+SU-LT-A,\P 7h30-8h30 LUNDI 1 AVRIL AU 1 DEC,3,no_parking,,Mo 07:30-08:30,04-01..12-01,,,Street cleaning
+SU-MA-A,\P 8h-9h MARDI 1 AVRIL AU 1 DEC,3,no_parking,,Tu 08:00-09:00,04-01..12-01,,,Street cleaning
+SV-JB,\P 8h-16h LUN A VEN,3,no_parking,,Mo-Fr 08:00-16:00,all_year,,,
+SV-PH,\P 6h30-16h LUN A VEN,3,no_parking,,Mo-Fr 06:30-16:00,all_year,,,
+AD-DC,\A EN TOUT TEMPS DES DEUX COTES,2,no_stopping,,always,all_year,,,
+AV-QK,\A 07h-09h30  15h30-17h30 LUN. AU VEN.,2,no_stopping,,"Mo-Fr 07:00-09:30,15:30-17:30",all_year,,,
+PD-JD,P 02h 09h-21h,2,short_term,,Mo-Su 09:00-21:00,all_year,120,,
+PD-JG,P 60 min 09h-21h,2,short_term,,Mo-Su 09:00-21:00,all_year,60,,
+PS-DB,P 15 MIN 8h-18h LUN A SAM,2,short_term,,Mo-Sa 08:00-18:00,all_year,15,,
+PS-JI,P 15 min 07h-18h LUN. A SAM.,2,short_term,,Mo-Sa 07:00-18:00,all_year,15,,
+PV-JC,P 15 min 09h-18h LUN. AU VEN.,2,short_term,,Mo-Fr 09:00-18:00,all_year,15,,
+PV-JT,P 60 min 09h30-18h LUN. AU VEN.,2,short_term,,Mo-Fr 09:30-18:00,all_year,60,,
+PV-QD,P 15 MIN 07h30-09h30 ET 15h30-18h LUN A VEN,2,short_term,,"Mo-Fr 07:30-09:30,15:30-18:00",all_year,15,,
+PV-QP,P 15 MIN 07h-18h LUN A VEN GARDERIE SEULEMENT,2,reserved,daycare,Mo-Fr 07:00-18:00,all_year,15,,"Short-term, reserved for this group"
+R-AM,\P EXCEPTE AUTOBUS TOURISTIQUE 15 min.,2,reserved,tour_bus,always,all_year,15,,
+R-AS,\P 8h-21h EXCEPTE AUTOBUS,2,reserved,bus,Mo-Su 08:00-21:00,all_year,,,
+R-PF-2S,\P 9-23h EXCEPTE S3R (2 SECTEURS),2,permit,resident_permit,Mo-Su 09:00-23:00,all_year,,,
+R-PK,\P 15h-23h EXCEPTE S3R,2,permit,resident_permit,Mo-Su 15:00-23:00,all_year,,,
+R-SI,\P EXCEPTE SERVICE D'INCENDIE,2,reserved,fire,always,all_year,,,
+R-VQ,\P EXCEPTE VISITEURS POSTE DE POLICE,2,reserved,police_visitors,always,all_year,,,
+SB-AB-A,\P 6h30-7h30 MARDI VENDREDI 1 AVRIL AU 1 DEC,2,no_parking,,"Tu,Fr 06:30-07:30",04-01..12-01,,,Street cleaning
+SD-JC,\P 8h-17h,2,no_parking,,Mo-Su 08:00-17:00,all_year,,,
+SD-JF,\P 9h-21h,2,no_parking,,Mo-Su 09:00-21:00,all_year,,,
+SD-JO,\P 7h-22h,2,no_parking,,Mo-Su 07:00-22:00,all_year,,,
+SD-SA,\P 18h-3h,2,no_parking,,Mo-Su 18:00-03:00,all_year,,,
+SD-ST,\P 19h30-0h,2,no_parking,,Mo-Su 19:30-00:00,all_year,,,
+SL-JA,\P 8h-15h30 LUN A VEN EXCEPTE LIVRAISON,2,loading,delivery,Mo-Fr 08:00-15:30,all_year,,,
+SL-JH,\P 9h-17h LUN A VEN EXCEPTE LIVRAISON,2,loading,delivery,Mo-Fr 09:00-17:00,all_year,,,
+SL-JI,\P 7h-17h LUN A VEN EXCEPTE LIVRAISON,2,loading,delivery,Mo-Fr 07:00-17:00,all_year,,,
+SL-JQ,\P 9h30-16h LUN A VEN EXCEPTE LIVRAISON,2,loading,delivery,Mo-Fr 09:30-16:00,all_year,,,
+SL-KB,\P 09h30-14h30 LUN AU VEN EXCEPTE LIVRAISON,2,loading,delivery,Mo-Fr 09:30-14:30,all_year,,,
+SL-KF,\P 10h-14h30 LUN AU VEN EXCEPTE LIVRAISON,2,loading,delivery,Mo-Fr 10:00-14:30,all_year,,,
+SL-OA,\P 9h-18h LUN A VEN EXCEPTE LIVRAISON,2,loading,delivery,Mo-Fr 09:00-18:00,all_year,,,
+SS-OD,\P 8h-18h LUN A SAM,2,no_parking,,Mo-Sa 08:00-18:00,all_year,,,
+SV-AT,\P 07h-10h  LUN A VEN,2,no_parking,,Mo-Fr 07:00-10:00,all_year,,,
+SV-JJ,\P 7h30-18h LUN A VEN,2,no_parking,,Mo-Fr 07:30-18:00,all_year,,,
+SV-JN,\P 8h-22h LUN A VEN,2,no_parking,,Mo-Fr 08:00-22:00,all_year,,,
+SV-OG,\P 9h30-15h30 LUN A VEN,2,no_parking,,Mo-Fr 09:30-15:30,all_year,,,
+PV-JB,P 15 min 07h-09h 16h-18h LUN. AU VEN.,1,short_term,,"Mo-Fr 07:00-09:00,16:00-18:00",all_year,15,,
+R-VA,\P EXCEPTE VEHICULES DE LA VILLE,1,reserved,city,always,all_year,,,
+SB-AT-A,\P 6h-7h LUNDI JEUDI 1 AVRIL AU 1 DEC,1,no_parking,,"Mo,Th 06:00-07:00",04-01..12-01,,,Street cleaning
+SB-MU-A,\P 7h-8h LUNDI JEUDI 1 AVRIL AU 1 DEC,1,no_parking,,"Mo,Th 07:00-08:00",04-01..12-01,,,Street cleaning
+SB-NY-A,\P 23h30-0h30 LUNDI MARDI JEUDI VENDREDI 1 AVRIL AU 1 DEC,1,no_parking,,"Mo,Tu,Th,Fr 23:30-00:30",04-01..12-01,,,Street cleaning
+SB-VX-A,\P 7h-8h MARDI VENDREDI 1 AVRIL AU 1 DEC,1,no_parking,,"Tu,Fr 07:00-08:00",04-01..12-01,,,Street cleaning
+SL-JY,\P 9h-15h LUN A VEN EXCEPTE LIVRAISON,1,loading,delivery,Mo-Fr 09:00-15:00,all_year,,,
+SU-LA-A,\P 8h-9h LUNDI 1 AVRIL AU 1 DEC,1,no_parking,,Mo 08:00-09:00,04-01..12-01,,,Street cleaning
+SU-LC-A,\P 9h-10h LUNDI 1 AVRIL AU 1 DEC,1,no_parking,,Mo 09:00-10:00,04-01..12-01,,,Street cleaning
+SV-JE,\P 6h30-18h LUN A VEN,1,no_parking,,Mo-Fr 06:30-18:00,all_year,,,
+SV-OI,\P 7h-23h LUN A VEN 1 AVRIL AU 31 OCT,1,no_parking,,Mo-Fr 07:00-23:00,04-01..10-31,,,Street cleaning
+SV-SE-A,\P 22h30-23h30 LUN A VEN 1 AVRIL AU 1 DEC,1,no_parking,,Mo-Fr 22:30-23:30,04-01..12-01,,,Street cleaning
+SV-VZ,\P 7h-9h LUN A VEN,1,no_parking,,Mo-Fr 07:00-09:00,all_year,,,
