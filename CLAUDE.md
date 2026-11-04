@@ -55,7 +55,9 @@ cive540-curb/
     clipped/tables/      # non-spatial tables (paid parking regulations etc.)
     derived/blockfaces.gpkg   # block faces (analysis/blockfaces.py)
     derived/curb_supply.gpkg  # curb stretches + supply per block face and window (analysis/supply.py)
-    derived/sample.gpkg       # stratified sample and bike route (analysis/sample.py)
+    derived/premises_2025.gpkg  # 2025 premises matched to block faces (analysis/premises.py)
+    derived/sample.gpkg       # stratified sample (analysis/sample.py), also sample.csv
+    derived/route/            # route.gpx (Loop R, Loop L, Pilot), maps, route.gpkg (analysis/route.py)
   video/                 # (to create) raw iPhone clips + GPX tracks, gitignored
   frames/                # (to create) extracted frames, gitignored
   pipeline/              # (to create) video processing scripts
@@ -110,7 +112,7 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
   - [x] Arrow codes: 2 = left, 3 = right, 0 = no arrow, 8 = both. Inferred from 929 same-rule sign pairs (about 80% agreement) and confirmed by the Agence's signalec_to_curblr code, prkng and Savoir-faire Linux's converter. Street View was not usable (construction, trucks)
   - [x] Rules reviewed and approved by Arvin as drafted: analysis/rpa_rules.csv (130 rules)
   - [x] Stretch file (4,785 stretches) + summary table (522 faces x 3 windows). Uses sum to face length within 0.2 m. 50 of 62 official loading zones sit on a loading stretch
-- [ ] Task 2, stratified sample (about 55 faces) and bike route with GPX, map and pilot segment. Due Sat Nov 7
+- [x] Task 2, sample and route (Nov 4). 62 faces in 32 blocks. analysis/premises.py, sample.py, route.py -> data/derived/sample.gpkg + sample.csv, data/derived/route/ (route.gpx, loop_R.png, loop_L.png, pilot.png). Both loops about 132 min per morning, pilot about 24 min
 - [ ] Delivery demand from 2025 commercial premises
 - [ ] First mismatch map (no video yet)
 - [ ] Test clip near home (mount, GPX sync, sign readability). Before Mon Nov 9
@@ -134,7 +136,8 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 
 ## Video capture (iPhone, no GoPro)
 
-- Scope: 3 weekday morning bike passes (08:00 to 11:00) on the sample route, about 55 block faces. No full inventory ride. No fixed-camera sessions.
+- Scope: 3 weekday morning bike passes (08:00 to 11:00) on the sample route, 62 block faces. No full inventory ride. No fixed-camera sessions.
+- Each morning is two loops from Peel and Ste-Catherine: Loop R with the camera facing right (39 faces, about 74 min), flip the mount, then Loop L with it facing left (23 faces, left sides of one-way streets, about 57 min). Every face is filmed riding with traffic. Follow data/derived/route/loop_R.png and loop_L.png, or load route.gpx.
 - iPhone, 4K at 30 fps, High Efficiency format, 1x lens (not 0.5x ultrawide), focus and exposure locked.
 - Handlebar mount angled 30 to 45 degrees toward the curb. Walk with the phone on one-way streets and dense sign clusters.
 - iPhone video stores only one location per clip, not a track. A separate GPX logger app (Open GPX Tracker or Strava) records the track. Sync frames to GPS by timestamp.
@@ -167,7 +170,7 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 
 - **Unit:** block face (one side of a street between two intersections) by time window (07 to 11, 11 to 15, 15 to 19, weekdays). Supply and demand cover all 522 faces. Observed behaviour covers the sample only.
 - **Block faces:** done, see analysis/blockfaces.py. ID `<street>_<from>_<to>_<N|S|E|W>`. Length in metres.
-- **Sample:** stratified cluster sample of about 55 block faces. 4 strata = arterial vs local (géobase class) x occupied 2025 commercial premises per 100 m above vs below median. Whole blocks (both sides) sampled at random, seed 540, about 12 to 15 faces per stratum, high-commercial oversampled. Every face with a loading zone is forced in. Keep design weights for estimates.
+- **Sample:** done, see analysis/sample.py. Stratified cluster sample, whole blocks (both sides), seed 540. 5 strata: loading (blocks with a loading sign or official loading zone), and for the rest arterial/collector (class 5 to 7) vs local (class 0) x occupied 2025 premises per 100 m above vs at-or-below the median (0.80). Random blocks per stratum: 5 art_high, 5 loc_high, 4 art_low, 4 loc_low, 2 loading. Forced (weight 1): the 12 blocks holding official loading zones with no matching sign. 62 faces: loading 28 (24 forced), art_high 10, loc_high 10, loc_low 8, art_low 6. Weights = blocks in stratum pool / blocks drawn, and sum back to the frame.
 - **Supply:** linear metres per block face by use and time window. Uses: paid, free, loading, no stopping, no parking, permit (S3R), reserved (taxi, hotel, police, diplomatic, disabled, EV, moto, bus), implicit no parking (5 m intersection clearance, hydrants, driveways). Parse RPA descriptions into use, hours and days through a rule CSV Arvin reviews. Street cleaning counts only on its days and hours. Permit and reserved space is not available for deliveries but stays as separate categories. Pick one source for paid parking (signs or Places.csv) to avoid double counting. Hydrants and driveways: City data if it exists, otherwise only on sampled faces from video (limitation).
 - **Demand:** 2025 commercial premises, occupied only. Map use categories to groups (food retail, restaurants, general retail, services, offices). Daily freight trips per establishment from NCFRP Report 37 constant-per-establishment rates. Spread over the day with a peak share in 08 to 11. Assign to the frontage block face (or nearest legal block face within 50 to 75 m if on a pedestrian street).
 - **Required loading length:** peak arrivals per hour, mean dwell from the literature (10 to 20 min, with sensitivity analysis), space length 9 to 12 m. Erlang-B / M/M/c so P(all busy) < 10 percent. Required length = spaces × length.
@@ -219,3 +222,8 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 - Nov 4: short-term parking (P 15 MIN etc.) counts as usable by delivery drivers but is kept separate from loading.
 - Nov 4: paid spaces from Places are 6 m each (median centre spacing 6.1 m). Neighbours up to 9 m apart form one continuous row. Hydrants and intersections get 5 m no parking (Quebec Highway Safety Code). Intersection clearance is applied at both ends of every face, including the 4 dead-end faces.
 - Nov 4: 12 of 62 official loading zones (Aires de livraison) have no matching loading sign within 15 m. 3 have no rule code, 1 (SL-JL) has no active sign. Signs stay the source for loading. All 12 faces go into the video sample so the street settles it (side finding for the sign check).
+- Nov 4: loading-zone blocks are their own stratum, not all forced in. Forcing all 58 loading blocks (115 faces) broke the sample size. Only the 12 blocks where the official loading list and the signs disagree are forced in.
+- Nov 4: two camera loops per morning (right, then left), since 78% of blocks are one-way and left-side curbs can't be filmed on the right riding legally.
+- Nov 4: random blocks per stratum cut from 7/7/6/6 to 5/5/4/4. 7/7/6/6 gave 78 faces and about 164 min per morning. 5/5/4/4 gives 62 faces and about 132 min, leaving slack in 08:00 to 11:00. Cost: random strata have 6 to 10 faces, not 12 to 15.
+- Nov 4: premises matched to faces by street + civic number + odd/even side, accepted only within 40 m of the closest face on that street (overlapping address ranges sent a few to far blocks). Mall units go to the mall's frontage face. 1,287 occupied of 1,632.
+- Nov 4: route graph = full géobase within 300 m of the study area, one-way rules respected for filming. Bidirectional bike tracks and city-street underpasses (class 5 tunnels) are used only for transit. Task order optimised by local search on shortest legal paths. Ride time assumes 10 km/h filming, 14 km/h transit, plus 15% for stops.
