@@ -201,11 +201,29 @@ def find_lonlat(columns):
 def read_any(path):
     import geopandas as gpd
     import pandas as pd
+    import zipfile
     suffix = path.suffix.lower()
+    # check the content, not the extension: some City "geojson" downloads are really zips
+    if zipfile.is_zipfile(path) and suffix != ".zip":
+        # GDAL only opens zips named .zip, so pull the single inner file out in memory
+        import io
+        with zipfile.ZipFile(path) as z:
+            inner = [n for n in z.namelist() if n.lower().endswith((".geojson", ".json"))]
+            if len(inner) == 1:
+                return gpd.read_file(io.BytesIO(z.read(inner[0])))
+        raise ValueError(f"{path.name} is a zip without a single GeoJSON inside. Rename it to .zip")
+    if zipfile.is_zipfile(path):
+        try:
+            return gpd.read_file(f"zip://{path}")
+        except Exception:
+            # the spatial file sits in a subfolder or next to other files: point at it directly
+            with zipfile.ZipFile(path) as z:
+                inner = [n for n in z.namelist() if n.lower().endswith((".shp", ".geojson", ".json"))]
+            if not inner:
+                raise
+            return gpd.read_file(f"zip://{path}!{inner[0]}")
     if suffix in (".geojson", ".json", ".gpkg", ".shp"):
         return gpd.read_file(path)
-    if suffix == ".zip":
-        return gpd.read_file(f"zip://{path}")
     if suffix == ".csv":
         df = None
         for enc in ("utf-8", "utf-8-sig", "latin-1"):
@@ -224,12 +242,24 @@ def read_any(path):
     return None
 
 
+def layer_name(key, stem, limit=60):
+    """Short, ASCII, unique layer name. Keeps the END of the file name so years survive."""
+    import re
+    import unicodedata
+    s = unicodedata.normalize("NFKD", stem).encode("ascii", "ignore").decode()
+    s = re.sub(r"[^A-Za-z0-9]+", "_", s).strip("_")
+    room = limit - len(key) - 2
+    return f"{key}__{s[-room:]}" if len(s) > room else f"{key}__{s}"
+
+
 def clip_all(keys):
     import geopandas as gpd
     area = study_area()
     CLIPPED.mkdir(parents=True, exist_ok=True)
     (CLIPPED / "tables").mkdir(exist_ok=True)
     gpkg = CLIPPED / "study_area.gpkg"
+    if gpkg.exists():
+        gpkg.unlink()  # rebuild from scratch so old layers don't linger
     summary = []
     for key in keys:
         folder = RAW / key
@@ -255,7 +285,7 @@ def clip_all(keys):
                 data = data.set_crs("EPSG:4326")
             data = data.to_crs(MTM8)
             data = data[data.intersects(area)].copy()
-            layer = f"{key}__{path.stem}"[:60]
+            layer = layer_name(key, path.stem)
             data.to_file(gpkg, layer=layer, driver="GPKG")
             print(f"   kept {len(data)} features -> layer {layer}")
             summary.append((key, path.name, layer, len(data)))
