@@ -1,0 +1,32 @@
+scian3,label,low_sector,low_per_day,high_sic,high_const,high_per_emp,assumed_fte,needs_review,note
+445,Food retail (depanneurs bakeries grocery),Retail perishable,2.92,54 Food stores,2.764,0.011,6,,
+441,Car dealers,Retail non-perishable,1.08,55 Automotive dealers,0,0.353,10,,
+449,Furniture and electronics stores,Retail non-perishable,1.08,57 Home furniture and equipment,3.714,0,5,,
+455,General merchandise,Retail non-perishable,1.08,53 General merchandise,2.899,0,15,,
+456,Pharmacy and beauty products,Retail non-perishable,1.08,59 Miscellaneous retail,2.902,0,8,,Drug stores are SIC 591
+458,Clothing shoes jewellery,Retail non-perishable,1.08,56 Apparel and accessories,1.314,0.032,6,,
+459,Specialised retail (hobby books art gifts),Retail non-perishable,1.08,59 Miscellaneous retail,2.902,0,4,,
+517,Phone and internet stores,Retail non-perishable,1.08,57 Home furniture and equipment,3.714,0,4,,Storefront retail of a telecom. Electronics stores are SIC 57
+722,Restaurants cafes bars,Food services,1.02,58 Eating and drinking places,2.017,0.034,10,,
+721,Hotels,Food services,1.02,58 Eating and drinking places,2.017,0.034,40,yes,Neither source has hotels. Food services used as the closest sector
+611,Training and dance schools,Public sector and education,1.42,none,1.42,0,5,,No NYC rate. High = low
+919,Public bodies,Public sector and education,1.42,none,1.42,0,5,,No NYC rate. High = low
+492,Couriers and shipping stores,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+512,Cinema and film,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+621,Clinics dentists optometrists,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+624,Daycares,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+711,Theatres and performing arts,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+712,Museums,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+713,Gyms and recreation,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+811,Repair shops,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+812,Hair beauty spas,Health care and other services,0.78,none,0.78,0,5,,Hair salons are in this sector in the source (SNI S-9602). No NYC rate. High = low
+813,Religious and community groups,Health care and other services,0.78,none,0.78,0,5,,No NYC rate. High = low
+000,Offices (no SCIAN code),Offices,0,none,0.78,0,10,yes,Offices excluded in the low source (9 of 13 had no freight trips). High borrows the other services rate
+238,Construction contractor office,Offices,0,none,0.78,0,5,yes,Same as offices
+522,Banks and cheque cashing,Offices,0,none,0.78,0,5,yes,Same as offices
+523,Currency exchange,Offices,0,none,0.78,0,5,yes,Same as offices
+531,Real estate and coworking,Offices,0,none,0.78,0,5,yes,Same as offices
+532,Car and equipment rental,Offices,0,none,0.78,0,5,yes,Same as offices
+533,Leasing services,Offices,0,none,0.78,0,5,yes,Same as offices
+541,Professional services (lawyers accountants),Offices,0,none,0.78,0,5,yes,Same as offices
+561,Admin services (print shops travel agencies),Offices,0,none,0.78,0,5,yes,Same as offices
