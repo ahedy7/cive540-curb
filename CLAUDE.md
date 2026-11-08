@@ -57,7 +57,7 @@ cive540-curb/
     derived/curb_supply.gpkg  # curb stretches + supply per block face and window (analysis/supply.py)
     derived/premises_2025.gpkg  # 2025 premises matched to block faces (analysis/premises.py)
     derived/sample.gpkg       # stratified sample (analysis/sample.py), also sample.csv
-    derived/route/            # route.gpx (Loop R, Loop L, Pilot), maps, route.gpkg (analysis/route.py)
+    derived/route/            # car loop: route.gpx, route.gpkg, turn_by_turn.txt/.csv, car_loop.png (analysis/route.py)
   video/                 # (to create) raw iPhone clips + GPX tracks, gitignored
   frames/                # (to create) extracted frames, gitignored
   pipeline/              # (to create) video processing scripts
@@ -112,11 +112,12 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
   - [x] Arrow codes: 2 = left, 3 = right, 0 = no arrow, 8 = both. Inferred from 929 same-rule sign pairs (about 80% agreement) and confirmed by the Agence's signalec_to_curblr code, prkng and Savoir-faire Linux's converter. Street View was not usable (construction, trucks)
   - [x] Rules reviewed and approved by Arvin as drafted: analysis/rpa_rules.csv (130 rules)
   - [x] Stretch file (4,785 stretches) + summary table (522 faces x 3 windows). Uses sum to face length within 0.2 m. 50 of 62 official loading zones sit on a loading stretch
-- [x] Task 2, sample and route (Nov 4). 62 faces in 32 blocks. analysis/premises.py, sample.py, route.py -> data/derived/sample.gpkg + sample.csv, data/derived/route/ (route.gpx, loop_R.png, loop_L.png, pilot.png). Both loops about 132 min per morning, pilot about 24 min
+- [x] Task 2, sample and route (Nov 4). 62 faces in 32 blocks. analysis/premises.py, sample.py -> data/derived/sample.gpkg + sample.csv
+- [x] Car route re-planned (Nov 7). One loop, all 62 faces, 15.8 km, 47 to 63 min at 20 to 15 km/h. analysis/route.py -> data/derived/route/ (route.gpx, turn_by_turn.txt/.csv, car_loop.png, route.gpkg with turn_bans layer)
 - [ ] Delivery demand from 2025 commercial premises
 - [ ] First mismatch map (no video yet)
-- [ ] Test clip near home (mount, GPX sync, sign readability). Before Mon Nov 9
-- [ ] Filming: pilot Mon Nov 9, morning passes Tue to Thu Nov 10 to 12
+- [ ] Weekend test drive (Nov 7 to 8): both mounts, GPX sync, sign readability, check the route's turn bans
+- [ ] Filming: car passes Mon Nov 9, Wed Nov 11, Fri Nov 13, leaving 08:15. Backup Mon Nov 16
 - [ ] Video pipeline
 - [ ] Analysis
 - [ ] Website
@@ -126,30 +127,34 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 
 Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset is around 4:15 pm.
 
-- **Nov 4 to 8:** no riding. Computer work: curb supply (Task 1), stratified sample and bike route (Task 2, ready by Sat Nov 7). Before Monday: a 2-minute test clip near home to check the mount, GPX sync and sign readability.
-- **Mon Nov 9:** pilot ride, midday, on 10 to 15 sampled faces near Peel and Ste-Catherine.
-- **Tue Nov 10, Wed Nov 11, Thu Nov 12:** morning passes 08:00 to 11:00 on the sample route. Backup mornings Fri Nov 13 and Mon Nov 16 if it rains.
-- **Nov 13 to 24:** build and run the video pipeline, validation set, sign check. (Shifted back a few days.)
+- **Nov 4 to 8:** computer work: curb supply (Task 1), stratified sample (Task 2), car route, demand.
+- **Weekend Nov 7 to 8:** test drive of the full loop. Replaces the pilot ride. Check both mounts, GPX sync, sign readability, and the route's turns.
+- **Mon Nov 9, Wed Nov 11, Fri Nov 13:** car passes, leaving Peel and Ste-Catherine at 08:15. Backup Mon Nov 16 if one fails.
+- **Nov 13 to 24:** build and run the video pipeline, validation set, sign check.
 - **Nov 25 to Dec 1:** analysis (supply, demand, observed metrics, mismatch index, model).
 - **Dec 2 to 6:** website and report draft.
 - **Dec 7 to 11:** finish and submit.
 
 ## Video capture (iPhone, no GoPro)
 
-- Scope: 3 weekday morning bike passes (08:00 to 11:00) on the sample route, 62 block faces. No full inventory ride. No fixed-camera sessions.
-- Each morning is two loops from Peel and Ste-Catherine: Loop R with the camera facing right (39 faces, about 74 min), flip the mount, then Loop L with it facing left (23 faces, left sides of one-way streets, about 57 min). Every face is filmed riding with traffic. Follow data/derived/route/loop_R.png and loop_L.png, or load route.gpx.
+- Scope: 3 weekday morning car passes on the sample route, 62 block faces. No full inventory. No fixed-camera sessions. No hand-held footage.
+- By car. The partner drives, Arvin navigates from the passenger seat with data/derived/route/turn_by_turn.txt and car_loop.png (or route.gpx).
+- Two mounted iPhones:
+  - **R camera:** front passenger window, films the right curb. Used on all streets.
+  - **L camera:** rear driver-side window, films the left curb. Used only on one-way streets. On two-way streets its frames show the far curb across traffic and are dropped.
+- One loop per morning from Peel and Ste-Catherine, 15.8 km, 47 to 63 min at 20 to 15 km/h average. One-way blocks are filmed on both sides in one pass. Two-way blocks get one pass in each direction with the face on the right. Drive slowly and steadily on the steps marked SAMPLE.
 - iPhone, 4K at 30 fps, High Efficiency format, 1x lens (not 0.5x ultrawide), focus and exposure locked.
-- Handlebar mount angled 30 to 45 degrees toward the curb. Walk with the phone on one-way streets and dense sign clusters.
-- iPhone video stores only one location per clip, not a track. A separate GPX logger app (Open GPX Tracker or Strava) records the track. Sync frames to GPS by timestamp.
+- Each phone runs its own GPX logger app (Open GPX Tracker or Strava). iPhone video stores only one location per clip, not a track. Sync frames to GPS by timestamp.
+- One clip per phone per morning, both recording the whole loop. File names: `YYYYMMDD_R.MOV` + `YYYYMMDD_R.gpx` and `YYYYMMDD_L.MOV` + `YYYYMMDD_L.gpx`.
 - Clip timestamps: read `creation_time` (and Apple's `com.apple.quicktime.creationdate`) with ffprobe. Watch for time zone offsets. GPX is in UTC. Allow a manual offset per clip in case the clocks don't line up.
 - Clips are .MOV (HEVC). ffmpeg handles them.
 
 ## Video pipeline spec (to build in pipeline/)
 
-1. **Ingest:** list clips in video/, read start time and duration with ffprobe, pair each clip with its GPX file. Save a clips manifest CSV.
+1. **Ingest:** list clips in video/, read start time and duration with ffprobe, pair each clip with its GPX file by name (`YYYYMMDD_R.MOV` with `YYYYMMDD_R.gpx`). The date and the camera side (R or L) come from the file name. Save a clips manifest CSV with date, side, start, duration, GPX path and a manual time offset column.
 2. **Frames:** extract 1 frame per second with ffmpeg (`-vf fps=1 -q:v 2`). Record each frame's timestamp = clip start + index.
 3. **Geotag:** interpolate lat/lon and heading from the GPX track for each frame timestamp.
-4. **Snap to block faces:** nearest géobase segment within 15 m (in EPSG:32188). Use heading and which side the camera faces (right by default, configurable per clip) to pick the block face side. Drop frames within about 10 m of intersections.
+4. **Snap to block faces:** nearest géobase segment within 15 m (in EPSG:32188). Use heading and the clip's camera side from the manifest to pick the block face: R = the face on the right of travel, L = the face on the left. Keep L frames only on one-way streets (géobase SENS_CIR != 0). Drop frames within about 10 m of intersections.
 5. **Blur:** faces and licence plates with EgoBlur (`pip install egoblur`) on frames that will be published. Analysis can run on unblurred frames locally.
 6. **Filter:** run Ultralytics YOLO11 (pretrained COCO) on all frames, only as a free pre-filter before Claude. Keep frames with a curbside vehicle, a sign-like object, or a hydrant.
 7. **VLM extraction:** send filtered frames (or sign crops) to a vision-language model with a fixed JSON schema. Pilot photos and the validation set run through Claude Code within Arvin's plan. For the full run, first compare a free local model with the Anthropic API on 100 photos, then choose. Ask before spending more than $5. Use batching if available. Cache every response to disk keyed by frame ID so nothing is paid for twice. Schema:
@@ -227,3 +232,7 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 - Nov 4: random blocks per stratum cut from 7/7/6/6 to 5/5/4/4. 7/7/6/6 gave 78 faces and about 164 min per morning. 5/5/4/4 gives 62 faces and about 132 min, leaving slack in 08:00 to 11:00. Cost: random strata have 6 to 10 faces, not 12 to 15.
 - Nov 4: premises matched to faces by street + civic number + odd/even side, accepted only within 40 m of the closest face on that street (overlapping address ranges sent a few to far blocks). Mall units go to the mall's frontage face. 1,287 occupied of 1,632.
 - Nov 4: route graph = full géobase within 300 m of the study area, one-way rules respected for filming. Bidirectional bike tracks and city-street underpasses (class 5 tunnels) are used only for transit. Task order optimised by local search on shortest legal paths. Ride time assumes 10 km/h filming, 14 km/h transit, plus 15% for stops.
+- Nov 7: filming by car, not bike. The partner drives. Replaces the two bike loops and the Nov 4 route decision above.
+- Nov 7: two mounted iPhones. R on the front passenger window (right curb, all streets). L on the rear driver-side window (left curb, one-way streets only). No hand-held footage. Each phone runs its own GPX logger. One clip per phone per morning, named YYYYMMDD_R/L.MOV and .gpx. The pipeline reads the camera side from the file name and keeps L frames only on one-way streets.
+- Nov 7: passes Mon Nov 9, Wed Nov 11, Fri Nov 13, leaving 08:15. Backup Mon Nov 16. A weekend test drive replaces the pilot ride.
+- Nov 7: car route = one loop from Peel and Ste-Catherine covering all 62 faces. Graph = géobase within 600 m of the study area (300 m left one-way streets dead-ending at the edge), no pedestrian streets, expressways, ramps, alleys or park roads. Tunnels for transit only. Routing runs on movements (segment to segment), so turn rules apply. Turn bans come from the road sign layer (OBLIG. TOUT DROIT OU A DROITE = no left etc.), matched to an approach only when the pole is clearly on that street (within 15 m, 4 m closer than the cross street, 40 m from a real intersection). Time-limited signs are treated as always in force. 76 of 327 turn signs matched. No U-turns, including left-left through short median crossovers and turns sharper than 125°. The script checks every move is legal. Drive time at 15 to 20 km/h average.
