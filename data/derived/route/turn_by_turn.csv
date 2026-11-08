@@ -1,0 +1,102 @@
+step,instruction,metres,filming,faces_R,faces_L
+1,Start on Sainte-Catherine,180,"SAMPLE, slow down (R+L)",Sainte-Catherine_Metcalfe_Mansfield_S Sainte-Catherine_Peel_Metcalfe_S,Sainte-Catherine_Metcalfe_Mansfield_N Sainte-Catherine_Peel_Metcalfe_N
+2,Turn left onto Mansfield,249,,,
+3,Continue on Mansfield,101,"SAMPLE, slow down (R+L)",Mansfield_President-Kennedy_Sherbrooke_E,Mansfield_President-Kennedy_Sherbrooke_W
+4,Turn right onto Sherbrooke,166,,,
+5,Continue on Sherbrooke,83,"SAMPLE, slow down (R only)",Sherbrooke_Victoria_Robert-Bourassa_S,
+6,Continue on Sherbrooke,73,,,
+7,Turn right onto Union,100,"SAMPLE, slow down (R+L)",Union_President-Kennedy_Sherbrooke_W,Union_President-Kennedy_Sherbrooke_E
+8,Continue on Union,78,,,
+9,Continue on Union,177,"SAMPLE, slow down (R+L)",Union_Sainte-Catherine_De-Maisonneuve_W,Union_Sainte-Catherine_De-Maisonneuve_E
+10,Straight onto Square-Phillips,75,"SAMPLE, slow down (R+L)",Square-Phillips_Union_Sainte-Catherine_W,Square-Phillips_Union_Sainte-Catherine_E
+11,Turn right onto Cathcart,81,"SAMPLE, slow down (R only)",Cathcart_Robert-Bourassa_Union_N,
+12,Turn left onto Robert-Bourassa,119,,,
+13,Continue on Robert-Bourassa,38,"SAMPLE, slow down (R only)",Robert-Bourassa_Rene-Levesque_Monseigneur-Charbonneau_W,
+14,Continue on Robert-Bourassa,128,,,
+15,Turn right onto Belmont,220,,,
+16,Turn right onto Mansfield,107,,,
+17,Turn right onto René-Lévesque,230,"SAMPLE, slow down (R only)",Rene-Levesque_Mansfield_Robert-Bourassa_S,
+18,Continue on René-Lévesque,17,,,
+19,Turn left onto Robert-Bourassa,167,,,
+20,Turn right onto Cathcart,81,"SAMPLE, slow down (R only)",Cathcart_Robert-Bourassa_Union_S,
+21,Turn right onto Union,153,,,
+22,Turn right onto René-Lévesque,503,,,
+23,Turn right onto Peel,164,,,
+24,Continue on Peel,122,"SAMPLE, slow down (R+L)",Peel_Sainte-Catherine_Mount-Royal_E Peel_Square-Dorchester_Sainte-Catherine_E,Peel_Sainte-Catherine_Mount-Royal_W Peel_Square-Dorchester_Sainte-Catherine_W
+25,Continue on Peel,306,,,
+26,Turn right onto Sherbrooke,92,,,
+27,Turn right onto Metcalfe,304,,,
+28,Turn right onto Mount-Royal,96,"SAMPLE, slow down (R+L)",Mount-Royal_Peel_Metcalfe_N,Mount-Royal_Peel_Metcalfe_S
+29,Turn right onto Peel,128,,,
+30,Turn left onto De Maisonneuve,93,"SAMPLE, slow down (R+L)",De-Maisonneuve_Stanley_Peel_N,De-Maisonneuve_Stanley_Peel_S
+31,Turn left onto Stanley,178,,,
+32,Continue on Stanley,122,"SAMPLE, slow down (R+L)",Stanley_Cypress_Sainte-Catherine_W,Stanley_Cypress_Sainte-Catherine_E
+33,Continue on Stanley,122,,,
+34,Turn right onto René-Lévesque,93,,,
+35,Turn right onto Drummond,246,,,
+36,Continue on Drummond,178,"SAMPLE, slow down (R+L)",Drummond_Sainte-Catherine_De-Maisonneuve_E,Drummond_Sainte-Catherine_De-Maisonneuve_W
+37,Continue on Drummond,172,,,
+38,Turn left onto Sherbrooke,195,,,
+39,Turn left onto Crescent,178,"SAMPLE, slow down (R+L)",Crescent_De-Maisonneuve_Sherbrooke_W,Crescent_De-Maisonneuve_Sherbrooke_E
+40,Turn right onto De Maisonneuve,87,,,
+41,Turn right onto Bishop,180,,,
+42,Turn left onto Sherbrooke,151,,,
+43,Continue on Sherbrooke,91,"SAMPLE, slow down (R only)",Sherbrooke_Guy_Simpson_N,
+44,Turn left onto Guy,125,"SAMPLE, slow down (R only)",Guy_Lincoln_Sherbrooke_W,
+45,Continue on Guy,88,,,
+46,Turn right onto De Maisonneuve,72,"SAMPLE, slow down (R+L)",De-Maisonneuve_Pierce_Guy_N,De-Maisonneuve_Pierce_Guy_S
+47,Continue on De Maisonneuve,366,,,
+48,Turn left onto Fort,231,,,
+49,Turn right onto Tupper,213,,,
+50,Turn left onto Sussex,85,,,
+51,Turn left onto Hope,124,"SAMPLE, slow down (R+L)",Hope_Rene-Levesque_Sussex_W,Hope_Rene-Levesque_Sussex_E
+52,Continue on Hope,12,,,
+53,Turn left onto René-Lévesque,155,,,
+54,Continue on René-Lévesque,135,"SAMPLE, slow down (R only)",Rene-Levesque_Fort_Saint-Marc_S,
+55,Continue on René-Lévesque,81,,,
+56,Turn right onto Joseph-Manseau,142,,,
+57,Turn left onto Saint-Mathieu,97,,,
+58,Turn left onto René-Lévesque,143,,,
+59,Continue on René-Lévesque,138,"SAMPLE, slow down (R only)",Rene-Levesque_Fort_Saint-Marc_N,
+60,Continue on René-Lévesque,359,,,
+61,Straight onto Dorchester,56,,,
+62,Turn right onto Atwater,406,,,
+63,Continue on Atwater,76,"SAMPLE, slow down (R only)",Atwater_Lincoln_split_E,
+64,Continue on Atwater,34,,,
+65,Turn right onto Sherbrooke,115,,,
+66,Turn right onto Lambert-Closse,107,,,
+67,Turn left onto Lincoln,115,"SAMPLE, slow down (R+L)",Lincoln_Lambert-Closse_Chomedey_S,Lincoln_Lambert-Closse_Chomedey_N
+68,Turn left onto Chomedey,90,,,
+69,Turn left onto Sherbrooke,246,,,
+70,Turn left onto Atwater,46,,,
+71,Continue on Atwater,76,"SAMPLE, slow down (R only)",Atwater_Lincoln_split_W,
+72,Turn left onto Lincoln,114,,,
+73,Turn right onto Lambert-Closse,98,"SAMPLE, slow down (R+L)",Lambert-Closse_De-Maisonneuve_Lincoln_W,Lambert-Closse_De-Maisonneuve_Lincoln_E
+74,Continue on Lambert-Closse,225,,,
+75,Turn left onto Tupper,253,,,
+76,Turn right onto Fort,60,,,
+77,Turn left onto Baile,127,"SAMPLE, slow down (R+L)",Baile_end_Saint-Marc_S,Baile_end_Saint-Marc_N
+78,Turn left onto Saint-Marc,379,,,
+79,Turn right onto Lincoln,287,,,
+80,Turn left onto Guy,125,"SAMPLE, slow down (R only)",Guy_Lincoln_Sherbrooke_E,
+81,Turn right onto Sherbrooke,91,"SAMPLE, slow down (R only)",Sherbrooke_Guy_Simpson_S,
+82,Continue on Sherbrooke,1124,,,
+83,Continue on Sherbrooke,71,"SAMPLE, slow down (R only)",Sherbrooke_Union_Aylmer_S,
+84,Continue on Sherbrooke,269,,,
+85,Turn right onto De Bleury,108,,,
+86,Turn right onto Concorde,32,"SAMPLE, slow down (R+L)",Concorde_Burke_De-Bleury_N,Concorde_Burke_De-Bleury_S
+87,Continue on Concorde,145,,,
+88,Turn left onto Président-Kennedy,144,,,
+89,Turn right onto De Bleury,130,,,
+90,Turn right onto Mayor,204,"SAMPLE, slow down (R+L)",Mayor_City-Councillors_Saint-Alexandre_N Mayor_Saint-Alexandre_De-Bleury_N,Mayor_City-Councillors_Saint-Alexandre_S Mayor_Saint-Alexandre_De-Bleury_S
+91,Continue on Mayor,60,,,
+92,Turn right onto Aylmer,64,,,
+93,Continue on Aylmer,69,"SAMPLE, slow down (R+L)",Aylmer_De-Maisonneuve_President-Kennedy_E,Aylmer_De-Maisonneuve_President-Kennedy_W
+94,Continue on Aylmer,114,,,
+95,Turn left onto Sherbrooke,71,"SAMPLE, slow down (R only)",Sherbrooke_Union_Aylmer_N,
+96,Continue on Sherbrooke,73,,,
+97,Continue on Sherbrooke,83,"SAMPLE, slow down (R only)",Sherbrooke_Victoria_Robert-Bourassa_N,
+98,Continue on Sherbrooke,441,,,
+99,Turn left onto Stanley,172,"SAMPLE, slow down (R+L)",Stanley_De-Maisonneuve_Sherbrooke_W,Stanley_De-Maisonneuve_Sherbrooke_E
+100,Continue on Stanley,178,,,
+101,Turn left onto Sainte-Catherine,94,,,

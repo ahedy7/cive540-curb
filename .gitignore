@@ -18,5 +18,8 @@ frames/
 *.zip
 *.qgz~
 
-# Derived outputs are rebuilt by the analysis scripts
-data/derived/
+# Derived outputs are rebuilt by the analysis scripts.
+# Exception: the filming route, so the team can open it without running the code
+data/derived/*
+!data/derived/route/
+!data/derived/route/route.gpx
