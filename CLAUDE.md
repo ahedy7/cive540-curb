@@ -61,9 +61,9 @@ cive540-curb/
     derived/loading.gpkg      # Erlang loading model + mismatch per face and window (analysis/loading.py), also mismatch.csv
     derived/maps/             # mismatch_07-11.png
     derived/route/            # car loop: route.gpx, route.gpkg, turn_by_turn.txt/.csv, car_loop.png (analysis/route.py)
-  video/                 # (to create) raw iPhone clips + GPX tracks, gitignored
-  frames/                # (to create) extracted frames, gitignored
-  pipeline/              # (to create) video processing scripts
+  video/                 # raw iPhone clips (original names, e.g. IMG_4730.MOV) + GPX tracks, gitignored
+  frames/<file stem>/    # 1 fps frames, 000001.jpg ..., gitignored
+  pipeline/              # common.py, ingest.py (-> clips.csv manifest), frames.py, geotag.py (-> data/derived/frames.gpkg, coverage.csv)
   analysis/              # supply, demand, metrics, models. blockfaces.py done
   web/ or docs/          # (to create) MapLibre site for GitHub Pages
 ```
@@ -124,6 +124,11 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 - [ ] Weekend test drive (Nov 7 to 8): both mounts, GPX sync, sign readability, check the route's turn bans
 - [ ] Filming: car passes Mon Nov 9, Wed Nov 11, Fri Nov 13, leaving 08:15. Backup Mon Nov 16
 - [ ] Video pipeline
+  - [x] Steps 1 to 4 written (Nov 13): ingest, frames, geotag, snap. Any file names, split clips, any GPX app, manual offset per clip
+  - [x] Frames extracting (1080p, ~0.3 MB per frame, ~3 GB for days 1 and 2). Spot-checked: side and street match the images
+  - [ ] Day 1 (Nov 9) has no GPX: 4,414 frames with no position. Rescue with manual anchors (CSV of time, lat, lon) or use for sign reading only
+  - [ ] Day 2 (Nov 11) coverage, one forward camera: 53 of 62 sample faces seen >= 50%. Missing: Mount-Royal Peel-Metcalfe (2), Sainte-Catherine Peel-Metcalfe (2), Stanley Cypress-Sainte-Catherine (2) not driven, and 3 north sides of Sherbrooke (two-way, needs a westbound pass)
+  - [ ] Day 3 (Nov 13) to ingest. Then plan the Mon Nov 16 backup around the faces still missing
 - [ ] Analysis
 - [ ] Website
 - [ ] Report and presentation
@@ -245,3 +250,8 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 - Nov 10: signed loading zones alone cover only 40 of 522 faces, so loading-only supply sends 85% of trucks to double parking and gives a near-binary map. Usable curb = loading + short-term + 15% of paid and free curb (vacant share, to be replaced by video occupancy). Loading-only stays as a sensitivity test.
 - Nov 10: required loading is computed per street block (both faces pooled, drivers cross the street) and split by deliveries. Per-face Erlang made every face with one business need a full 10 m space. Limitation: faces with no stopping all day (east Sainte-Catherine) send trucks to cross streets, which pooling across the street does not capture.
 - Nov 10: hourly profile from the Gothenburg cordon count (Sánchez-Díaz 2017 Table 9, delivery columns), spread from half-hour periods to clock hours. Window peak hours: 09, 12, 15. Fractional spaces handled by interpolating Erlang B.
+- Nov 13: day 1 (Nov 9) has no GPX log. Day 2 (Nov 11, Remembrance Day closures) followed a different route. Both only have the R camera. Routes may differ every day: the pipeline snaps by GPS, never by planned route order, and the double-parking model uses passes per face as exposure.
+- Nov 13: clips keep their original names (IMG_xxxx.MOV). pipeline/clips.csv maps each to date, side (R by default, set L by hand) and part, and pairs it with the GPX that overlaps it in time. This replaces the YYYYMMDD_R.MOV naming rule. Frame folders use the file stem so edits to side don't move them.
+- Nov 13: a frame is snapped to the closest block face within 25 m that runs within 35 degrees of travel and lies on the camera's side. GPS gaps are trusted if the phone moved under 15 m across them (trackers skip fixes when stopped). Stopped = under 1 m/s.
+- Nov 13: days 1 and 2 were filmed with one iPhone looking forward through the windshield (mounted upside down, 1080p at 60 fps), not a side-window R camera. New camera type F in clips.csv: matched from a point 15 m ahead of the car, counts for the right curb everywhere and for the left curb too on one-way streets. Signs face oncoming traffic, so F reads them well, and double parking ahead is visible.
+- Nov 13: the side of the street comes from the two curb lines of the matched street block, not from the GPS position. Downtown GPS error across a narrow street flipped sides before (Drummond).
