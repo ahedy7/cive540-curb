@@ -23,3 +23,9 @@ frames/
 data/derived/*
 !data/derived/route/
 !data/derived/route/route.gpx
+
+# Validation frames are not blurred: never commit them
+validation/frames/
+validation/frames.js
+validation/*.zip
+validation/labels_*.json

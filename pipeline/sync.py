@@ -116,7 +116,7 @@ def main():
         man = pd.read_csv(MANIFEST, dtype=str)
         for r in out[out.trusted].itertuples():
             i = man.index[man.clip_id == r.clip_id]
-            man.loc[i, "offset_s"] = float(r.shift_s)
+            man.loc[i, "offset_s"] = str(float(r.shift_s))
             man.loc[i, "note"] = f"offset from sync.py (corr {r.corr})"
         man.to_csv(MANIFEST, index=False)
         print(f"-> offsets written to {MANIFEST.relative_to(ROOT)} for {int(out.trusted.sum())} clips")
