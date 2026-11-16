@@ -23,7 +23,7 @@ This file is the full context for this project. Read it at the start of every se
 
 - Course: CIVE 540 Urban Transportation Planning, McGill, Fall 2026. Instructor: Prof. Luis Miranda-Moreno. This is the final term project.
 - Topic: curb management and urban delivery policies.
-- Team of two. I cover the commercial and delivery side. My partner covers safety and livability. The split is being rebalanced (partner likely owns the website and validation labelling). TBD.
+- Team of two. I cover the commercial and delivery side. My partner covers safety and livability, plus validation labelling. I build the website.
 - Study area: downtown Montréal bounded by Sherbrooke St W (north), René-Lévesque Blvd W (south), Atwater Ave (west), de Bleury St (east).
 - **Headline question:** where does downtown lack loading space, does that predict double parking, and how much curb would fix it. Everything serves this. The sign check (City records vs street) is a side finding.
 - Core idea: a curb mismatch analysis. Compare curb supply (how curb space is allocated, from City data checked by video) with delivery demand (modelled from businesses) and observed behaviour (occupancy, double parking, bike-lane blocking, from my own video). Produce a mismatch index per block face.
@@ -44,7 +44,7 @@ Ethics and privacy review are not in scope for now (class project). Still, never
 ## Folder layout
 
 ```
-cive540-curb/
+cive540-curb/            # lives at ~/cive540-curb (moved off the iCloud Desktop on Nov 16)
   CLAUDE.md
   fetch_data.py          # downloads City open data and clips to study area
   requirements.txt
@@ -122,13 +122,16 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
   - [ ] Replace placeholders with video numbers: VACANT_SHARE (15%) from observed occupancy, MISUSE_SHARE (30%) from observed loading-zone misuse
   - [ ] Arvin to confirm the flagged rates in delivery_rates.csv (hotels, offices) and leaving mall units off the curb
 - [ ] Weekend test drive (Nov 7 to 8): both mounts, GPX sync, sign readability, check the route's turn bans
-- [ ] Filming: car passes Mon Nov 9, Wed Nov 11, Fri Nov 13, leaving 08:15. Backup Mon Nov 16
+- [x] Filming done: Mon Nov 9, Wed Nov 11, Fri Nov 13. No backup drive (no time)
 - [ ] Video pipeline
   - [x] Steps 1 to 4 written (Nov 13): ingest, frames, geotag, snap. Any file names, split clips, any GPX app, manual offset per clip
-  - [x] Frames extracting (1080p, ~0.3 MB per frame, ~3 GB for days 1 and 2). Spot-checked: side and street match the images
-  - [ ] Day 1 (Nov 9) has no GPX: 4,414 frames with no position. Rescue with manual anchors (CSV of time, lat, lon) or use for sign reading only
-  - [ ] Day 2 (Nov 11) coverage, one forward camera: 53 of 62 sample faces seen >= 50%. Missing: Mount-Royal Peel-Metcalfe (2), Sainte-Catherine Peel-Metcalfe (2), Stanley Cypress-Sainte-Catherine (2) not driven, and 3 north sides of Sherbrooke (two-way, needs a westbound pass)
-  - [ ] Day 3 (Nov 13) to ingest. Then plan the Mon Nov 16 backup around the faces still missing
+  - [x] All frames extracted (Nov 16). 21 clips in pipeline/clips.csv: IMG_4723-4734 (Arvin, forward camera F, days 1 and 2, 1080p) and the partner's Monday/Wednesday/Friday left (L, iPhone 16 Pro) and Friday right (R, iPhone 15) clips (720p exports). All videos deleted after frame counts matched. Partner originals on OneDrive
+  - [x] Partner exports lost the recording time. Real starts read off the phone's Photos info panel, in pipeline/start_times.csv. ingest.py reads it and keeps clips whose videos are deleted
+  - [x] pipeline/sync.py: per-clip offset by matching frame-to-frame motion with GPS speed. Tested on 20261113_R_1: +1 s, Spearman 0.79. Run on all clips once their frames are local
+  - [x] Coverage (Nov 16, Wed + Fri): 43 of 62 sample faces seen on 2 days, 13 on 1 day, 6 on none (construction, see decisions)
+  - [ ] Optional: partner marks intersections in Friday_right_part_1 00:00 to 15:40 (GPX starts 09:44) as manual anchors. Would add Friday passes
+  - [ ] Frames for Friday_left 1-5, Friday_right 2-3, Wednesday_left 2-3, IMG_4723-4730 still copying out of iCloud (slow, ~30 files/min). Then run sync.py, then geotag.py again
+  - [ ] Next: YOLO pre-filter, labelling page + 300 validation frames for the partner, VLM extraction
 - [ ] Analysis
 - [ ] Website
 - [ ] Report and presentation
@@ -255,3 +258,8 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 - Nov 13: a frame is snapped to the closest block face within 25 m that runs within 35 degrees of travel and lies on the camera's side. GPS gaps are trusted if the phone moved under 15 m across them (trackers skip fixes when stopped). Stopped = under 1 m/s.
 - Nov 13: days 1 and 2 were filmed with one iPhone looking forward through the windshield (mounted upside down, 1080p at 60 fps), not a side-window R camera. New camera type F in clips.csv: matched from a point 15 m ahead of the car, counts for the right curb everywhere and for the left curb too on one-way streets. Signs face oncoming traffic, so F reads them well, and double parking ahead is visible.
 - Nov 13: the side of the street comes from the two curb lines of the matched street block, not from the GPS position. Downtown GPS error across a narrow street flipped sides before (Drummond).
+- Nov 16: work split settled. Partner owns validation labelling (300 frames) and the safety side. Arvin builds the website.
+- Nov 16: project moved from ~/Desktop to ~/cive540-curb. The Desktop syncs to iCloud with Optimize Mac Storage, and macOS offloaded frames, data and git objects whenever the disk ran low, which made reads time out.
+- Nov 16: the partner's clips were exported to OneDrive, which replaced the recording time with the export time and cut the right camera from 1080p to 720p. Start times come from the Photos info panel (pipeline/start_times.csv), fine-tuned by sync.py.
+- Nov 16: Monday (Nov 9) is not geotagged. No GPX, and Wednesday + Friday already cover 56 of 62 sample faces. Monday frames (forward + left) stay usable for sign reading without a position.
+- Nov 16: 6 sample faces had construction and were not filmed on any day: Sainte-Catherine Peel-Metcalfe N/S, Stanley Cypress-Sainte-Catherine E/W, Sherbrooke Union-Aylmer N, Sherbrooke Victoria-Robert-Bourassa N. They drop out of the observed sample (limitation). No backup drive.
