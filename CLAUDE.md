@@ -131,7 +131,11 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
   - [x] Coverage (Nov 16, Wed + Fri): 43 of 62 sample faces seen on 2 days, 13 on 1 day, 6 on none (construction, see decisions)
   - [ ] Optional: partner marks intersections in Friday_right_part_1 00:00 to 15:40 (GPX starts 09:44) as manual anchors. Would add Friday passes
   - [ ] Frames for Friday_left 1-5, Friday_right 2-3, Wednesday_left 2-3, IMG_4723-4730 still copying out of iCloud (slow, ~30 files/min). Then run sync.py, then geotag.py again
-  - [ ] Next: YOLO pre-filter, labelling page + 300 validation frames for the partner, VLM extraction
+  - [x] Labelling page + 300 validation frames sent to the partner (validation/curb_labelling.zip). Labels pending
+  - [x] YOLO pre-filter (Nov 16): pipeline/detect.py. 2,397 frames on sample faces, 1,248 sent to the VLM (near vehicle or hydrant, one frame per 10 s while stopped)
+  - [x] VLM (Nov 16): pipeline/vlm.py. 100-frame test on Haiku and Sonnet 5.5, with and without before/after frames. Full run: Haiku 5.5 + before/after on all 1,248 frames ($1.18). About $3 of API spent in total
+  - [ ] Arvin: review double parking in validation/review.html (318 frames, from pipeline/review_list.py --wide), Export to validation/review_<date>.json
+  - [ ] Score the VLM against the partner's labels (precision, recall, F1, kappa)
 - [ ] Analysis
 - [ ] Website
 - [ ] Report and presentation
@@ -263,3 +267,7 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 - Nov 16: the partner's clips were exported to OneDrive, which replaced the recording time with the export time and cut the right camera from 1080p to 720p. Start times come from the Photos info panel (pipeline/start_times.csv), fine-tuned by sync.py.
 - Nov 16: Monday (Nov 9) is not geotagged. No GPX, and Wednesday + Friday already cover 56 of 62 sample faces. Monday frames (forward + left) stay usable for sign reading without a position.
 - Nov 16: 6 sample faces had construction and were not filmed on any day: Sainte-Catherine Peel-Metcalfe N/S, Stanley Cypress-Sainte-Catherine E/W, Sherbrooke Union-Aylmer N, Sherbrooke Victoria-Robert-Bourassa N. They drop out of the observed sample (limitation). No backup drive.
+- Nov 16: Apple GPU (MPS) crashes with torch 2.10 on macOS 14, so YOLO runs on the CPU (15 min for 2,397 frames).
+- Nov 16: YOLO filters little downtown (87% of frames have a near vehicle). Dropping repeat frames while stopped does most of the cutting.
+- Nov 16: VLM = Claude Haiku 5.5 with the frames 2 s before and after. Matches Sonnet on parked counts and vehicle types at a tenth of the cost. Neither model reads double parking reliably from photos (rare, and a stopped truck looks like one waiting in traffic). So double parking is VLM-assisted, human-verified: the VLM finds candidates (any vehicle outside the curb lane, or any van, box truck or bus), Arvin confirms each in review.html.
+- Nov 16: API key in .env (gitignored). Spend so far about $3.

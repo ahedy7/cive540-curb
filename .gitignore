@@ -31,3 +31,6 @@ validation/*.zip
 validation/labels_*.json
 models/
 .env
+validation/review/
+validation/review.js
+validation/review_*.json

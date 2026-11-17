@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double-parking review</title>
+<style>
+  :root {
+    --bg: #f4f2ee; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6a66; --line: #dcd8d0;
+    --accent: #c4471d; --accent-soft: #f6e3da; --ok: #2f7d4f; --ok-soft: #dcefe3; --cell: #f7f6f3;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.4 -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 10px 16px; background: var(--ink); color: #fff; }
+  header h1 { font-size: 15px; margin: 0 8px 0 0; font-weight: 600; }
+  header button { font: inherit; padding: 5px 10px; border-radius: 4px; border: 0; background: #fff; color: var(--ink); cursor: pointer; }
+  header button.secondary { background: transparent; color: #fff; border: 1px solid #666; }
+  .progress { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .bar { width: 160px; height: 6px; background: #444; border-radius: 3px; overflow: hidden; }
+  .bar > div { height: 100%; background: var(--accent); width: 0; }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; padding: 16px; }
+  @media (max-width: 1000px) { main { grid-template-columns: minmax(0, 1fr); } .bar { width: 80px; } }
+  .frames { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-self: start; }
+  .frames figure { margin: 0; background: #111; border-radius: 6px; overflow: hidden; position: relative; }
+  .frames figure.now { grid-column: 1 / -1; order: -1; }
+  .frames img { display: block; width: 100%; }
+  .frames figcaption { position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,.65); color: #fff; font-size: 12px; padding: 1px 6px; border-radius: 3px; }
+  .frames figure.now figcaption { background: var(--accent); }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; align-self: start; }
+  .panel h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 14px 0 6px; }
+  .panel h2:first-child { margin-top: 0; }
+  .claim { background: var(--cell); border-left: 3px solid var(--accent); padding: 6px 8px; font-size: 13px; }
+  .meta { color: var(--muted); font-size: 12.5px; margin-top: 6px; }
+  .choices { display: grid; gap: 6px; }
+  .choice { text-align: left; font: inherit; padding: 8px 10px; border: 1px solid var(--line); background: var(--cell); border-radius: 4px; cursor: pointer; }
+  .choice kbd { display: inline-block; width: 20px; text-align: center; margin-right: 6px; border: 1px solid var(--line); border-radius: 3px; background: #fff; font-size: 12px; }
+  .choice.on { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); font-weight: 600; }
+  select, input, textarea { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; }
+  textarea { width: 100%; height: 44px; resize: vertical; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .nav { display: flex; gap: 8px; margin-top: 14px; }
+  .nav button { flex: 1; font: inherit; padding: 8px; border-radius: 4px; border: 1px solid var(--line); background: var(--cell); cursor: pointer; }
+  .hint { color: var(--muted); font-size: 12px; margin-top: 10px; }
+  .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<script src="review.js"></script>
+<header>
+  <h1>Double-parking review</h1>
+  <button id="nextOpen" class="secondary">Next unreviewed</button>
+  <button id="exportBtn">Export</button>
+  <div class="progress"><span id="count"></span><div class="bar"><div id="fill"></div></div></div>
+</header>
+<main>
+  <div class="frames">
+    <figure><img id="imgB" alt="2 s before"><figcaption>2 s before</figcaption></figure>
+    <figure><img id="imgA" alt="2 s after"><figcaption>2 s after</figcaption></figure>
+    <figure class="now"><img id="imgN" alt="Frame to judge"><figcaption>NOW (judge this one)</figcaption></figure>
+  </div>
+  <section class="panel">
+    <h2>What the model said</h2>
+    <div class="claim" id="claim"></div>
+    <div class="meta" id="meta"></div>
+
+    <h2>Is a vehicle stopped outside the curb lane in NOW?</h2>
+    <div class="choices" id="choices"></div>
+
+    <h2>Vehicle (if stopped outside the curb lane)</h2>
+    <div class="row">
+      <select id="cls"></select>
+      <label>How many <input id="n" type="number" min="1" max="9" value="1" style="width:56px"></label>
+    </div>
+
+    <h2>Note</h2>
+    <textarea id="note" placeholder="Optional"></textarea>
+
+    <div class="nav"><button id="back">&larr; Back</button><button id="fwd">Skip &rarr;</button></div>
+    <p class="hint">Keys: 1 to 5 answer and go to the next. Arrows move. Use the before and after frames to tell a stopped vehicle from one moving or waiting in traffic. Waiting at a red light or in a queue is <b>not</b> double parked.</p>
+  </section>
+</main>
+<script>
+(function () {
+  const ITEMS = window.REVIEW || [];
+  const CHOICES = [["double_parked", "Double parked (stopped in a traffic lane, not in a queue)"],
+                   ["in_bike_lane", "Stopped in the bike lane"],
+                   ["in_bus_stop", "Stopped in a bus stop"],
+                   ["no", "No (parked at the curb, moving, or queued)"],
+                   ["unsure", "Can't tell"]];
+  const CLASSES = ["car", "taxi", "delivery_van", "box_truck", "pickup", "bus", "other"];
+  const KEY = "curb-review-v1";
+  const $ = id => document.getElementById(id);
+  let rev = {}, pos = 0;
+  try { rev = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { rev = {}; }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(rev)); } catch (e) { toast("Could not save. Export often."); } };
+  function toast(m) { const t = document.createElement("div"); t.className = "toast"; t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
+
+  $("choices").innerHTML = CHOICES.map((c, i) => `<button class="choice" data-v="${c[0]}"><kbd>${i + 1}</kbd>${c[1]}</button>`).join("");
+  $("cls").innerHTML = CLASSES.map(c => `<option>${c}</option>`).join("");
+
+  function show() {
+    if (!ITEMS.length) { $("claim").textContent = "No items. Run pipeline/review_list.py first."; return; }
+    const it = ITEMS[pos], r = rev[it.id] || {};
+    $("imgN").src = it.now; $("imgB").src = it.before || ""; $("imgA").src = it.after || "";
+    $("imgB").parentElement.hidden = !it.before; $("imgA").parentElement.hidden = !it.after;
+    $("claim").textContent = it.claim;
+    $("meta").textContent = `${it.street}, ${it.face_side} side · ${it.camera} camera · ${it.time} · ${pos + 1} of ${ITEMS.length}`;
+    document.querySelectorAll(".choice").forEach(b => b.classList.toggle("on", b.dataset.v === r.answer));
+    $("cls").value = r.cls || it.cls || "car";
+    $("n").value = r.n || 1;
+    $("note").value = r.note || "";
+    const done = ITEMS.filter(x => rev[x.id] && rev[x.id].answer).length;
+    $("count").textContent = `${done} / ${ITEMS.length}`;
+    $("fill").style.width = (100 * done / ITEMS.length) + "%";
+  }
+  function answer(v) {
+    const it = ITEMS[pos];
+    rev[it.id] = { answer: v, cls: $("cls").value, n: +$("n").value || 1, note: $("note").value };
+    save();
+    if (pos < ITEMS.length - 1) pos++;
+    show();
+  }
+  $("choices").addEventListener("click", e => { const b = e.target.closest(".choice"); if (b) answer(b.dataset.v); });
+  ["cls", "n", "note"].forEach(id => $(id).addEventListener("change", () => {
+    const it = ITEMS[pos]; if (!rev[it.id]) return;
+    Object.assign(rev[it.id], { cls: $("cls").value, n: +$("n").value || 1, note: $("note").value }); save();
+  }));
+  $("back").onclick = () => { if (pos > 0) pos--; show(); };
+  $("fwd").onclick = () => { if (pos < ITEMS.length - 1) pos++; show(); };
+  $("nextOpen").onclick = () => {
+    const i = ITEMS.findIndex(x => !(rev[x.id] && rev[x.id].answer));
+    if (i < 0) toast("All reviewed"); else { pos = i; show(); }
+  };
+  document.addEventListener("keydown", e => {
+    if (["TEXTAREA", "INPUT", "SELECT"].includes(e.target.tagName)) return;
+    if (e.key >= "1" && e.key <= "5") answer(CHOICES[+e.key - 1][0]);
+    else if (e.key === "ArrowLeft") $("back").click();
+    else if (e.key === "ArrowRight") $("fwd").click();
+  });
+  $("exportBtn").onclick = () => {
+    const blob = new Blob([JSON.stringify({ exported_at: new Date().toISOString(), reviews: rev }, null, 1)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `review_${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+  };
+  show();
+})();
+</script>
+</body>
+</html>
