@@ -1,0 +1,12 @@
+clip_id,file,frames,shift_s,corr,margin,trusted,old_offset_s
+20261111_F_1,IMG_4730.MOV,3068,2,0.815,0.133,True,0.0
+20261111_L_1,Wednesday_left_part_1.mp4,2081,2,0.771,0.135,True,0.0
+20261111_L_2,Wednesday_left_part_2.mp4,1910,3,0.789,0.122,True,0.0
+20261111_F_2,IMG_4734.MOV,2744,2,0.761,0.148,True,0.0
+20261111_L_3,Wednesday_left_part_3.mp4,1333,3,0.782,0.119,True,0.0
+20261113_R_1,Friday_right_part_1.mp4,2343,1,0.788,0.141,True,0.0
+20261113_L_3,Friday_left_part_3.mp4,749,2,0.781,0.135,True,0.0
+20261113_L_4,Friday_left_part_4.mp4,2450,3,0.646,0.162,True,0.0
+20261113_R_2,Friday_right_part_2.mp4,1797,2,0.695,0.14,True,0.0
+20261113_L_5,Friday_left_part_5.mp4,279,2,0.794,0.154,True,0.0
+20261113_R_3,Friday_right_part_3.mp4,273,1,0.792,0.128,True,0.0

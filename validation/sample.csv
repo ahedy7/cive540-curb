@@ -1,0 +1,301 @@
+frame_id,date,time_local,camera,blockface_id,street,face_side,stratum,double
+20261113_R_2_000693,20261113,2026-11-13 10:19:41,right side,Lincoln_Lambert-Closse_Chomedey_S,Lincoln,S,loading,False
+20261113_R_1_002084,20261113,2026-11-13 10:03:46,right side,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,True
+20261111_F_2_001464,20261111,2026-11-11 10:24:14,forward,Lambert-Closse_De-Maisonneuve_Lincoln_E,Lambert-Closse,E,loc_low,False
+20261113_R_3_000104,20261113,2026-11-13 10:44:24,right side,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261111_F_2_001276,20261111,2026-11-11 10:21:06,forward,Lincoln_Lambert-Closse_Chomedey_S,Lincoln,S,loading,True
+20261111_F_2_001427,20261111,2026-11-11 10:23:37,forward,Atwater_Lincoln_split_W,Atwater,W,art_low,False
+20261111_F_2_000924,20261111,2026-11-11 10:15:14,forward,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261111_L_1_001001,20261111,2026-11-11 09:25:10,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261111_L_2_000970,20261111,2026-11-11 10:07:35,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261111_F_1_000694,20261111,2026-11-11 09:19:45,forward,Sainte-Catherine_Metcalfe_Mansfield_S,Sainte-Catherine,S,loading,False
+20261111_F_1_002837,20261111,2026-11-11 09:55:28,forward,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,False
+20261111_F_2_000928,20261111,2026-11-11 10:15:18,forward,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,False
+20261113_R_2_001505,20261113,2026-11-13 10:33:13,right side,Sherbrooke_Union_Aylmer_S,Sherbrooke,S,art_high,False
+20261111_F_2_000712,20261111,2026-11-11 10:11:42,forward,De-Maisonneuve_Pierce_Guy_N,De Maisonneuve,N,art_high,True
+20261111_F_1_000959,20261111,2026-11-11 09:24:10,forward,Union_President-Kennedy_Sherbrooke_W,Union,W,loading,False
+20261111_L_1_001011,20261111,2026-11-11 09:25:20,left side,Square-Phillips_Union_Sainte-Catherine_E,Square-Phillips,E,loc_high,True
+20261113_L_4_002379,20261113,2026-11-13 10:37:10,left side,Mayor_City-Councillors_Saint-Alexandre_S,Mayor,S,loc_high,False
+20261113_L_4_000008,20261113,2026-11-13 09:57:39,left side,Peel_Sainte-Catherine_Mount-Royal_W,Peel,W,loading,False
+20261113_R_3_000060,20261113,2026-11-13 10:43:40,right side,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261111_L_3_001264,20261111,2026-11-11 10:44:33,left side,Mayor_City-Councillors_Saint-Alexandre_S,Mayor,S,loc_high,False
+20261111_F_1_000106,20261111,2026-11-11 09:09:57,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261113_R_2_000019,20261113,2026-11-13 10:08:27,right side,De-Maisonneuve_Pierce_Guy_N,De Maisonneuve,N,art_high,False
+20261111_F_2_001029,20261111,2026-11-11 10:16:59,forward,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,False
+20261113_L_4_001325,20261113,2026-11-13 10:19:36,left side,Lincoln_Lambert-Closse_Chomedey_N,Lincoln,N,loading,False
+20261113_R_1_001715,20261113,2026-11-13 09:57:37,right side,Peel_Sainte-Catherine_Mount-Royal_E,Peel,E,loading,False
+20261111_L_1_000672,20261111,2026-11-11 09:19:41,left side,Sainte-Catherine_Metcalfe_Mansfield_N,Sainte-Catherine,N,loading,True
+20261113_L_5_000135,20261113,2026-11-13 10:44:52,left side,Square-Phillips_Union_Sainte-Catherine_E,Square-Phillips,E,loc_high,False
+20261111_F_1_001039,20261111,2026-11-11 09:25:30,forward,Cathcart_Robert-Bourassa_Union_N,Cathcart,N,loading,True
+20261113_R_1_001674,20261113,2026-11-13 09:56:56,right side,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,False
+20261113_R_2_000233,20261113,2026-11-13 10:12:01,right side,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,False
+20261113_R_1_001943,20261113,2026-11-13 10:01:25,right side,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_F_1_001342,20261111,2026-11-11 09:30:33,forward,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261111_F_1_002848,20261111,2026-11-11 09:55:39,forward,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,True
+20261111_F_1_001332,20261111,2026-11-11 09:30:23,forward,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261111_F_2_000136,20261111,2026-11-11 10:02:06,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_L_2_001435,20261111,2026-11-11 10:15:20,left side,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261113_R_1_002110,20261113,2026-11-13 10:04:12,right side,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,False
+20261113_L_4_000162,20261113,2026-11-13 10:00:13,left side,Mount-Royal_Peel_Metcalfe_S,Mount-Royal,S,loading,False
+20261113_R_2_001784,20261113,2026-11-13 10:37:52,right side,Aylmer_De-Maisonneuve_President-Kennedy_E,Aylmer,E,loc_high,False
+20261111_F_2_001035,20261111,2026-11-11 10:17:05,forward,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261111_F_2_002508,20261111,2026-11-11 10:41:38,forward,Mayor_Saint-Alexandre_De-Bleury_N,Mayor,N,loc_high,False
+20261111_F_2_000475,20261111,2026-11-11 10:07:45,forward,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,False
+20261113_R_2_000640,20261113,2026-11-13 10:18:48,right side,Atwater_Lincoln_split_E,Atwater,E,art_low,False
+20261111_L_2_000275,20261111,2026-11-11 09:56:00,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,True
+20261113_R_2_001617,20261113,2026-11-13 10:35:05,right side,Concorde_Burke_De-Bleury_N,Concorde,N,loc_low,False
+20261113_R_2_001774,20261113,2026-11-13 10:37:42,right side,Aylmer_De-Maisonneuve_President-Kennedy_E,Aylmer,E,loc_high,False
+20261113_R_2_000853,20261113,2026-11-13 10:22:21,right side,Lambert-Closse_De-Maisonneuve_Lincoln_W,Lambert-Closse,W,loc_low,True
+20261111_F_1_001005,20261111,2026-11-11 09:24:56,forward,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261113_L_4_002254,20261113,2026-11-13 10:35:05,left side,Concorde_Burke_De-Bleury_S,Concorde,S,loc_low,False
+20261113_R_2_000239,20261113,2026-11-13 10:12:07,right side,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,True
+20261111_F_2_002251,20261111,2026-11-11 10:37:21,forward,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261111_L_1_000035,20261111,2026-11-11 09:09:04,left side,Stanley_De-Maisonneuve_Sherbrooke_E,Stanley,E,loading,False
+20261111_F_1_000992,20261111,2026-11-11 09:24:43,forward,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261113_R_1_001064,20261113,2026-11-13 09:46:46,right side,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261111_F_2_000939,20261111,2026-11-11 10:15:29,forward,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,False
+20261111_F_1_002891,20261111,2026-11-11 09:56:22,forward,Peel_Sainte-Catherine_Mount-Royal_E,Peel,E,loading,False
+20261113_R_1_001044,20261113,2026-11-13 09:46:26,right side,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261113_L_4_001060,20261113,2026-11-13 10:15:11,left side,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,False
+20261113_R_2_000699,20261113,2026-11-13 10:19:47,right side,Lincoln_Lambert-Closse_Chomedey_S,Lincoln,S,loading,False
+20261113_L_5_000085,20261113,2026-11-13 10:44:02,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261111_L_2_000638,20261111,2026-11-11 10:02:03,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,False
+20261113_R_1_001681,20261113,2026-11-13 09:57:03,right side,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,False
+20261113_L_4_001692,20261113,2026-11-13 10:25:43,left side,Baile_end_Saint-Marc_N,Baile,N,loc_low,False
+20261111_F_1_000940,20261111,2026-11-11 09:23:51,forward,Union_President-Kennedy_Sherbrooke_W,Union,W,loading,False
+20261113_R_2_001737,20261113,2026-11-13 10:37:05,right side,Mayor_City-Councillors_Saint-Alexandre_N,Mayor,N,loc_high,False
+20261113_R_1_001010,20261113,2026-11-13 09:45:52,right side,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261111_F_2_000120,20261111,2026-11-11 10:01:50,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261113_R_1_001959,20261113,2026-11-13 10:01:41,right side,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_L_1_000181,20261111,2026-11-11 09:11:30,left side,Drummond_Sainte-Catherine_De-Maisonneuve_W,Drummond,W,loading,False
+20261113_R_2_001258,20261113,2026-11-13 10:29:06,right side,Sherbrooke_Guy_Simpson_S,Sherbrooke,S,loading,False
+20261111_F_1_000192,20261111,2026-11-11 09:11:23,forward,Drummond_Sainte-Catherine_De-Maisonneuve_W,Drummond,W,loading,False
+20261113_L_4_002417,20261113,2026-11-13 10:37:48,left side,Aylmer_De-Maisonneuve_President-Kennedy_W,Aylmer,W,loc_high,False
+20261113_R_1_001864,20261113,2026-11-13 10:00:06,right side,Mount-Royal_Peel_Metcalfe_N,Mount-Royal,N,loading,False
+20261111_F_1_000044,20261111,2026-11-11 09:08:55,forward,Stanley_De-Maisonneuve_Sherbrooke_W,Stanley,W,loading,False
+20261111_L_1_000189,20261111,2026-11-11 09:11:38,left side,Drummond_Sainte-Catherine_De-Maisonneuve_W,Drummond,W,loading,False
+20261113_L_4_002411,20261113,2026-11-13 10:37:42,left side,Aylmer_De-Maisonneuve_President-Kennedy_W,Aylmer,W,loc_high,False
+20261111_L_1_000799,20261111,2026-11-11 09:21:48,left side,Mansfield_President-Kennedy_Sherbrooke_W,Mansfield,W,art_high,False
+20261113_R_2_000175,20261113,2026-11-13 10:11:03,right side,Hope_Rene-Levesque_Sussex_W,Hope,W,loc_low,True
+20261113_R_2_000616,20261113,2026-11-13 10:18:24,right side,Atwater_Lincoln_split_E,Atwater,E,art_low,True
+20261111_L_1_000168,20261111,2026-11-11 09:11:17,left side,Drummond_Sainte-Catherine_De-Maisonneuve_E,Drummond,E,loading,False
+20261113_R_2_000187,20261113,2026-11-13 10:11:15,right side,Hope_Rene-Levesque_Sussex_W,Hope,W,loc_low,False
+20261113_R_3_000081,20261113,2026-11-13 10:44:01,right side,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261111_L_1_000992,20261111,2026-11-11 09:25:01,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261111_F_2_001851,20261111,2026-11-11 10:30:41,forward,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261111_F_2_000843,20261111,2026-11-11 10:13:53,forward,Hope_Rene-Levesque_Sussex_W,Hope,W,loc_low,True
+20261111_F_1_000986,20261111,2026-11-11 09:24:37,forward,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261113_R_2_000602,20261113,2026-11-13 10:18:10,right side,Atwater_Lincoln_split_E,Atwater,E,art_low,True
+20261111_L_1_000928,20261111,2026-11-11 09:23:57,left side,Union_President-Kennedy_Sherbrooke_E,Union,E,loading,False
+20261111_L_2_001352,20261111,2026-11-11 10:13:57,left side,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,False
+20261111_F_2_001265,20261111,2026-11-11 10:20:55,forward,Lincoln_Lambert-Closse_Chomedey_N,Lincoln,N,loading,False
+20261111_L_1_000017,20261111,2026-11-11 09:08:46,left side,Stanley_De-Maisonneuve_Sherbrooke_E,Stanley,E,loading,False
+20261111_F_1_001021,20261111,2026-11-11 09:25:12,forward,Square-Phillips_Union_Sainte-Catherine_E,Square-Phillips,E,loc_high,False
+20261111_F_1_000776,20261111,2026-11-11 09:21:07,forward,Mansfield_President-Kennedy_Sherbrooke_E,Mansfield,E,art_high,False
+20261111_F_2_001870,20261111,2026-11-11 10:31:00,forward,Sherbrooke_Guy_Simpson_S,Sherbrooke,S,loading,False
+20261113_R_2_001218,20261113,2026-11-13 10:28:26,right side,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261111_F_2_000933,20261111,2026-11-11 10:15:23,forward,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,True
+20261111_L_1_000502,20261111,2026-11-11 09:16:51,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261113_R_3_000151,20261113,2026-11-13 10:45:11,right side,Cathcart_Robert-Bourassa_Union_N,Cathcart,N,loading,False
+20261111_L_2_001444,20261111,2026-11-11 10:15:29,left side,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261113_R_2_000199,20261113,2026-11-13 10:11:27,right side,Hope_Rene-Levesque_Sussex_W,Hope,W,loc_low,False
+20261111_L_1_000512,20261111,2026-11-11 09:17:01,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261111_F_1_002866,20261111,2026-11-11 09:55:57,forward,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,True
+20261113_L_5_000105,20261113,2026-11-13 10:44:22,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261113_L_5_000120,20261113,2026-11-13 10:44:37,left side,Square-Phillips_Union_Sainte-Catherine_E,Square-Phillips,E,loc_high,False
+20261111_F_2_000464,20261111,2026-11-11 10:07:34,forward,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,False
+20261111_L_1_000507,20261111,2026-11-11 09:16:56,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261113_L_4_000150,20261113,2026-11-13 10:00:01,left side,Mount-Royal_Peel_Metcalfe_S,Mount-Royal,S,loading,False
+20261113_L_4_001499,20261113,2026-11-13 10:22:30,left side,Lambert-Closse_De-Maisonneuve_Lincoln_E,Lambert-Closse,E,loc_low,False
+20261111_F_2_001030,20261111,2026-11-11 10:17:00,forward,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261113_L_4_000843,20261113,2026-11-13 10:11:34,left side,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,False
+20261113_R_2_001458,20261113,2026-11-13 10:32:26,right side,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261113_R_2_000194,20261113,2026-11-13 10:11:22,right side,Hope_Rene-Levesque_Sussex_W,Hope,W,loc_low,True
+20261111_F_2_000631,20261111,2026-11-11 10:10:21,forward,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261113_R_1_001397,20261113,2026-11-13 09:52:19,right side,Cathcart_Robert-Bourassa_Union_S,Cathcart,S,loading,False
+20261111_L_3_000218,20261111,2026-11-11 10:27:07,left side,Baile_end_Saint-Marc_N,Baile,N,loc_low,False
+20261113_R_1_000991,20261113,2026-11-13 09:45:33,right side,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261113_R_2_001468,20261113,2026-11-13 10:32:36,right side,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261111_L_1_000178,20261111,2026-11-11 09:11:27,left side,Drummond_Sainte-Catherine_De-Maisonneuve_E,Drummond,E,loading,False
+20261111_L_2_000301,20261111,2026-11-11 09:56:26,left side,Peel_Sainte-Catherine_Mount-Royal_W,Peel,W,loading,False
+20261111_F_1_000052,20261111,2026-11-11 09:09:03,forward,Stanley_De-Maisonneuve_Sherbrooke_W,Stanley,W,loading,False
+20261111_F_1_000084,20261111,2026-11-11 09:09:35,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_L_3_001126,20261111,2026-11-11 10:42:15,left side,Mayor_Saint-Alexandre_De-Bleury_S,Mayor,S,loc_high,True
+20261111_F_1_000185,20261111,2026-11-11 09:11:16,forward,Drummond_Sainte-Catherine_De-Maisonneuve_W,Drummond,W,loading,True
+20261111_F_1_002831,20261111,2026-11-11 09:55:22,forward,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261111_F_2_001219,20261111,2026-11-11 10:20:09,forward,Atwater_Lincoln_split_E,Atwater,E,art_low,True
+20261113_R_1_002219,20261113,2026-11-13 10:06:01,right side,Sherbrooke_Guy_Simpson_N,Sherbrooke,N,loading,False
+20261111_F_1_000945,20261111,2026-11-11 09:23:56,forward,Union_President-Kennedy_Sherbrooke_W,Union,W,loading,True
+20261113_L_5_000112,20261113,2026-11-13 10:44:29,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261111_L_2_000633,20261111,2026-11-11 10:01:58,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,False
+20261113_L_4_001331,20261113,2026-11-13 10:19:42,left side,Lincoln_Lambert-Closse_Chomedey_N,Lincoln,N,loading,False
+20261111_L_1_000922,20261111,2026-11-11 09:23:51,left side,Union_President-Kennedy_Sherbrooke_E,Union,E,loading,True
+20261111_L_3_000056,20261111,2026-11-11 10:24:25,left side,Lambert-Closse_De-Maisonneuve_Lincoln_E,Lambert-Closse,E,loc_low,False
+20261111_F_2_001639,20261111,2026-11-11 10:27:09,forward,Baile_end_Saint-Marc_S,Baile,S,loc_low,True
+20261113_L_4_000832,20261113,2026-11-13 10:11:23,left side,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,False
+20261111_L_3_000047,20261111,2026-11-11 10:24:16,left side,Lambert-Closse_De-Maisonneuve_Lincoln_E,Lambert-Closse,E,loc_low,False
+20261111_L_2_000994,20261111,2026-11-11 10:07:59,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261111_F_2_001865,20261111,2026-11-11 10:30:55,forward,Sherbrooke_Guy_Simpson_S,Sherbrooke,S,loading,False
+20261111_L_1_001006,20261111,2026-11-11 09:25:15,left side,Square-Phillips_Union_Sainte-Catherine_E,Square-Phillips,E,loc_high,True
+20261111_F_1_000999,20261111,2026-11-11 09:24:50,forward,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261111_L_3_001090,20261111,2026-11-11 10:41:39,left side,Mayor_Saint-Alexandre_De-Bleury_S,Mayor,S,loc_high,False
+20261113_R_3_000146,20261113,2026-11-13 10:45:06,right side,Cathcart_Robert-Bourassa_Union_N,Cathcart,N,loading,True
+20261113_L_4_001699,20261113,2026-11-13 10:25:50,left side,Baile_end_Saint-Marc_N,Baile,N,loc_low,False
+20261113_L_4_000232,20261113,2026-11-13 10:01:23,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,False
+20261113_R_2_001060,20261113,2026-11-13 10:25:48,right side,Baile_end_Saint-Marc_S,Baile,S,loc_low,False
+20261113_L_4_000242,20261113,2026-11-13 10:01:33,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,False
+20261111_L_3_000994,20261111,2026-11-11 10:40:03,left side,Concorde_Burke_De-Bleury_S,Concorde,S,loc_low,True
+20261111_L_3_001259,20261111,2026-11-11 10:44:28,left side,Mayor_City-Councillors_Saint-Alexandre_S,Mayor,S,loc_high,False
+20261111_F_2_001857,20261111,2026-11-11 10:30:47,forward,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261111_F_2_002538,20261111,2026-11-11 10:42:08,forward,Mayor_Saint-Alexandre_De-Bleury_N,Mayor,N,loc_high,False
+20261113_R_3_000115,20261113,2026-11-13 10:44:35,right side,Square-Phillips_Union_Sainte-Catherine_W,Square-Phillips,W,loc_high,False
+20261111_F_1_000953,20261111,2026-11-11 09:24:04,forward,Union_President-Kennedy_Sherbrooke_W,Union,W,loading,False
+20261113_L_4_000249,20261113,2026-11-13 10:01:40,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,False
+20261113_L_4_002371,20261113,2026-11-13 10:37:02,left side,Mayor_City-Councillors_Saint-Alexandre_S,Mayor,S,loc_high,True
+20261111_F_2_000470,20261111,2026-11-11 10:07:40,forward,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,False
+20261111_F_1_000688,20261111,2026-11-11 09:19:39,forward,Sainte-Catherine_Metcalfe_Mansfield_S,Sainte-Catherine,S,loading,False
+20261111_L_2_000989,20261111,2026-11-11 10:07:54,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261113_L_3_000741,20261113,2026-11-13 09:56:49,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261113_R_1_002229,20261113,2026-11-13 10:06:11,right side,Sherbrooke_Guy_Simpson_N,Sherbrooke,N,loading,False
+20261113_L_4_002355,20261113,2026-11-13 10:36:46,left side,Mayor_Saint-Alexandre_De-Bleury_S,Mayor,S,loc_high,False
+20261113_L_4_000225,20261113,2026-11-13 10:01:16,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,False
+20261111_F_2_001433,20261111,2026-11-11 10:23:43,forward,Atwater_Lincoln_split_W,Atwater,W,art_low,False
+20261113_L_4_000401,20261113,2026-11-13 10:04:12,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261113_R_2_000883,20261113,2026-11-13 10:22:51,right side,Lambert-Closse_De-Maisonneuve_Lincoln_W,Lambert-Closse,W,loc_low,False
+20261113_R_2_001265,20261113,2026-11-13 10:29:13,right side,Sherbrooke_Guy_Simpson_S,Sherbrooke,S,loading,False
+20261113_L_4_000374,20261113,2026-11-13 10:03:45,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261111_L_1_000524,20261111,2026-11-11 09:17:13,left side,Peel_Sainte-Catherine_Mount-Royal_W,Peel,W,loading,False
+20261111_F_1_000880,20261111,2026-11-11 09:22:51,forward,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261111_F_2_002679,20261111,2026-11-11 10:44:29,forward,Mayor_City-Councillors_Saint-Alexandre_N,Mayor,N,loc_high,False
+20261111_L_2_000647,20261111,2026-11-11 10:02:12,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,False
+20261113_L_4_001067,20261113,2026-11-13 10:15:18,left side,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,False
+20261111_F_1_001028,20261111,2026-11-11 09:25:19,forward,Square-Phillips_Union_Sainte-Catherine_W,Square-Phillips,W,loc_high,False
+20261111_L_2_001220,20261111,2026-11-11 10:11:45,left side,De-Maisonneuve_Pierce_Guy_S,De Maisonneuve,S,art_high,False
+20261113_R_1_001873,20261113,2026-11-13 10:00:15,right side,Mount-Royal_Peel_Metcalfe_N,Mount-Royal,N,loading,False
+20261113_R_1_001418,20261113,2026-11-13 09:52:40,right side,Cathcart_Robert-Bourassa_Union_S,Cathcart,S,loading,False
+20261111_F_2_002243,20261111,2026-11-11 10:37:13,forward,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261111_F_2_000848,20261111,2026-11-11 10:13:58,forward,Hope_Rene-Levesque_Sussex_W,Hope,W,loc_low,True
+20261113_R_1_001858,20261113,2026-11-13 10:00:00,right side,Mount-Royal_Peel_Metcalfe_N,Mount-Royal,N,loading,False
+20261113_R_2_001463,20261113,2026-11-13 10:32:31,right side,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,True
+20261113_R_1_002224,20261113,2026-11-13 10:06:06,right side,Sherbrooke_Guy_Simpson_N,Sherbrooke,N,loading,False
+20261111_F_1_000209,20261111,2026-11-11 09:11:40,forward,Drummond_Sainte-Catherine_De-Maisonneuve_E,Drummond,E,loading,False
+20261111_F_2_002282,20261111,2026-11-11 10:37:52,forward,Sherbrooke_Union_Aylmer_S,Sherbrooke,S,art_high,False
+20261113_R_2_000871,20261113,2026-11-13 10:22:39,right side,Lambert-Closse_De-Maisonneuve_Lincoln_W,Lambert-Closse,W,loc_low,False
+20261113_R_1_001935,20261113,2026-11-13 10:01:17,right side,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_F_1_000199,20261111,2026-11-11 09:11:30,forward,Drummond_Sainte-Catherine_De-Maisonneuve_E,Drummond,E,loading,False
+20261113_R_2_000825,20261113,2026-11-13 10:21:53,right side,Atwater_Lincoln_split_W,Atwater,W,art_low,False
+20261113_R_1_002089,20261113,2026-11-13 10:03:51,right side,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,False
+20261111_L_1_000972,20261111,2026-11-11 09:24:41,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261111_L_2_001347,20261111,2026-11-11 10:13:52,left side,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,False
+20261113_L_4_000380,20261113,2026-11-13 10:03:51,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261113_R_2_001498,20261113,2026-11-13 10:33:06,right side,Sherbrooke_Union_Aylmer_S,Sherbrooke,S,art_high,False
+20261113_R_2_001742,20261113,2026-11-13 10:37:10,right side,Mayor_City-Councillors_Saint-Alexandre_N,Mayor,N,loc_high,False
+20261113_R_2_001051,20261113,2026-11-13 10:25:39,right side,Baile_end_Saint-Marc_S,Baile,S,loc_low,False
+20261111_F_2_001633,20261111,2026-11-11 10:27:03,forward,Baile_end_Saint-Marc_S,Baile,S,loc_low,False
+20261111_F_2_002411,20261111,2026-11-11 10:40:01,forward,Concorde_Burke_De-Bleury_N,Concorde,N,loc_low,False
+20261113_L_4_001336,20261113,2026-11-13 10:19:47,left side,Lincoln_Lambert-Closse_Chomedey_N,Lincoln,N,loading,True
+20261111_F_1_001642,20261111,2026-11-11 09:35:33,forward,Cathcart_Robert-Bourassa_Union_S,Cathcart,S,loading,True
+20261111_L_1_000679,20261111,2026-11-11 09:19:48,left side,Sainte-Catherine_Metcalfe_Mansfield_N,Sainte-Catherine,N,loading,False
+20261113_L_4_001506,20261113,2026-11-13 10:22:37,left side,Lambert-Closse_De-Maisonneuve_Lincoln_E,Lambert-Closse,E,loc_low,True
+20261111_F_2_000480,20261111,2026-11-11 10:07:50,forward,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,True
+20261113_R_2_001493,20261113,2026-11-13 10:33:01,right side,Sherbrooke_Union_Aylmer_S,Sherbrooke,S,art_high,False
+20261111_L_3_000210,20261111,2026-11-11 10:26:59,left side,Baile_end_Saint-Marc_N,Baile,N,loc_low,True
+20261113_R_2_001721,20261113,2026-11-13 10:36:49,right side,Mayor_Saint-Alexandre_De-Bleury_N,Mayor,N,loc_high,True
+20261111_L_3_001314,20261111,2026-11-11 10:45:23,left side,Aylmer_De-Maisonneuve_President-Kennedy_W,Aylmer,W,loc_high,False
+20261113_R_3_000212,20261113,2026-11-13 10:46:12,right side,Robert-Bourassa_Rene-Levesque_Monseigneur-Charbonneau_W,Robert-Bourassa,W,art_low,False
+20261113_R_2_001447,20261113,2026-11-13 10:32:15,right side,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261111_L_1_000043,20261111,2026-11-11 09:09:12,left side,Stanley_De-Maisonneuve_Sherbrooke_E,Stanley,E,loading,False
+20261111_L_1_000518,20261111,2026-11-11 09:17:07,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261111_L_2_001778,20261111,2026-11-11 10:21:03,left side,Lincoln_Lambert-Closse_Chomedey_N,Lincoln,N,loading,False
+20261111_F_1_001158,20261111,2026-11-11 09:27:29,forward,Robert-Bourassa_Rene-Levesque_Monseigneur-Charbonneau_W,Robert-Bourassa,W,art_low,False
+20261111_F_2_001468,20261111,2026-11-11 10:24:18,forward,Lambert-Closse_De-Maisonneuve_Lincoln_W,Lambert-Closse,W,loc_low,False
+20261111_F_2_002645,20261111,2026-11-11 10:43:55,forward,Mayor_Saint-Alexandre_De-Bleury_N,Mayor,N,loc_high,True
+20261113_R_3_000052,20261113,2026-11-13 10:43:32,right side,Union_Sainte-Catherine_De-Maisonneuve_W,Union,W,loading,False
+20261111_F_1_001326,20261111,2026-11-11 09:30:17,forward,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261113_L_4_000814,20261113,2026-11-13 10:11:05,left side,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,False
+20261113_R_1_001950,20261113,2026-11-13 10:01:32,right side,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_F_1_001022,20261111,2026-11-11 09:25:13,forward,Square-Phillips_Union_Sainte-Catherine_W,Square-Phillips,W,loc_high,False
+20261111_L_1_000173,20261111,2026-11-11 09:11:22,left side,Drummond_Sainte-Catherine_De-Maisonneuve_E,Drummond,E,loading,False
+20261111_F_2_002734,20261111,2026-11-11 10:45:24,forward,Aylmer_De-Maisonneuve_President-Kennedy_E,Aylmer,E,loc_high,False
+20261111_F_1_000768,20261111,2026-11-11 09:20:59,forward,Mansfield_President-Kennedy_Sherbrooke_E,Mansfield,E,art_high,False
+20261113_L_4_000392,20261113,2026-11-13 10:04:03,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261111_L_2_001360,20261111,2026-11-11 10:14:05,left side,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,False
+20261113_R_2_001229,20261113,2026-11-13 10:28:37,right side,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261111_F_2_002587,20261111,2026-11-11 10:42:57,forward,Mayor_Saint-Alexandre_De-Bleury_N,Mayor,N,loc_high,False
+20261111_L_1_000766,20261111,2026-11-11 09:21:15,left side,Mansfield_President-Kennedy_Sherbrooke_W,Mansfield,W,art_high,False
+20261113_R_1_001693,20261113,2026-11-13 09:57:15,right side,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,False
+20261111_F_2_000844,20261111,2026-11-11 10:13:54,forward,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,False
+20261111_L_2_001535,20261111,2026-11-11 10:17:00,left side,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,True
+20261113_R_1_001404,20261113,2026-11-13 09:52:26,right side,Cathcart_Robert-Bourassa_Union_S,Cathcart,S,loading,True
+20261111_F_1_002882,20261111,2026-11-11 09:56:13,forward,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,False
+20261113_R_2_001779,20261113,2026-11-13 10:37:47,right side,Aylmer_De-Maisonneuve_President-Kennedy_E,Aylmer,E,loc_high,True
+20261111_F_1_000888,20261111,2026-11-11 09:22:59,forward,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261111_L_2_000628,20261111,2026-11-11 10:01:53,left side,De-Maisonneuve_Stanley_Peel_S,De Maisonneuve,S,art_high,True
+20261111_L_3_001243,20261111,2026-11-11 10:44:12,left side,Mayor_Saint-Alexandre_De-Bleury_S,Mayor,S,loc_high,False
+20261113_L_4_000155,20261113,2026-11-13 10:00:06,left side,Mount-Royal_Peel_Metcalfe_S,Mount-Royal,S,loading,False
+20261113_L_4_000827,20261113,2026-11-13 10:11:18,left side,Hope_Rene-Levesque_Sussex_E,Hope,E,loc_low,True
+20261111_F_1_000030,20261111,2026-11-11 09:08:41,forward,Stanley_De-Maisonneuve_Sherbrooke_W,Stanley,W,loading,False
+20261111_F_2_002674,20261111,2026-11-11 10:44:24,forward,Mayor_City-Councillors_Saint-Alexandre_N,Mayor,N,loc_high,True
+20261113_L_4_000877,20261113,2026-11-13 10:12:08,left side,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261113_R_2_001728,20261113,2026-11-13 10:36:56,right side,Mayor_Saint-Alexandre_De-Bleury_N,Mayor,N,loc_high,False
+20261113_R_2_000024,20261113,2026-11-13 10:08:32,right side,De-Maisonneuve_Pierce_Guy_N,De Maisonneuve,N,art_high,False
+20261113_L_4_000660,20261113,2026-11-13 10:08:31,left side,De-Maisonneuve_Pierce_Guy_S,De Maisonneuve,S,art_high,True
+20261111_F_2_001875,20261111,2026-11-11 10:31:05,forward,Sherbrooke_Guy_Simpson_S,Sherbrooke,S,loading,False
+20261113_R_2_000817,20261113,2026-11-13 10:21:45,right side,Atwater_Lincoln_split_W,Atwater,W,art_low,False
+20261113_R_3_000125,20261113,2026-11-13 10:44:45,right side,Square-Phillips_Union_Sainte-Catherine_W,Square-Phillips,W,loc_high,False
+20261113_R_2_000631,20261113,2026-11-13 10:18:39,right side,Atwater_Lincoln_split_E,Atwater,E,art_low,True
+20261113_R_1_002096,20261113,2026-11-13 10:03:58,right side,Crescent_De-Maisonneuve_Sherbrooke_W,Crescent,W,loc_high,False
+20261111_F_2_001267,20261111,2026-11-11 10:20:57,forward,Lincoln_Lambert-Closse_Chomedey_S,Lincoln,S,loading,False
+20261113_R_2_001270,20261113,2026-11-13 10:29:18,right side,Sherbrooke_Guy_Simpson_S,Sherbrooke,S,loading,False
+20261113_L_5_000126,20261113,2026-11-13 10:44:43,left side,Square-Phillips_Union_Sainte-Catherine_E,Square-Phillips,E,loc_high,False
+20261111_F_1_000893,20261111,2026-11-11 09:23:04,forward,Sherbrooke_Victoria_Robert-Bourassa_S,Sherbrooke,S,art_high,False
+20261111_L_2_000264,20261111,2026-11-11 09:55:49,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261113_L_4_001513,20261113,2026-11-13 10:22:44,left side,Lambert-Closse_De-Maisonneuve_Lincoln_E,Lambert-Closse,E,loc_low,False
+20261111_F_1_000197,20261111,2026-11-11 09:11:28,forward,Drummond_Sainte-Catherine_De-Maisonneuve_W,Drummond,W,loading,False
+20261113_R_2_001197,20261113,2026-11-13 10:28:05,right side,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261111_F_1_000037,20261111,2026-11-11 09:08:48,forward,Stanley_De-Maisonneuve_Sherbrooke_W,Stanley,W,loading,False
+20261111_F_1_001348,20261111,2026-11-11 09:30:39,forward,Rene-Levesque_Mansfield_Robert-Bourassa_S,René-Lévesque,S,art_low,False
+20261111_F_1_001496,20261111,2026-11-11 09:33:07,forward,Robert-Bourassa_Rene-Levesque_Monseigneur-Charbonneau_W,Robert-Bourassa,W,art_low,False
+20261111_F_2_000131,20261111,2026-11-11 10:02:01,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_L_2_001541,20261111,2026-11-11 10:17:06,left side,Rene-Levesque_Fort_Saint-Marc_S,René-Lévesque,S,art_low,False
+20261111_F_1_001045,20261111,2026-11-11 09:25:36,forward,Cathcart_Robert-Bourassa_Union_N,Cathcart,N,loading,False
+20261111_F_2_001473,20261111,2026-11-11 10:24:23,forward,Lambert-Closse_De-Maisonneuve_Lincoln_W,Lambert-Closse,W,loc_low,False
+20261113_R_2_001511,20261113,2026-11-13 10:33:19,right side,Sherbrooke_Union_Aylmer_S,Sherbrooke,S,art_high,False
+20261113_R_2_001247,20261113,2026-11-13 10:28:55,right side,Sherbrooke_Guy_Simpson_S,Sherbrooke,S,loading,False
+20261113_R_2_000688,20261113,2026-11-13 10:19:36,right side,Lincoln_Lambert-Closse_Chomedey_S,Lincoln,S,loading,False
+20261113_L_4_000872,20261113,2026-11-13 10:12:03,left side,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261111_F_2_000639,20261111,2026-11-11 10:10:29,forward,Guy_Lincoln_Sherbrooke_W,Guy,W,loading,False
+20261113_R_1_002283,20261113,2026-11-13 10:07:05,right side,Guy_Lincoln_Sherbrooke_W,Guy,W,loading,False
+20261111_L_1_000938,20261111,2026-11-11 09:24:07,left side,Union_President-Kennedy_Sherbrooke_E,Union,E,loading,True
+20261113_L_4_001494,20261113,2026-11-13 10:22:25,left side,Lambert-Closse_De-Maisonneuve_Lincoln_E,Lambert-Closse,E,loc_low,False
+20261113_L_4_002362,20261113,2026-11-13 10:36:53,left side,Mayor_Saint-Alexandre_De-Bleury_S,Mayor,S,loc_high,False
+20261111_F_2_001227,20261111,2026-11-11 10:20:17,forward,Atwater_Lincoln_split_E,Atwater,E,art_low,True
+20261113_R_2_001208,20261113,2026-11-13 10:28:16,right side,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261111_L_1_000787,20261111,2026-11-11 09:21:36,left side,Mansfield_President-Kennedy_Sherbrooke_W,Mansfield,W,art_high,False
+20261111_L_1_000967,20261111,2026-11-11 09:24:36,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261113_R_1_001688,20261113,2026-11-13 09:57:10,right side,Peel_Square-Dorchester_Sainte-Catherine_E,Peel,E,loading,False
+20261111_L_2_000270,20261111,2026-11-11 09:55:55,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,True
+20261113_R_3_000133,20261113,2026-11-13 10:44:53,right side,Square-Phillips_Union_Sainte-Catherine_W,Square-Phillips,W,loc_high,False
+20261111_L_1_000194,20261111,2026-11-11 09:11:43,left side,Drummond_Sainte-Catherine_De-Maisonneuve_W,Drummond,W,loading,False
+20261111_F_2_000125,20261111,2026-11-11 10:01:55,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261113_R_2_000427,20261113,2026-11-13 10:15:15,right side,Rene-Levesque_Fort_Saint-Marc_N,René-Lévesque,N,art_low,False
+20261113_R_1_001410,20261113,2026-11-13 09:52:32,right side,Cathcart_Robert-Bourassa_Union_S,Cathcart,S,loading,False
+20261111_L_1_000947,20261111,2026-11-11 09:24:16,left side,Union_President-Kennedy_Sherbrooke_E,Union,E,loading,False
+20261111_F_1_000100,20261111,2026-11-11 09:09:51,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_L_2_000282,20261111,2026-11-11 09:56:07,left side,Peel_Square-Dorchester_Sainte-Catherine_W,Peel,W,loading,False
+20261113_R_2_000862,20261113,2026-11-13 10:22:30,right side,Lambert-Closse_De-Maisonneuve_Lincoln_W,Lambert-Closse,W,loc_low,False
+20261111_L_1_000029,20261111,2026-11-11 09:08:58,left side,Stanley_De-Maisonneuve_Sherbrooke_E,Stanley,E,loading,True
+20261113_R_1_002278,20261113,2026-11-13 10:07:00,right side,Guy_Lincoln_Sherbrooke_W,Guy,W,loading,True
+20261113_L_5_000076,20261113,2026-11-13 10:43:53,left side,Union_Sainte-Catherine_De-Maisonneuve_E,Union,E,loading,False
+20261111_F_2_000853,20261111,2026-11-11 10:14:03,forward,Hope_Rene-Levesque_Sussex_W,Hope,W,loc_low,True
+20261111_L_1_000779,20261111,2026-11-11 09:21:28,left side,Mansfield_President-Kennedy_Sherbrooke_W,Mansfield,W,art_high,False
+20261111_F_2_001628,20261111,2026-11-11 10:26:58,forward,Baile_end_Saint-Marc_S,Baile,S,loc_low,False
+20261111_L_2_000981,20261111,2026-11-11 10:07:46,left side,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261113_R_3_000120,20261113,2026-11-13 10:44:40,right side,Square-Phillips_Union_Sainte-Catherine_W,Square-Phillips,W,loc_high,False
+20261113_L_4_001687,20261113,2026-11-13 10:25:38,left side,Baile_end_Saint-Marc_N,Baile,N,loc_low,False
+20261111_F_1_000539,20261111,2026-11-11 09:17:10,forward,Peel_Sainte-Catherine_Mount-Royal_E,Peel,E,loading,False
+20261111_L_3_001120,20261111,2026-11-11 10:42:09,left side,Mayor_Saint-Alexandre_De-Bleury_S,Mayor,S,loc_high,False
+20261111_F_2_000461,20261111,2026-11-11 10:07:31,forward,Crescent_De-Maisonneuve_Sherbrooke_E,Crescent,E,loc_high,False
+20261111_F_1_000074,20261111,2026-11-11 09:09:25,forward,De-Maisonneuve_Stanley_Peel_N,De Maisonneuve,N,art_high,False
+20261111_F_2_000625,20261111,2026-11-11 10:10:15,forward,Guy_Lincoln_Sherbrooke_E,Guy,E,loading,False
+20261111_L_2_001773,20261111,2026-11-11 10:20:58,left side,Lincoln_Lambert-Closse_Chomedey_N,Lincoln,N,loading,False

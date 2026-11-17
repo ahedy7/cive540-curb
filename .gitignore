@@ -29,3 +29,4 @@ validation/frames/
 validation/frames.js
 validation/*.zip
 validation/labels_*.json
+models/
