@@ -12,6 +12,10 @@ model's answers can be scored straight against the labels:
     loading_activity  goods being moved anywhere in the frame
 Moving traffic is left out. The answer is forced into this shape with a JSON schema.
 
+With --context, the model also gets the frames CONTEXT_S seconds before and after (smaller),
+only to see which vehicles move. One photo can't tell a truck stopped in the lane from one
+waiting at a light. These answers are cached apart (<model>_ctx).
+
 Every answer is cached on disk, one file per model and frame, so nothing is paid for twice.
 Token use is saved with it, and the run prints its real cost.
 
@@ -22,6 +26,7 @@ Frame sets:
 Usage (the API key is read from .env):
     python pipeline/vlm.py sonnet test          # 100 test frames on Sonnet
     python pipeline/vlm.py haiku test 10        # first 10 only
+    python pipeline/vlm.py sonnet test --context  # with the frames 2 s before and after
     python pipeline/vlm.py sonnet send          # full run
 """
 import base64
@@ -44,6 +49,8 @@ MODELS = {   # id, $ per million input and output tokens
 }
 EFFORT = "medium"
 MAX_SIDE = 1568      # longer side in pixels. Larger images are shrunk by the API anyway
+CONTEXT_S = 2
+CONTEXT_SIDE = 1024  # the before and after frames only need to show movement
 WORKERS = 6
 N_TEST = 100
 OUT = DERIVED / "vlm"
@@ -109,6 +116,10 @@ open cargo doors with goods).
 
 loading_activity: true if goods are being moved anywhere in the photo."""
 
+CONTEXT_PROMPT = """You get three photos from the same camera: BEFORE (2 seconds earlier), NOW, and AFTER (2 seconds later). Describe only NOW. Use BEFORE and AFTER only to see which vehicles move: a vehicle that changes position against the buildings and parked cars is moving traffic, so leave it out. Our own car may be moving or stopped, so judge movement against the background, not the frame edge. If a frame is missing, judge from NOW alone.
+
+"""
+
 
 def load_key():
     for line in (ROOT / ".env").read_text().splitlines():
@@ -118,32 +129,48 @@ def load_key():
 
 
 def frame_set(name):
-    """(frame_id, image path) pairs."""
+    """(frame_id, image path) pairs. Paths point into frames/, so the frames either side can be found."""
     if name == "test":
-        s = pd.read_csv(ROOT / "validation" / "sample.csv").head(N_TEST)
-        return [(r.frame_id, ROOT / "validation" / "frames" / f"{r.frame_id}.jpg") for r in s.itertuples()]
-    d = pd.read_csv(DERIVED / "detect" / "frames.csv")
+        ids = pd.read_csv(ROOT / "validation" / "sample.csv").head(N_TEST).frame_id
+    else:
+        d = pd.read_csv(DERIVED / "detect" / "frames.csv")
+        ids = d[d.send].frame_id
     where = gpd.read_file(DERIVED / "frames.gpkg", ignore_geometry=True).set_index("frame_id").path
-    return [(i, ROOT / where[i]) for i in d[d.send].frame_id]
+    return [(i, ROOT / where[i]) for i in ids]
 
 
-def image_b64(path):
+def neighbour(path, step):
+    """The frame step seconds away in the same clip (frames are one per second), or None."""
+    p = path.with_name(f"{int(path.stem) + step:06d}.jpg")
+    return p if p.exists() else None
+
+
+def image_b64(path, side=MAX_SIDE):
     im = Image.open(path).convert("RGB")
-    im.thumbnail((MAX_SIDE, MAX_SIDE))
+    im.thumbnail((side, side))
     buf = io.BytesIO()
     im.save(buf, "JPEG", quality=88)
     return base64.standard_b64encode(buf.getvalue()).decode()
 
 
-def ask(client, model_id, path):
+def image_block(path, side=MAX_SIDE):
+    return {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": image_b64(path, side)}}
+
+
+def ask(client, model_id, path, context=False):
+    if context:
+        content = []
+        for label, p, side in [("BEFORE", neighbour(path, -CONTEXT_S), CONTEXT_SIDE), ("NOW", path, MAX_SIDE),
+                               ("AFTER", neighbour(path, CONTEXT_S), CONTEXT_SIDE)]:
+            content += [{"type": "text", "text": label + ("" if p else ": missing")}] + ([image_block(p, side)] if p else [])
+        content.append({"type": "text", "text": CONTEXT_PROMPT + PROMPT})
+    else:
+        content = [image_block(path), {"type": "text", "text": PROMPT}]
     r = client.messages.create(
         model=model_id,
         max_tokens=8000,
         output_config={"effort": EFFORT, "format": {"type": "json_schema", "schema": SCHEMA}},
-        messages=[{"role": "user", "content": [
-            {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": image_b64(path)}},
-            {"type": "text", "text": PROMPT},
-        ]}],
+        messages=[{"role": "user", "content": content}],
     )
     if r.stop_reason != "end_turn":
         raise RuntimeError(f"stop_reason {r.stop_reason}")
@@ -153,14 +180,16 @@ def ask(client, model_id, path):
 
 
 def main():
-    if len(sys.argv) < 3 or sys.argv[1] not in MODELS or sys.argv[2] not in ("test", "send"):
+    context = "--context" in sys.argv
+    args = [a for a in sys.argv[1:] if a != "--context"]
+    if len(args) < 2 or args[0] not in MODELS or args[1] not in ("test", "send"):
         raise SystemExit(__doc__)
-    name, which = sys.argv[1], sys.argv[2]
+    name, which = args[0], args[1]
     model_id, p_in, p_out = MODELS[name]
     frames = frame_set(which)
-    if len(sys.argv) > 3:
-        frames = frames[:int(sys.argv[3])]
-    cache = OUT / name
+    if len(args) > 2:
+        frames = frames[:int(args[2])]
+    cache = OUT / (name + ("_ctx" if context else ""))
     cache.mkdir(parents=True, exist_ok=True)
     todo = [(i, p) for i, p in frames if not (cache / f"{i}.json").exists()]
     print(f"{model_id}: {len(frames)} frames, {len(todo)} to ask, {len(frames) - len(todo)} cached")
@@ -168,7 +197,7 @@ def main():
     client = anthropic.Anthropic(api_key=load_key(), max_retries=6)   # retries wait out rate limits
     failed = []
     with ThreadPoolExecutor(WORKERS) as pool:
-        jobs = {pool.submit(ask, client, model_id, p): i for i, p in todo}
+        jobs = {pool.submit(ask, client, model_id, p, context): i for i, p in todo}
         for n, job in enumerate(as_completed(jobs), 1):
             fid = jobs[job]
             try:
