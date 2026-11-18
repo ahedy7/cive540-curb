@@ -50,7 +50,7 @@ The loading model (`analysis/loading.py`) is built on literature values and two 
 - [x] 60 of 62 sampled faces filmed at least once. Sainte-Catherine between Peel and Metcalfe was never filmed.
 - [x] Double-parking review, batch 1 (318 frames, Wednesday and Friday).
 - [ ] Double-parking review, batch 2 (213 frames, Monday and early Friday).
-- [ ] Hand labels for 300 frames, to score the vision model.
+- [ ] Hand labels for the first 100 frames of the validation sample, to score the vision model.
 - [ ] Double-parking events per face and pass, and the model.
 
 ## Data

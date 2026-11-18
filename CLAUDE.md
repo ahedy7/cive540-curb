@@ -131,7 +131,7 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
   - [x] Coverage (Nov 16, Wed + Fri): 43 of 62 sample faces seen on 2 days, 13 on 1 day, 6 on none (construction, see decisions)
   - [x] Monday and early Friday geotagged from the partner's route log (Nov 17). pipeline/route_log.csv -> pipeline/anchors.py -> video/<date>_route_log.csv. Forward camera synced to it within 1 s. Coverage now: Monday 46, Wednesday 53, Friday 54 of 62 faces. All days: 60 of 62 (only Sainte-Catherine Peel-Metcalfe N/S never filmed). Timing check on L clips with GPS: median error 13 m, 90th pct 47 m (constant speed: 28 m and 103 m)
   - [ ] YOLO, VLM and review list on the new Monday frames
-  - [x] Labelling page + 300 validation frames sent to the partner (validation/curb_labelling.zip). Labels pending
+  - [x] Labelling page + 300 validation frames sent to the partner (validation/curb_labelling.zip). Only the first 100 are needed (Nov 18). Labels pending
   - [x] YOLO pre-filter (Nov 16): pipeline/detect.py. 2,397 frames on sample faces, 1,248 sent to the VLM (near vehicle or hydrant, one frame per 10 s while stopped)
   - [x] VLM (Nov 16): pipeline/vlm.py. 100-frame test on Haiku and Sonnet 5.5, with and without before/after frames. Full run: Haiku 5.5 + before/after on all 1,248 frames ($1.18). About $3 of API spent in total
   - [x] Partner reviewed double parking part 1 (Nov 18): all 318 frames, validation/review_partner_2026-11-18.json. 37 double parked frames (about 10 events)
@@ -187,7 +187,7 @@ Presentation of the whole project on Wed Nov 25, 2026. Final website and report 
     "confidence":0.0}
    ```
    Include a few RPA code descriptions in the prompt so the model maps French sign text ("Livraison seulement", "Arrêt interdit", "Stationnement interdit") to the categories.
-8. **Validation (owner TBD, likely partner):** a labelling helper (simple local HTML page or notebook) for hand-labelling 300 stratified frames. Compute precision, recall and F1 per class and Cohen's kappa on 50 double-labelled frames.
+8. **Validation (owner TBD, likely partner):** a labelling helper (simple local HTML page or notebook) for hand-labelling stratified frames. 300 drawn, first 100 labelled (cut Nov 18). Compute precision, recall and F1 per class. Kappa dropped (one labeller).
 9. **Reconcile (side finding):** compare video sign reads with City sign records within 10 m. Label each as confirmed, missing in data, missing on street, or conflicting.
 
 ## Analysis spec (to build in analysis/)
@@ -264,7 +264,7 @@ Presentation of the whole project on Wed Nov 25, 2026. Final website and report 
 - Nov 13: a frame is snapped to the closest block face within 25 m that runs within 35 degrees of travel and lies on the camera's side. GPS gaps are trusted if the phone moved under 15 m across them (trackers skip fixes when stopped). Stopped = under 1 m/s.
 - Nov 13: days 1 and 2 were filmed with one iPhone looking forward through the windshield (mounted upside down, 1080p at 60 fps), not a side-window R camera. New camera type F in clips.csv: matched from a point 15 m ahead of the car, counts for the right curb everywhere and for the left curb too on one-way streets. Signs face oncoming traffic, so F reads them well, and double parking ahead is visible.
 - Nov 13: the side of the street comes from the two curb lines of the matched street block, not from the GPS position. Downtown GPS error across a narrow street flipped sides before (Drummond).
-- Nov 16: work split settled. Partner owns validation labelling (300 frames) and the safety side. Arvin builds the website.
+- Nov 16: work split settled. Partner owns validation labelling (300 frames, cut to 100 on Nov 18) and the safety side. Arvin builds the website.
 - Nov 16: project moved from ~/Desktop to ~/cive540-curb. The Desktop syncs to iCloud with Optimize Mac Storage, and macOS offloaded frames, data and git objects whenever the disk ran low, which made reads time out.
 - Nov 16: the partner's clips were exported to OneDrive, which replaced the recording time with the export time and cut the right camera from 1080p to 720p. Start times come from the Photos info panel (pipeline/start_times.csv), fine-tuned by sync.py.
 - Nov 16: Monday (Nov 9) is not geotagged. No GPX, and Wednesday + Friday already cover 56 of 62 sample faces. Monday frames (forward + left) stay usable for sign reading without a position. (Replaced Nov 17, see below.)
@@ -275,4 +275,5 @@ Presentation of the whole project on Wed Nov 25, 2026. Final website and report 
 - Nov 16: VLM = Claude Haiku 5.5 with the frames 2 s before and after. Matches Sonnet on parked counts and vehicle types at a tenth of the cost. Neither model reads double parking reliably from photos (rare, and a stopped truck looks like one waiting in traffic). So double parking is VLM-assisted, human-verified: the VLM finds candidates (any vehicle outside the curb lane, or any van, box truck or bus), Arvin confirms each in review.html.
 - Nov 16: API key in .env (gitignored). Spend so far about $3.
 - Nov 18: empty share of paid and free curb set to 30%. The VLM reads 51% empty (CI 44 to 58%) on side-camera frames, but hand checks show it under-calls full curbs, counts BIXI stations and the Sainte-Catherine shared street as curb, and a third of frames mostly show an intersection. So 51% is an upper bound. The worst 50 faces are the same at 15%, 30% and 50%, only totals move. Misuse is not measurable (9 frames on active loading curb) and stays a 30% assumption with sensitivity.
+- Nov 18: hand labels cut from 300 to the first 100 frames of validation/sample.csv. Double parking is now human-reviewed, so the VLM's accuracy no longer drives the headline. 100 frames still give per-class precision and recall for the method section, and they are the 100 the VLM test already ran on. They cover all 5 strata and all 3 cameras.
 - Nov 18: double parking is reviewed by the partner alone (no second reviewer, no kappa on it, a limitation). Coding rule: half in the lane and half on the sidewalk counts as double parked (flagged partial). Sidewalk only is not double parking (kept as other illegal stop). A bus at its own stop is no. Frames F_1 1039 to 1041 (Nov 11) are one event, coded double parked. Events are merged by time across cameras. API spend now about $3.80.
