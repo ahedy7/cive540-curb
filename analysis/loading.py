@@ -67,8 +67,10 @@ MAPS = DERIVED / "maps"
 
 SPACE_M = 10.0        # one delivery vehicle, Dalla Chiara et al. (2026): about 9.4 to 10 m
 TARGET_P = 0.10       # design rule: under 10% of trucks find every space busy
-VACANT_SHARE = 0.15   # PLACEHOLDER until video gives occupancy. Share of paid and free curb that is empty
-MISUSE_SHARE = 0.30   # PLACEHOLDER until video gives it. Share of loading curb taken by other vehicles
+VACANT_SHARE = 0.30   # share of paid and free curb that is empty. occupancy.py reads 0.51 (CI 0.44-0.58) from video,
+                      # an upper bound (the model under-calls full curbs, BIXI stations sit on paid curb). Range 0.15-0.50
+MISUSE_SHARE = 0.30   # ASSUMPTION. Share of loading curb taken by other vehicles. Not measurable from our video
+                      # (only 9 frames fell on loading curb while the rule was in force)
 DWELLS_MIN = {"13.4": 13.4, "16.5": 16.5}
 DEMANDS = ["low", "high"]
 HOURS = range(7, 19)
