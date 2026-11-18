@@ -19,16 +19,39 @@ python analysis/demand.py       # deliveries per face, low and high scenarios
 python analysis/loading.py      # Erlang loading model and mismatch index
 ```
 
+Video (three weekday morning drives, Nov 9, 11 and 13, raw video and frames are not in the repo):
+
+```
+python pipeline/ingest.py           # clips manifest (pipeline/clips.csv)
+python pipeline/frames.py           # 1 frame per second
+python pipeline/anchors.py          # GPS track for clips with no GPX, from a hand-written route log
+python pipeline/sync.py             # clock offset per clip, from video motion vs GPS speed
+python pipeline/geotag.py           # position and block face per frame
+python pipeline/detect.py           # YOLO11 pre-filter
+python pipeline/vlm.py haiku send --context   # Claude Haiku 5.5 reads the curb in each frame
+python pipeline/review_list.py --wide         # double-parking candidates for human review
+python analysis/occupancy.py        # how full the parked curb is, from the side cameras
+```
+
 ## To validate with field notes
 
-The loading model (`analysis/loading.py`) is built on literature values and two placeholders. **Come back and validate this step once the video and field notes are processed:**
+The loading model (`analysis/loading.py`) is built on literature values and two shares that the video was meant to measure. Status:
 
-- [ ] Replace `VACANT_SHARE` (15%, share of paid and free parking that is empty) with occupancy observed on the sampled faces.
-- [ ] Replace `MISUSE_SHARE` (30%, share of loading curb taken by other vehicles) with observed loading-zone misuse.
-- [ ] Check dwell times (13.4 and 16.5 min from Kim et al. 2021 and Schmid et al. 2018) against any dwell we can observe.
-- [ ] Compare predicted P(no space) per face with observed double parking per 100 m. This is the key test that the model means something.
+- [x] `VACANT_SHARE`, share of paid and free parking that is empty. Was a 15% placeholder. The video reads 51% (95% CI 44 to 58%), but hand checks show that is an upper bound (the model under-calls full curbs and counts bike-share stations as empty). Now 30%, with 15 to 50% as the range. The 50 worst faces are the same across that range.
+- [x] `MISUSE_SHARE`, share of loading curb taken by other vehicles. Could not be measured: only 9 frames fell on loading curb while the rule was in force. Stays a 30% assumption, tested in the sensitivity runs.
+- [ ] Check dwell times (13.4 and 16.5 min from Kim et al. 2021 and Schmid et al. 2018). Not observable from drive-by video at 1 frame per second. Literature values with sensitivity.
+- [ ] Compare predicted P(no space) per face with observed double parking per 100 m. This is the key test that the model means something. Waiting on the second batch of double-parking review.
 - [ ] Check faces with no stopping all day (east Sainte-Catherine). The model assumes trucks there use the opposite side, but they probably use the cross streets.
-- [ ] Confirm the flagged rates in `analysis/delivery_rates.csv` (hotels, offices) and leaving shopping-centre units off the curb.
+- [x] Confirm the flagged rates in `analysis/delivery_rates.csv` (hotels, offices) and leaving shopping-centre units off the curb. Confirmed Nov 18.
+
+## Video status
+
+- [x] Three drives filmed. Monday had no GPS log and is positioned from a route log (median error 13 m along the street, checked on clips that have GPS).
+- [x] 60 of 62 sampled faces filmed at least once. Sainte-Catherine between Peel and Metcalfe was never filmed.
+- [x] Double-parking review, batch 1 (318 frames, Wednesday and Friday).
+- [ ] Double-parking review, batch 2 (213 frames, Monday and early Friday).
+- [ ] Hand labels for 300 frames, to score the vision model.
+- [ ] Double-parking events per face and pass, and the model.
 
 ## Data
 

@@ -119,8 +119,8 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 - [x] Car route re-planned (Nov 7). One loop, all 62 faces, 15.8 km, 47 to 63 min at 20 to 15 km/h. analysis/route.py -> data/derived/route/ (route.gpx, turn_by_turn.txt/.csv, car_loop.png, route.gpkg with turn_bans layer)
 - [x] Delivery demand (Nov 7). analysis/demand.py + delivery_rates.csv -> data/derived/demand.gpkg. 983 curb premises, 970 (low) to 1,919 (high) deliveries a weekday
 - [x] Loading model and first mismatch map (Nov 10). analysis/loading.py -> data/derived/loading.gpkg, mismatch.csv, maps/mismatch_07-11.png. 07-11 peak: 126 to 150 faces clearly short, 1.4 to 2.2 km of curb short. 23 to 29% of the day's trucks find no space
-  - [ ] Replace placeholders with video numbers: VACANT_SHARE (15%) from observed occupancy, MISUSE_SHARE (30%) from observed loading-zone misuse
-  - [ ] Arvin to confirm the flagged rates in delivery_rates.csv (hotels, offices) and leaving mall units off the curb
+  - [x] Placeholders (Nov 18): analysis/occupancy.py (Haiku + before/after on 631 side-camera frames, $0.41). VACANT_SHARE now 0.30 (video reads 0.51, an upper bound, range 0.15 to 0.50). MISUSE_SHARE stays 0.30 as an assumption. 07-11 now: 92 to 118 faces short, 1.1 to 1.7 km of curb
+  - [x] Arvin confirmed the flagged rates in delivery_rates.csv (hotels, offices) and leaving mall units off the curb (Nov 18)
 - [ ] Weekend test drive (Nov 7 to 8): both mounts, GPX sync, sign readability, check the route's turn bans
 - [x] Filming done: Mon Nov 9, Wed Nov 11, Fri Nov 13. No backup drive (no time)
 - [ ] Video pipeline
@@ -129,12 +129,14 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
   - [x] Partner exports lost the recording time. Real starts read off the phone's Photos info panel, in pipeline/start_times.csv. ingest.py reads it and keeps clips whose videos are deleted
   - [x] pipeline/sync.py: per-clip offset by matching frame-to-frame motion with GPS speed. Tested on 20261113_R_1: +1 s, Spearman 0.79. Run on all clips once their frames are local
   - [x] Coverage (Nov 16, Wed + Fri): 43 of 62 sample faces seen on 2 days, 13 on 1 day, 6 on none (construction, see decisions)
-  - [ ] Optional: partner marks intersections in Friday_right_part_1 00:00 to 15:40 (GPX starts 09:44) as manual anchors. Would add Friday passes
-  - [ ] Frames for Friday_left 1-5, Friday_right 2-3, Wednesday_left 2-3, IMG_4723-4730 still copying out of iCloud (slow, ~30 files/min). Then run sync.py, then geotag.py again
+  - [x] Monday and early Friday geotagged from the partner's route log (Nov 17). pipeline/route_log.csv -> pipeline/anchors.py -> video/<date>_route_log.csv. Forward camera synced to it within 1 s. Coverage now: Monday 46, Wednesday 53, Friday 54 of 62 faces. All days: 60 of 62 (only Sainte-Catherine Peel-Metcalfe N/S never filmed). Timing check on L clips with GPS: median error 13 m, 90th pct 47 m (constant speed: 28 m and 103 m)
+  - [ ] YOLO, VLM and review list on the new Monday frames
   - [x] Labelling page + 300 validation frames sent to the partner (validation/curb_labelling.zip). Labels pending
   - [x] YOLO pre-filter (Nov 16): pipeline/detect.py. 2,397 frames on sample faces, 1,248 sent to the VLM (near vehicle or hydrant, one frame per 10 s while stopped)
   - [x] VLM (Nov 16): pipeline/vlm.py. 100-frame test on Haiku and Sonnet 5.5, with and without before/after frames. Full run: Haiku 5.5 + before/after on all 1,248 frames ($1.18). About $3 of API spent in total
-  - [ ] Arvin: review double parking in validation/review.html (318 frames, from pipeline/review_list.py --wide), Export to validation/review_<date>.json
+  - [x] Partner reviewed double parking part 1 (Nov 18): all 318 frames, validation/review_partner_2026-11-18.json. 37 double parked frames (about 10 events)
+  - [ ] Partner: part 2, 213 new frames (Monday + early Friday), validation/curb_review_part2.zip
+  - [ ] Merge reviewed frames into double-parking events (by time across cameras, Wednesday F and L filmed together), per face and pass
   - [ ] Score the VLM against the partner's labels (precision, recall, F1, kappa)
 - [ ] Analysis
 - [ ] Website
@@ -142,7 +144,7 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 
 ## Timeline
 
-Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset is around 4:15 pm.
+Presentation of the whole project on Wed Nov 25, 2026. Final website and report due later (date to confirm, assumed Dec 7 to 11). Sunset is around 4:15 pm.
 
 - **Nov 4 to 8:** computer work: curb supply (Task 1), stratified sample (Task 2), car route, demand.
 - **Weekend Nov 7 to 8:** test drive of the full loop. Replaces the pilot ride. Check both mounts, GPX sync, sign readability, and the route's turns.
@@ -265,9 +267,12 @@ Deadline assumed around Dec 7 to 11, 2026 (confirm). Deadline unchanged. Sunset 
 - Nov 16: work split settled. Partner owns validation labelling (300 frames) and the safety side. Arvin builds the website.
 - Nov 16: project moved from ~/Desktop to ~/cive540-curb. The Desktop syncs to iCloud with Optimize Mac Storage, and macOS offloaded frames, data and git objects whenever the disk ran low, which made reads time out.
 - Nov 16: the partner's clips were exported to OneDrive, which replaced the recording time with the export time and cut the right camera from 1080p to 720p. Start times come from the Photos info panel (pipeline/start_times.csv), fine-tuned by sync.py.
-- Nov 16: Monday (Nov 9) is not geotagged. No GPX, and Wednesday + Friday already cover 56 of 62 sample faces. Monday frames (forward + left) stay usable for sign reading without a position.
-- Nov 16: 6 sample faces had construction and were not filmed on any day: Sainte-Catherine Peel-Metcalfe N/S, Stanley Cypress-Sainte-Catherine E/W, Sherbrooke Union-Aylmer N, Sherbrooke Victoria-Robert-Bourassa N. They drop out of the observed sample (limitation). No backup drive.
+- Nov 16: Monday (Nov 9) is not geotagged. No GPX, and Wednesday + Friday already cover 56 of 62 sample faces. Monday frames (forward + left) stay usable for sign reading without a position. (Replaced Nov 17, see below.)
+- Nov 17: Monday and the start of Friday (09:29 to 09:44, before the GPX) are geotagged from a route log the partner wrote while watching the L clips: street, entry and exit time, turn. Each turn = the crossing of the two streets in the géobase at the logged time. Between turns the car follows the centre line, with distance shared out by speed predicted from frame-to-frame motion (curve fitted on L clips with GPS). Open ends are walked along the street from the nearest turn. Positions are less exact than GPS (median 13 m along the street vs about 5 m), so these frames carry a source flag later if needed.
+- Nov 16: 6 sample faces had construction and were not filmed on any day: Sainte-Catherine Peel-Metcalfe N/S, Stanley Cypress-Sainte-Catherine E/W, Sherbrooke Union-Aylmer N, Sherbrooke Victoria-Robert-Bourassa N. They drop out of the observed sample (limitation). No backup drive. (Nov 17: Monday covers 4 of them. Only Sainte-Catherine Peel-Metcalfe N/S remain unfilmed.)
 - Nov 16: Apple GPU (MPS) crashes with torch 2.10 on macOS 14, so YOLO runs on the CPU (15 min for 2,397 frames).
 - Nov 16: YOLO filters little downtown (87% of frames have a near vehicle). Dropping repeat frames while stopped does most of the cutting.
 - Nov 16: VLM = Claude Haiku 5.5 with the frames 2 s before and after. Matches Sonnet on parked counts and vehicle types at a tenth of the cost. Neither model reads double parking reliably from photos (rare, and a stopped truck looks like one waiting in traffic). So double parking is VLM-assisted, human-verified: the VLM finds candidates (any vehicle outside the curb lane, or any van, box truck or bus), Arvin confirms each in review.html.
 - Nov 16: API key in .env (gitignored). Spend so far about $3.
+- Nov 18: empty share of paid and free curb set to 30%. The VLM reads 51% empty (CI 44 to 58%) on side-camera frames, but hand checks show it under-calls full curbs, counts BIXI stations and the Sainte-Catherine shared street as curb, and a third of frames mostly show an intersection. So 51% is an upper bound. The worst 50 faces are the same at 15%, 30% and 50%, only totals move. Misuse is not measurable (9 frames on active loading curb) and stays a 30% assumption with sensitivity.
+- Nov 18: double parking is reviewed by the partner alone (no second reviewer, no kappa on it, a limitation). Coding rule: half in the lane and half on the sidewalk counts as double parked (flagged partial). Sidewalk only is not double parking (kept as other illegal stop). A bus at its own stop is no. Frames F_1 1039 to 1041 (Nov 11) are one event, coded double parked. Events are merged by time across cameras. API spend now about $3.80.
