@@ -32,6 +32,8 @@ python pipeline/vlm.py haiku send --context   # Claude Haiku 5.5 reads the curb 
 python pipeline/review_list.py --wide         # double-parking candidates for human review
 python analysis/occupancy.py        # how full the parked curb is, from the side cameras
 python analysis/double_parking.py   # reviewed frames -> events per block, and the test of the loading model
+python analysis/figures.py          # slide and report figures -> figures/
+python pipeline/blur_examples.py    # blurred example frames -> figures/frames/, figures/examples.png
 ```
 
 ## To validate with field notes
