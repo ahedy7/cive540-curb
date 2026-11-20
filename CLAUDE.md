@@ -140,6 +140,9 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
   - [ ] Score the VLM against the partner's labels (precision, recall, F1, kappa)
 - [ ] Analysis
 - [ ] Website
+  - [x] Look chosen (Nov 20): planning document (light, editorial), built at docs/index.html. docs/model.js runs the loading model in the browser and matches loading.py on all 522 faces. Data from analysis/web_data.py. Screenshot for slide 12: figures/website.png
+  - [ ] Turn on GitHub Pages (Settings > Pages > main /docs). Repo is private, so Pages needs GitHub Pro (free with the Student Pack) or a public repo. The site itself is public once on
+  - [ ] Revenue lost (Places.csv rates), per-block off-peak shifts, click a face for details
 - [ ] Report and presentation
 
 ## Timeline
@@ -281,3 +284,4 @@ Presentation of the whole project on Wed Nov 25, 2026. Final website and report 
 - Nov 20: tested trucks with no space per block (a count that grows with demand) in place of the MI ratio. It does not add to deliveries a day (joint model RR 1.03, CI 0.69 to 1.54). Blocks the model says have enough curb still double park (Crescent 82 m usable vs 50 m needed, Guy, Sainte-Catherine Metcalfe-Mansfield), and blocks with no usable curb and moderate demand showed none (De-Maisonneuve Pierce-Guy, Sherbrooke Victoria-Robert-Bourassa). With 9 events the test can't rule out a moderate supply effect. Story: demand is validated, the supply side is not. The website leads with demand and shows the shortage as a model output, not an observed link.
 - Nov 20: power check by simulation (9 events, observed exposure, blocks split by MI > 0): a true 2-fold supply effect reaches p < 0.05 only 20% of the time, 3-fold 39%, 4-fold 54%. So the supply result is a non-finding, not evidence of no effect. Deliveries p = 0.010 (high) and 0.003 (low) clear Bonferroni over 4 predictors. 7 of 9 events were on Wednesday, 0 on Monday. Story doc for the partner: https://claude.ai/artifact/BsHqkPHbKtF2zoEswWYuy1. Plan: partner builds the deck from it, Arvin makes the figures, then the website.
 - Nov 20: occupied businesses per 100 m of curb (no delivery rates) predicts double parking as well as modelled deliveries, a bit better (RR 2.07 per doubling, CI 1.45 to 2.96, AIC 38.9 vs 43.3, correlation 0.95). So the video validates 'commercial blocks double park more', not the delivery rates or the loading model. Story reframed: the method is the contribution, the result is a pilot. Website slide added to the deck outline.
+- Nov 20: website look = planning document (draft A). Dark operations map dropped: it suggests live, precise data we don't have, and it is cramped on phones. Kept from it: short faces drawn thicker, and a 'parking spaces given up' number so every scenario shows its cost.
