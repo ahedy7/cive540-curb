@@ -19,8 +19,10 @@ from data/derived/coverage.csv. A block filmed on three days counts three times.
 Model: Poisson GLM, events ~ predictor, offset log(exposure), robust (HC1) errors. With about
 ten events a negative binomial can't estimate its extra dispersion well, so it is a check.
 Predictors from loading.py, 07-11 window (filming was 08:15 to 11:00): the block's mismatch
-index and P(no space) at the peak hour, and demand alone (deliveries a day, log2, so the rate
-ratio is per doubling). Main scenario: high demand, 13.4 min dwell.
+index, P(no space) at the peak hour, demand alone (deliveries a day) and trucks that find no
+space in the window (arrivals x P(no space), summed over the window's hours). The last two on a
+log2(1 + x) scale, so the rate ratio is per doubling. A joint model of the last two asks whether
+the shortage adds anything once demand is known. Main scenario: high demand, 13.4 min dwell.
 
 Outputs: data/derived/dp_events.csv, dp_blocks.csv, printed results.
 
@@ -47,7 +49,7 @@ SIDEWALK_ONLY = {"20261113_L_4_000225", "20261113_L_4_000226", "20261113_L_4_000
 PARTIAL = [("20261111_F_1", 688, 692), ("20261111_F_1", 1039, 1041), ("20261111_F_1", 1638, 1643)]
 MAIN = ("high", 13.4)
 WINDOW = "07-11"
-SCALE = {"mi": 10, "p_no_space": 10, "log2_deliveries": 1}   # rate ratio per +0.1, per +0.1, per doubling
+SCALE = {"mi": 10, "p_no_space": 10, "log2_deliveries": 1, "log2_no_space": 1}   # per +0.1, +0.1, doubling, doubling
 
 
 # ---------------------------------------------------------------- events
@@ -115,9 +117,11 @@ def predictors(demand, dwell):
     m = pd.read_csv(DERIVED / "mismatch.csv")
     m = m[(m.window == WINDOW) & (m.demand == demand) & (m.dwell_min == dwell)]
     g = m.groupby("block").agg(required_m=("required_m", "sum"), supplied_m=("supplied_m", "sum"),
-                               p_no_space=("p_no_space", "first"), deliveries_day=("deliveries_day", "sum"))
+                               p_no_space=("p_no_space", "first"), deliveries_day=("deliveries_day", "sum"),
+                               no_space=("missed_in_window", "sum"))
     top = np.maximum(g.required_m, g.supplied_m)
     g["log2_deliveries"] = np.log2(1 + g.deliveries_day)
+    g["log2_no_space"] = np.log2(1 + g.no_space)   # trucks in the window that find no space
     g["mi"] = np.where(top > 0, (g.required_m - g.supplied_m) / top.where(top > 0, 1), 0.0)
     return g
 
@@ -176,6 +180,14 @@ def main():
     print("\nRate ratio of double parking per +0.1 in MI or P(no space), per doubling of deliveries (Poisson, robust 95% CI):")
     print(res.round(3).to_string(index=False))
     res.round(4).to_csv(DERIVED / "dp_model.csv", index=False)
+
+    X = add_constant(b[["log2_deliveries", "log2_no_space"]])
+    both = GLM(b.events, X, family=families.Poisson(), offset=np.log(b.exposure_100m)).fit(cov_type="HC1")
+    ci = np.exp(both.conf_int())
+    print("\nJoint model, main scenario (rate ratio per doubling, robust 95% CI):")
+    for x in X.columns[1:]:
+        print(f"  {x:16s} {np.exp(both.params[x]):.2f} ({ci.loc[x, 0]:.2f} to {ci.loc[x, 1]:.2f}), p {both.pvalues[x]:.3f}")
+    print(f"  correlation of the two: {b.log2_deliveries.corr(b.log2_no_space):.2f}")
     print("-> data/derived/dp_events.csv, dp_blocks.csv, dp_model.csv")
 
 
