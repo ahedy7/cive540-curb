@@ -22,7 +22,8 @@ const CurbModel = (() => {
 
   // params: window ("07-11"), demand ("low" | "high"), dwell (min), vacant (0-1),
   // convert (parking spaces per face turned into loading), convertWhere ("all" | "short"),
-  // offPeak (share of the window's deliveries moved out of it), bikes (share moved to cargo bikes)
+  // offPeak (share of the window's deliveries moved out of it), bikes (share moved to cargo bikes),
+  // shiftWhere ("all" | "short"): which blocks the off-peak and cargo-bike shifts apply to
   function run(features, model, p) {
     const w = p.window.replace("-", "_");
     const [h0, h1] = model.windows[p.window];
@@ -30,19 +31,24 @@ const CurbModel = (() => {
     const keep = (1 - p.offPeak) * (1 - p.bikes);
     const space = model.space_m;
 
-    // baseline shortage decides where conversions go when convertWhere = "short"
-    const base = p.convertWhere === "short" && p.convert > 0
-      ? run(features, model, { ...p, convert: 0 }).byId : null;
+    // "short" targets come from the scenario with nothing changed: a face is short when its
+    // mismatch index is over 0.25, a block when any of its faces is
+    const targeted = (p.convertWhere === "short" && p.convert > 0) || (p.shiftWhere === "short" && keep < 1);
+    const base = targeted ? run(features, model, { ...p, convert: 0, offPeak: 0, bikes: 0 }).byId : null;
+    const shortBlocks = new Set();
+    if (base) for (const r of base.values()) if (r.mi > 0.25) shortBlocks.add(r.block);
 
     const faces = features.map(f => {
       const q = f.properties;
       let loading = q[`loading_${w}`] || 0, parking = q[`parking_${w}`] || 0;
       const short = q[`short_term_${w}`] || 0;
-      const eligible = !base || base.get(q.id).mi > 0.25;
+      const eligible = p.convertWhere !== "short" || !base || base.get(q.id).mi > 0.25;
       const moved = eligible ? Math.min(p.convert * model.paid_space_m, parking) : 0;
+      const paidMoved = Math.min(moved, q[`paid_${w}`] || 0);   // paid spaces are converted first
       loading += moved; parking -= moved;
-      return { id: q.id, block: q.block, deliv: q[`deliv_${p.demand}`] * keep, moved,
-               usable: loading + short + p.vacant * parking };
+      const shifted = p.shiftWhere !== "short" || !base || shortBlocks.has(q.block);
+      return { id: q.id, block: q.block, deliv: q[`deliv_${p.demand}`] * (shifted ? keep : 1), moved, paidMoved,
+               loading, short, parking, usable: loading + short + p.vacant * parking };
     });
 
     const blocks = new Map();
@@ -70,17 +76,22 @@ const CurbModel = (() => {
       const required = b.need * space * share;
       const top = Math.max(required, f.usable);
       const mi = top > 0 ? (required - f.usable) / top : 0;
-      byId.set(f.id, { ...f, required, mi, p: b.p, missed: f.deliv * b.missedPerDeliv });
+      // parking revenue lost a weekday: paid spaces given up x rate x paid hours the loading zone
+      // takes x share of those hours a space would be occupied (1 - empty share)
+      const revenue = (f.paidMoved / model.paid_space_m) * model.rate_per_hour * model.lost_hours * (1 - p.vacant);
+      byId.set(f.id, { ...f, required, mi, p: b.p, need: b.need, missed: f.deliv * b.missedPerDeliv, revenue });
     }
 
-    let short = 0, shortM = 0, missed = 0, moved = 0;
+    let short = 0, shortM = 0, missed = 0, moved = 0, revenue = 0;
     for (const r of byId.values()) {
       if (r.mi > 0.25) short++;
       shortM += Math.max(0, r.required - r.usable);
       missed += r.missed;
       moved += r.moved;
+      revenue += r.revenue;
     }
-    return { byId, summary: { short, shortM, missed, spacesMoved: moved / model.paid_space_m } };
+    return { byId, summary: { short, shortM, missed, spacesMoved: moved / model.paid_space_m,
+                              revenueDay: revenue, revenueYear: revenue * model.weekdays } };
   }
 
   return { erlangB, spacesNeeded, run };

@@ -53,6 +53,14 @@
   .ramp { display: flex; gap: 2px; } .ramp i { width: 52px; height: 6px; display: block; }
   .ramp-l { display: flex; justify-content: space-between; gap: 12px; color: var(--ink2); margin-top: 3px; }
   .tabs { position: absolute; top: 14px; left: 14px; z-index: 2; background: var(--sheet); }
+  .card { position: absolute; top: 112px; right: 14px; width: 290px; max-height: calc(100% - 140px); overflow: auto; background: var(--sheet); border: 1px solid var(--ink); padding: 14px 16px; z-index: 4; font-size: 13px; }
+  .card h3 { font: 600 19px/1.2 var(--serif); margin: 0 24px 2px 0; }
+  .card .sub { color: var(--ink2); font-size: 12px; margin: 0 0 10px; }
+  .card h5 { font: 500 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); margin: 12px 0 4px; padding-top: 8px; border-top: 1px solid var(--rule); }
+  .card dl { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; margin: 0; }
+  .card dt { color: var(--ink2); } .card dd { margin: 0; font-family: var(--mono); text-align: right; }
+  .card .close { position: absolute; top: 8px; right: 10px; border: 0; background: none; font-size: 20px; line-height: 1; cursor: pointer; color: var(--ink2); }
+  .card .verdict { font-weight: 600; }
   .tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--sheet); padding: 9px 11px; font-size: 12.5px; border-radius: 3px; max-width: 260px; z-index: 3; }
   .tip b { font-family: var(--serif); font-weight: 600; font-size: 15px; display: block; margin-bottom: 4px; }
   .tip dl { display: grid; grid-template-columns: auto auto; gap: 1px 12px; margin: 0; }
@@ -81,7 +89,7 @@
     <div class="fig"><b id="k-short">–</b><span>block faces clearly short of loading space</span><span class="delta" id="d-short"></span></div>
     <div class="fig"><b id="k-metres">–</b><span>metres of loading curb missing</span><span class="delta" id="d-metres"></span></div>
     <div class="fig"><b id="k-missed">–</b><span>trucks a morning that find no space</span><span class="delta" id="d-missed"></span></div>
-    <div class="fig cost"><b id="k-moved">0</b><span>parking spaces given up for loading</span><span class="delta"></span></div>
+    <div class="fig cost"><b id="k-moved">0</b><span>parking spaces given up for loading</span><span class="delta" id="k-rev"></span></div>
   </section>
 
   <main>
@@ -112,6 +120,8 @@
       <input type="range" id="offpeak" min="0" max="0.5" step="0.05" value="0">
       <div class="row"><label for="bikes">Moved to cargo bikes</label><output id="o-bikes"></output></div>
       <input type="range" id="bikes" min="0" max="0.3" step="0.05" value="0">
+      <div class="row"><label>Apply these shifts to</label></div>
+      <div class="seg" id="shift"><button data-v="short">Blocks short of space</button><button data-v="all" aria-pressed="true">Every block</button></div>
 
       <div class="sec">Assumptions</div>
       <div class="row"><label>Demand scenario</label></div>
@@ -129,6 +139,7 @@
       </div>
       <div class="legend" id="legend"></div>
       <div class="tip" id="tip" hidden></div>
+      <div class="card" id="card" hidden></div>
     </div>
   </main>
 
@@ -159,8 +170,8 @@
 const MI = ["#1c5cab", "#86b6ef", "#c9c5b8", "#e9a093", "#b8432f"];
 const SEQ = ["#e3dccb", "#c9b996", "#a28a5a", "#6f5a31", "#3a2e17"];
 const OBS = ["#e3dccb", "#e9a093", "#b8432f"];
-const state = { window: "07-11", demand: "high", dwell: 13.4, vacant: 0.3, convert: 0, convertWhere: "short", offPeak: 0, bikes: 0, layer: "mi" };
-let geo, model, baseline;
+const state = { window: "07-11", demand: "high", dwell: 13.4, vacant: 0.3, convert: 0, convertWhere: "short", offPeak: 0, bikes: 0, shiftWhere: "all", layer: "mi" };
+let geo, model, baseline, last, selected = null;
 
 const $ = id => document.getElementById(id);
 const fmt = n => Math.round(n).toLocaleString("en-CA");
@@ -189,7 +200,7 @@ function legend(layer) {
 }
 
 function update() {
-  const r = CurbModel.run(geo.features, model, state);
+  const r = last = CurbModel.run(geo.features, model, state);
   for (const f of geo.features) {
     const q = f.properties, x = r.byId.get(q.id);
     q.mi = x.mi; q.active = x.required > 0 || x.usable > 0; q.deliv = x.deliv;
@@ -206,32 +217,64 @@ function update() {
   $("k-metres").textContent = fmt(s.shortM);
   $("k-missed").textContent = fmt(s.missed);
   $("k-moved").textContent = fmt(s.spacesMoved);
+  $("k-rev").textContent = s.revenueYear ? `about $${fmt(s.revenueYear / 1000)}k a year in parking revenue` : "";
   const d = (now, was) => (b && Math.round(now) !== Math.round(was)) ? `${now < was ? "−" : "+"}${fmt(Math.abs(now - was))} vs today` : "";
   $("d-short").textContent = d(s.short, b.short);
   $("d-metres").textContent = d(s.shortM, b.shortM);
   $("d-missed").textContent = d(s.missed, b.missed);
-  $("moved-note").textContent = s.spacesMoved ? `${fmt(s.spacesMoved)} parking spaces become loading curb.` : "";
+  $("moved-note").textContent = s.spacesMoved ? `${fmt(s.spacesMoved)} parking spaces become loading curb. Revenue assumes $4.25 an hour, 11 paid hours lost a weekday (loading 7 to 19), and paid spaces occupied ${Math.round((1 - state.vacant) * 100)}% of the time.` : "";
   $("o-convert").textContent = state.convert;
   $("o-offpeak").textContent = `${Math.round(state.offPeak * 100)}%`;
   $("o-bikes").textContent = `${Math.round(state.bikes * 100)}%`;
   $("o-dwell").textContent = state.dwell.toFixed(1);
   $("o-vacant").textContent = `${Math.round(state.vacant * 100)}%`;
+  if (selected) card(selected);
 }
+
+// details for one block face, kept open and updated while the settings change
+function card(id) {
+  const f = geo.features.find(x => x.properties.id === id);
+  if (!f) return;
+  const q = f.properties, x = last.byId.get(id), w = state.window.replace("-", "_");
+  const verdict = !(x.required > 0 || x.usable > 0) ? "No demand and no usable curb"
+    : x.mi > 0.25 ? "Short of loading space" : x.mi < -0.25 ? "More than enough space" : "About right";
+  const sampled = q.sampled === true;
+  $("card").innerHTML = `<button class="close" aria-label="Close">×</button>
+    <h3>${q.street}, ${q.side} side</h3><p class="sub">${q.id.split("_").slice(1, 3).join(" to ")} · ${fmt(q.len)} m · ${q.premises} businesses</p>
+    <p class="verdict">${verdict}</p>
+    <h5>Demand</h5><dl>
+      <dt>Deliveries a day, low / high</dt><dd>${(+q.deliv_low).toFixed(1)} / ${(+q.deliv_high).toFixed(1)}</dd>
+      <dt>In this scenario</dt><dd>${x.deliv.toFixed(1)}</dd></dl>
+    <h5>Curb at the ${state.window} peak hour</h5><dl>
+      <dt>Loading</dt><dd>${fmt(x.loading)} m</dd><dt>Short-term</dt><dd>${fmt(x.short)} m</dd>
+      <dt>Paid or free parking</dt><dd>${fmt(x.parking)} m</dd>
+      <dt>Usable for a delivery</dt><dd>${fmt(x.usable)} m</dd><dt>Needed</dt><dd>${fmt(x.required)} m</dd></dl>
+    <h5>Block (both sides)</h5><dl>
+      <dt>Spaces needed</dt><dd>${x.need}</dd><dt>Trucks finding no space</dt><dd>${Math.round(x.p * 100)}%</dd>
+      <dt>Trucks with no space, ${state.window}</dt><dd>${x.missed.toFixed(1)}</dd></dl>
+    ${x.moved ? `<h5>This scenario</h5><dl><dt>Parking turned into loading</dt><dd>${fmt(x.moved)} m</dd>
+      <dt>Revenue lost a weekday</dt><dd>$${fmt(x.revenue)}</dd></dl>` : ""}
+    ${sampled ? `<h5>Seen on video</h5><dl><dt>Double parking (block)</dt><dd>${q.dp_events} in ${q.dp_km} km</dd></dl>` : ""}`;
+  $("card").hidden = false;
+  map.setFilter("faces-sel", ["==", ["get", "id"], id]);
+}
+
+function closeCard() { selected = null; $("card").hidden = true; map.setFilter("faces-sel", ["==", ["get", "id"], ""]); }
 
 function sync() {
   for (const k of ["convert", "offpeak", "bikes", "dwell", "vacant"]) {
     const key = { offpeak: "offPeak" }[k] || k;
     $(k).value = state[key];
   }
-  for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["layer", "layer"]])
+  for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["shift", "shiftWhere"], ["layer", "layer"]])
     for (const btn of $(id).querySelectorAll("button")) btn.setAttribute("aria-pressed", btn.dataset.v === state[key]);
 }
 
 const PRESETS = {
-  today: { convert: 0, offPeak: 0, bikes: 0 },
-  convert: { convert: 1, convertWhere: "short", offPeak: 0, bikes: 0 },
-  offpeak: { convert: 0, offPeak: 0.3, bikes: 0 },
-  combined: { convert: 1, convertWhere: "short", offPeak: 0.3, bikes: 0.1 },
+  today: { convert: 0, offPeak: 0, bikes: 0, shiftWhere: "all" },
+  convert: { convert: 1, convertWhere: "short", offPeak: 0, bikes: 0, shiftWhere: "all" },
+  offpeak: { convert: 0, offPeak: 0.3, bikes: 0, shiftWhere: "all" },
+  combined: { convert: 1, convertWhere: "short", offPeak: 0.3, bikes: 0.1, shiftWhere: "all" },
 };
 
 const map = new maplibregl.Map({
@@ -248,6 +291,8 @@ map.once("style.load", async () => {   // draw as soon as the style is ready, no
     paint: { "line-width": ["interpolate", ["linear"], ["zoom"], 13, 1.2, 16, 3.5], "line-color": "#999" } });
   map.addLayer({ id: "faces-hi", type: "line", source: "faces", layout: { "line-cap": "round" },
     paint: { "line-width": ["interpolate", ["linear"], ["zoom"], 13, 2.6, 16, 7.5], "line-color": "#999" } });
+  map.addLayer({ id: "faces-sel", type: "line", source: "faces", filter: ["==", ["get", "id"], ""], layout: { "line-cap": "round" },
+    paint: { "line-width": ["interpolate", ["linear"], ["zoom"], 13, 5, 16, 12], "line-color": "#1d1c1a", "line-opacity": 0.85 } }, "faces");
   const pts = geo.features.flatMap(f => f.geometry.coordinates.flat());
   const fit = () => fitRotated(map, pts, -56, { top: 70, bottom: 80, left: 24, right: 24 });
   fit(); addEventListener("resize", fit);
@@ -268,9 +313,15 @@ map.once("style.load", async () => {   // draw as soon as the style is ready, no
     map.getCanvas().style.cursor = "pointer";
   });
   map.on("mouseleave", "faces", () => { $("tip").hidden = true; map.getCanvas().style.cursor = ""; });
+  map.on("click", e => {
+    const hit = map.queryRenderedFeatures([[e.point.x - 6, e.point.y - 6], [e.point.x + 6, e.point.y + 6]], { layers: ["faces", "faces-hi"] });
+    if (!hit.length) return closeCard();
+    selected = hit[0].properties.id; $("tip").hidden = true; card(selected);
+  });
+  $("card").addEventListener("click", e => { if (e.target.classList.contains("close")) closeCard(); });
 });
 
-for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["layer", "layer"]])
+for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["shift", "shiftWhere"], ["layer", "layer"]])
   $(id).addEventListener("click", e => {
     if (!e.target.dataset.v) return;
     state[key] = e.target.dataset.v;

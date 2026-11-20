@@ -141,8 +141,8 @@ Other sources to consider later: STM GTFS (bus stops), BIXI stations, OpenStreet
 - [ ] Analysis
 - [ ] Website
   - [x] Look chosen (Nov 20): planning document (light, editorial), built at docs/index.html. docs/model.js runs the loading model in the browser and matches loading.py on all 522 faces. Data from analysis/web_data.py. Screenshot for slide 12: figures/website.png
-  - [ ] Turn on GitHub Pages (Settings > Pages > main /docs). Repo is private, so Pages needs GitHub Pro (free with the Student Pack) or a public repo. The site itself is public once on
-  - [ ] Revenue lost (Places.csv rates), per-block off-peak shifts, click a face for details
+  - [x] Repo made public and GitHub Pages on (Nov 20): https://ahedy7.github.io/cive540-curb/ (main, /docs)
+  - [x] Revenue lost, shifts per block, click a face for details (Nov 20). Revenue = paid spaces converted x $4.25/h (every space in Places.csv) x 11 h a weekday (paid 08-23, loading assumed 07-19) x (1 - empty share) x 250 weekdays. 1 space on each short face: 38 spaces, about $205k a year
 - [ ] Report and presentation
 
 ## Timeline

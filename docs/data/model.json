@@ -7,6 +7,9 @@
   13.4,
   16.5
  ],
+ "rate_per_hour": 4.25,
+ "lost_hours": 11,
+ "weekdays": 250,
  "windows": {
   "07-11": [
    7,
