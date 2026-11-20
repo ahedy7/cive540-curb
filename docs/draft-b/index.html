@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curb Console · Downtown Montréal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0e1013; --panel: rgba(20, 23, 28, .92); --line: #2a2f37; --ink: #e8e6e1; --ink2: #9aa0a8; --dim: #5f6670;
+    --hot: #ff6b3d; --cold: #4da3ff; --ok: #7bd389;
+    --sans: "IBM Plex Sans Condensed", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); }
+  #map { position: fixed; inset: 0; }
+  .panel { position: fixed; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(6px); border-radius: 6px; z-index: 2; }
+  .id { top: 16px; left: 16px; padding: 14px 16px; width: 340px; }
+  .id small { font: 500 11px var(--mono); color: var(--dim); letter-spacing: .1em; text-transform: uppercase; }
+  .id h1 { font: 600 22px/1.15 var(--sans); margin: 6px 0 6px; }
+  .id p { margin: 0 0 12px; color: var(--ink2); font-size: 13px; }
+  .seg { display: flex; gap: 2px; background: #0a0c0f; border: 1px solid var(--line); border-radius: 4px; padding: 2px; }
+  .seg button { flex: 1; border: 0; background: transparent; color: var(--ink2); font: 500 12px var(--mono); padding: 6px 4px; border-radius: 3px; cursor: pointer; }
+  .seg button[aria-pressed=true] { background: #252a32; color: var(--ink); }
+  .lbl { font: 500 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin: 12px 0 5px; }
+  .ctl { top: 16px; right: 16px; padding: 14px 16px; width: 300px; max-height: calc(100vh - 140px); overflow: auto; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; margin: 10px 0 2px; font-size: 13px; color: var(--ink2); }
+  .row output { font: 500 12.5px var(--mono); color: var(--ink); }
+  input[type=range] { width: 100%; accent-color: var(--hot); }
+  .presets { display: grid; gap: 4px; }
+  .presets button { text-align: left; background: #0a0c0f; color: var(--ink); border: 1px solid var(--line); padding: 7px 9px; border-radius: 4px; font: 13px var(--sans); cursor: pointer; }
+  .presets button:hover { border-color: var(--hot); }
+  .presets button span { font: 11px var(--mono); color: var(--dim); margin-right: 6px; }
+  .kpis { left: 16px; right: 332px; bottom: 16px; display: grid; grid-template-columns: repeat(4, 1fr); padding: 0; overflow: hidden; }
+  .kpi { padding: 12px 16px; border-right: 1px solid var(--line); }
+  .kpi:last-child { border-right: 0; }
+  .kpi b { display: block; font: 700 28px/1.1 var(--mono); letter-spacing: -.02em; }
+  .kpi span { font-size: 12px; color: var(--ink2); }
+  .kpi i { font: normal 500 11.5px var(--mono); display: block; min-height: 1.2em; }
+  .down { color: var(--ok); } .up { color: var(--hot); }
+  .legend { margin-top: 12px; font: 11px var(--mono); color: var(--ink2); }
+  .ramp { display: flex; gap: 2px; margin: 4px 0 2px; } .ramp i { flex: 1; height: 5px; display: block; border-radius: 1px; }
+  .ramp-l { display: flex; justify-content: space-between; }
+  .tip { position: fixed; pointer-events: none; background: #050607; border: 1px solid var(--line); padding: 9px 11px; font-size: 12.5px; border-radius: 4px; z-index: 5; min-width: 220px; }
+  .tip b { display: block; font: 600 14px var(--sans); margin-bottom: 5px; }
+  .tip dl { display: grid; grid-template-columns: 1fr auto; gap: 1px 14px; margin: 0; }
+  .tip dt { color: var(--ink2); } .tip dd { margin: 0; font-family: var(--mono); }
+  .warn { font-size: 11.5px; color: var(--dim); margin: 10px 0 0; border-top: 1px solid var(--line); padding-top: 8px; }
+  @media (max-width: 860px) {
+    .id { right: 16px; width: auto; } .ctl { top: auto; bottom: 120px; left: 16px; right: 16px; width: auto; max-height: 38vh; }
+    .kpis { right: 16px; grid-template-columns: repeat(2, 1fr); } .kpi:nth-child(2) { border-right: 0; }
+  }
+</style>
+</head>
+<body>
+<div id="map" role="img" aria-label="Dark map of block faces coloured by the selected layer"></div>
+
+<section class="panel id">
+  <small>CIVE 540 · Curb console · Downtown MTL</small>
+  <h1>Loading curb, block by block</h1>
+  <p>Modelled from City open data, checked against three mornings of video. Hover a block face for its numbers.</p>
+  <div class="lbl">Layer</div>
+  <div class="seg" id="layer"><button data-v="mi" aria-pressed="true">SHORTAGE</button><button data-v="deliv">DEMAND</button><button data-v="obs">OBSERVED</button></div>
+  <div class="lbl">Window</div>
+  <div class="seg" id="window"><button data-v="07-11" aria-pressed="true">07–11</button><button data-v="11-15">11–15</button><button data-v="15-19">15–19</button></div>
+  <div class="legend" id="legend"></div>
+</section>
+
+<section class="panel ctl">
+  <div class="lbl" style="margin-top:0">Scenarios</div>
+  <div class="presets">
+    <button data-preset="today"><span>00</span>Baseline, as signed</button>
+    <button data-preset="convert"><span>01</span>+1 loading space on short faces</button>
+    <button data-preset="offpeak"><span>02</span>30% of deliveries off-peak</button>
+    <button data-preset="combined"><span>03</span>01 + 02 + 10% cargo bikes</button>
+  </div>
+  <div class="lbl">Curb</div>
+  <div class="row"><label for="convert">Parking → loading, spaces per face</label><output id="o-convert"></output></div>
+  <input type="range" id="convert" min="0" max="4" step="1" value="0">
+  <div class="seg" id="where" style="margin-top:6px"><button data-v="short" aria-pressed="true">SHORT FACES</button><button data-v="all">ALL FACES</button></div>
+  <div class="lbl">Deliveries</div>
+  <div class="row"><label for="offpeak">Shifted off-peak</label><output id="o-offpeak"></output></div>
+  <input type="range" id="offpeak" min="0" max="0.5" step="0.05" value="0">
+  <div class="row"><label for="bikes">Shifted to cargo bikes</label><output id="o-bikes"></output></div>
+  <input type="range" id="bikes" min="0" max="0.3" step="0.05" value="0">
+  <div class="lbl">Assumptions</div>
+  <div class="seg" id="demand"><button data-v="low">LOW DEMAND</button><button data-v="high" aria-pressed="true">HIGH DEMAND</button></div>
+  <div class="row"><label for="dwell">Truck dwell, min</label><output id="o-dwell"></output></div>
+  <input type="range" id="dwell" min="8" max="20" step="0.1" value="13.4">
+  <div class="row"><label for="vacant">Empty share of parking</label><output id="o-vacant"></output></div>
+  <input type="range" id="vacant" min="0.15" max="0.5" step="0.05" value="0.3">
+  <p class="warn">Model output. On video, double parking tracked business density, not this shortage (9 events, low power).</p>
+</section>
+
+<section class="panel kpis" aria-live="polite">
+  <div class="kpi"><b id="k-short">–</b><span>faces short of loading</span><i id="d-short"></i></div>
+  <div class="kpi"><b id="k-metres">–</b><span>metres missing</span><i id="d-metres"></i></div>
+  <div class="kpi"><b id="k-missed">–</b><span>trucks finding no space</span><i id="d-missed"></i></div>
+  <div class="kpi"><b id="k-moved">0</b><span>parking spaces given up</span><i></i></div>
+</section>
+<div class="tip" id="tip" hidden></div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="../model.js"></script>
+<script src="../map-fit.js"></script>
+<script>
+const MI = ["#2f7fe0", "#1d3d66", "#3a3f47", "#a4482a", "#ff6b3d"];
+const SEQ = ["#22303f", "#2d5a85", "#3f86c9", "#79b6f0", "#cfe6ff"];
+const OBS = ["#3a3f47", "#a4482a", "#ff6b3d"];
+const state = { window: "07-11", demand: "high", dwell: 13.4, vacant: 0.3, convert: 0, convertWhere: "short", offPeak: 0, bikes: 0, layer: "mi" };
+let geo, model, baseline;
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString("en-CA");
+
+function colour(layer) {
+  if (layer === "mi") return ["case", ["!", ["get", "active"]], "#1b1f25",
+    ["step", ["get", "mi"], MI[0], -0.5, MI[1], -0.25, MI[2], 0.25, MI[3], 0.75, MI[4]]];
+  if (layer === "deliv") return ["step", ["get", "deliv"], SEQ[0], 1, SEQ[1], 3, SEQ[2], 6, SEQ[3], 12, SEQ[4]];
+  return ["case", ["!", ["get", "sampled"]], "#1b1f25", ["==", ["get", "dp_events"], 0], OBS[0], ["<", ["get", "dp_rate"], 0.6], OBS[1], OBS[2]];
+}
+// faces worth seeing are drawn again, wider, on top (a zoom curve with data-driven stops did not render)
+function highlight(layer) {
+  return layer === "mi" ? [">", ["get", "mi"], 0.25] : layer === "deliv" ? [">=", ["get", "deliv"], 6]
+    : ["all", ["==", ["get", "sampled"], true], [">", ["get", "dp_events"], 0]];
+}
+function legend(layer) {
+  const L = { mi: ["Supply vs need", MI, ["surplus", "balanced", "short"]],
+              deliv: ["Deliveries / weekday", SEQ, ["<1", "6", "12+"]],
+              obs: ["Double parking / km filmed", OBS, ["0", "", "1+"]] }[layer];
+  $("legend").innerHTML = `${L[0]}<div class="ramp">${L[1].map(c => `<i style="background:${c}"></i>`).join("")}</div>` +
+    `<div class="ramp-l">${L[2].map(t => `<span>${t}</span>`).join("")}</div>`;
+}
+function delta(el, now, was) {
+  const d = Math.round(now) - Math.round(was);
+  el.textContent = d ? `${d < 0 ? "▼" : "▲"} ${fmt(Math.abs(d))}` : "";
+  el.className = d < 0 ? "down" : d > 0 ? "up" : "";
+}
+function update() {
+  const r = CurbModel.run(geo.features, model, state);
+  for (const f of geo.features) {
+    const q = f.properties, x = r.byId.get(q.id);
+    Object.assign(q, { mi: x.mi, active: x.required > 0 || x.usable > 0, deliv: x.deliv, required: x.required, usable: x.usable, p: x.p,
+                       dp_rate: q.dp_km ? q.dp_events / q.dp_km : 0 });
+  }
+  map.getSource("faces").setData(geo);
+  map.setPaintProperty("faces", "line-color", colour(state.layer));
+  map.setPaintProperty("faces-hi", "line-color", colour(state.layer));
+  map.setFilter("faces-hi", highlight(state.layer));
+  legend(state.layer);
+  const s = r.summary;
+  $("k-short").textContent = fmt(s.short); delta($("d-short"), s.short, baseline.short);
+  $("k-metres").textContent = fmt(s.shortM); delta($("d-metres"), s.shortM, baseline.shortM);
+  $("k-missed").textContent = fmt(s.missed); delta($("d-missed"), s.missed, baseline.missed);
+  $("k-moved").textContent = fmt(s.spacesMoved);
+  $("o-convert").textContent = state.convert;
+  $("o-offpeak").textContent = `${Math.round(state.offPeak * 100)}%`;
+  $("o-bikes").textContent = `${Math.round(state.bikes * 100)}%`;
+  $("o-dwell").textContent = state.dwell.toFixed(1);
+  $("o-vacant").textContent = `${Math.round(state.vacant * 100)}%`;
+}
+function rebase() { baseline = CurbModel.run(geo.features, model, { ...state, convert: 0, offPeak: 0, bikes: 0 }).summary; }
+function sync() {
+  for (const [id, key] of [["convert", "convert"], ["offpeak", "offPeak"], ["bikes", "bikes"], ["dwell", "dwell"], ["vacant", "vacant"]]) $(id).value = state[key];
+  for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["layer", "layer"]])
+    for (const b of $(id).querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.v === state[key]);
+}
+const PRESETS = {
+  today: { convert: 0, offPeak: 0, bikes: 0 },
+  convert: { convert: 1, convertWhere: "short", offPeak: 0, bikes: 0 },
+  offpeak: { convert: 0, offPeak: 0.3, bikes: 0 },
+  combined: { convert: 1, convertWhere: "short", offPeak: 0.3, bikes: 0.1 },
+};
+
+const map = new maplibregl.Map({
+  container: "map", style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+  center: [-73.5745, 45.5005], zoom: 14.6, bearing: -56, attributionControl: { compact: true },
+});
+map.once("style.load", async () => {   // draw as soon as the style is ready, not after every tile
+  [geo, model] = await Promise.all([fetch("../data/blockfaces.geojson").then(r => r.json()), fetch("../data/model.json").then(r => r.json())]);
+  rebase();
+  map.addSource("faces", { type: "geojson", data: geo });
+  map.addLayer({ id: "faces", type: "line", source: "faces", layout: { "line-cap": "round" },
+    paint: { "line-color": "#555", "line-width": ["interpolate", ["linear"], ["zoom"], 13, 1.2, 16, 3] } });
+  map.addLayer({ id: "faces-hi", type: "line", source: "faces", layout: { "line-cap": "round" },
+    paint: { "line-color": "#555", "line-width": ["interpolate", ["linear"], ["zoom"], 13, 2.5, 16, 7] } });
+  const pts = geo.features.flatMap(f => f.geometry.coordinates.flat());
+  const fit = () => fitRotated(map, pts, -56, innerWidth > 860
+    ? { top: 40, bottom: 120, left: 372, right: 332 } : { top: 300, bottom: 140, left: 16, right: 16 });
+  fit(); addEventListener("resize", fit);
+  update();
+  map.on("mousemove", "faces", e => {
+    const q = e.features[0].properties;
+    const obs = (q.sampled === true || q.sampled === "true") ? `<dt>Seen double parked</dt><dd>${q.dp_events} / ${q.dp_km} km</dd>` : "";
+    $("tip").innerHTML = `<b>${q.street} · ${q.side}</b><dl><dt>Deliveries / day</dt><dd>${(+q.deliv).toFixed(1)}</dd>
+      <dt>Usable curb</dt><dd>${fmt(q.usable)} m</dd><dt>Needed</dt><dd>${fmt(q.required)} m</dd>
+      <dt>P(no space)</dt><dd>${Math.round(q.p * 100)}%</dd>${obs}</dl>`;
+    $("tip").style.left = `${Math.min(e.originalEvent.clientX + 14, innerWidth - 250)}px`;
+    $("tip").style.top = `${e.originalEvent.clientY + 14}px`;
+    $("tip").hidden = false; map.getCanvas().style.cursor = "crosshair";
+  });
+  map.on("mouseleave", "faces", () => { $("tip").hidden = true; map.getCanvas().style.cursor = ""; });
+});
+for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["layer", "layer"]])
+  $(id).addEventListener("click", e => {
+    if (!e.target.dataset.v) return;
+    state[key] = e.target.dataset.v;
+    if (key === "window" || key === "demand") rebase();
+    sync(); update();
+  });
+for (const [id, key] of [["convert", "convert"], ["offpeak", "offPeak"], ["bikes", "bikes"], ["dwell", "dwell"], ["vacant", "vacant"]])
+  $(id).addEventListener("input", e => { state[key] = +e.target.value; if (key === "dwell" || key === "vacant") rebase(); update(); });
+document.querySelector(".presets").addEventListener("click", e => {
+  const btn = e.target.closest("button"); const p = btn && PRESETS[btn.dataset.preset];
+  if (!p) return; Object.assign(state, p); sync(); update();
+});
+sync();
+</script>
+</body>
+</html>

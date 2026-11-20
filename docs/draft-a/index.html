@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curb for Deliveries · Downtown Montréal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f6f3ec; --sheet: #fbf9f4; --ink: #1d1c1a; --ink2: #5b5850; --rule: #d9d4c7;
+    --accent: #b8432f; --blue: #1c5cab;
+    --serif: "Newsreader", Georgia, serif; --sans: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.55 var(--sans); }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 40px 0 24px; border-bottom: 2px solid var(--ink); }
+  .kicker { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); display: flex; gap: 18px; flex-wrap: wrap; }
+  h1 { font: 600 clamp(32px, 4.6vw, 56px)/1.04 var(--serif); margin: 18px 0 14px; max-width: 18ch; letter-spacing: -.01em; }
+  .dek { font: 400 19px/1.45 var(--serif); color: var(--ink2); max-width: 62ch; margin: 0; }
+  .figures { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--rule); }
+  .fig { padding: 18px 18px 18px 0; border-right: 1px solid var(--rule); }
+  .fig + .fig { padding-left: 18px; }
+  .fig:last-child { border-right: 0; }
+  .fig b { display: block; font: 500 clamp(28px, 3.4vw, 42px)/1 var(--mono); letter-spacing: -.02em; }
+  .fig span { font-size: 13px; color: var(--ink2); }
+  .fig .delta { font: 12px var(--mono); color: var(--blue); min-height: 1.2em; display: block; }
+  main { display: grid; grid-template-columns: 330px 1fr; align-items: start; gap: 0; margin: 24px 0 0; border: 1px solid var(--rule); background: var(--sheet); }
+  aside { border-right: 1px solid var(--rule); padding: 18px 20px 20px; }
+  .sec { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); margin: 18px 0 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
+  .sec:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+  .row { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 6px; margin: 10px 0 2px; font-size: 13.5px; }
+  .row output { font: 500 13px var(--mono); }
+  input[type=range] { width: 100%; accent-color: var(--ink); }
+  .seg { display: flex; border: 1px solid var(--ink); border-radius: 3px; overflow: hidden; }
+  .seg button { flex: 1; border: 0; background: transparent; padding: 7px 4px; font: 500 12.5px var(--sans); color: var(--ink); cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--ink); }
+  .seg button[aria-pressed=true] { background: var(--ink); color: var(--sheet); }
+  .presets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .presets button { text-align: left; border: 1px solid var(--rule); background: var(--paper); padding: 8px 9px; font: 12.5px/1.3 var(--sans); cursor: pointer; border-radius: 3px; }
+  .presets button:hover { border-color: var(--ink); }
+  .note { font-size: 12px; color: var(--ink2); margin: 6px 0 0; }
+  .mapbox { position: sticky; top: 0; height: min(100vh, 820px); }
+  #map { position: absolute; inset: 0; }
+  .legend { position: absolute; left: 14px; bottom: 14px; background: rgba(251,249,244,.94); border: 1px solid var(--rule); padding: 10px 12px; font-size: 12px; }
+  .legend h4 { margin: 0 0 6px; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); }
+  .ramp { display: flex; gap: 2px; } .ramp i { width: 38px; height: 6px; display: block; }
+  .ramp-l { display: flex; justify-content: space-between; color: var(--ink2); margin-top: 3px; }
+  .tabs { position: absolute; top: 14px; left: 14px; z-index: 2; background: var(--sheet); }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--sheet); padding: 9px 11px; font-size: 12.5px; border-radius: 3px; max-width: 260px; z-index: 3; }
+  .tip b { font-family: var(--serif); font-weight: 600; font-size: 15px; display: block; margin-bottom: 4px; }
+  .tip dl { display: grid; grid-template-columns: auto auto; gap: 1px 12px; margin: 0; }
+  .tip dt { color: #b9b4a6; } .tip dd { margin: 0; font-family: var(--mono); text-align: right; }
+  article { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 36px 0 24px; border-bottom: 1px solid var(--rule); }
+  article h2 { font: 600 26px/1.15 var(--serif); margin: 0 0 10px; }
+  article p { margin: 0 0 10px; max-width: 58ch; }
+  .caveat { border-left: 3px solid var(--accent); padding-left: 14px; }
+  footer { padding: 18px 0 40px; font-size: 12px; color: var(--ink2); }
+  @media (max-width: 860px) {
+    main { grid-template-columns: 1fr; } aside { border-right: 0; border-bottom: 1px solid var(--rule); }
+    .mapbox { min-height: 70vh; } article { grid-template-columns: 1fr; gap: 16px; }
+    .figures { grid-template-columns: 1fr; } .fig, .fig + .fig { border-right: 0; border-bottom: 1px solid var(--rule); padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker"><span>CIVE 540 · McGill · Fall 2026</span><span>Curb study</span><span>Downtown Montréal</span></div>
+    <h1>Where downtown runs out of curb for deliveries</h1>
+    <p class="dek">A model of 522 block faces between Sherbrooke and René-Lévesque, Atwater and De Bleury, built from City open data and checked against three mornings of video. Move the settings to test how much curb would close the gap.</p>
+  </header>
+
+  <section class="figures" aria-live="polite">
+    <div class="fig"><b id="k-short">–</b><span>block faces clearly short of loading space</span><span class="delta" id="d-short"></span></div>
+    <div class="fig"><b id="k-metres">–</b><span>metres of loading curb missing</span><span class="delta" id="d-metres"></span></div>
+    <div class="fig"><b id="k-missed">–</b><span>trucks a morning that find no space</span><span class="delta" id="d-missed"></span></div>
+  </section>
+
+  <main>
+    <aside>
+      <div class="sec">Scenario</div>
+      <div class="presets">
+        <button data-preset="today">Today, as signed</button>
+        <button data-preset="convert">Turn 1 parking space into loading where short</button>
+        <button data-preset="offpeak">Move 30% of deliveries off-peak</button>
+        <button data-preset="combined">Both, plus 10% cargo bikes</button>
+      </div>
+
+      <div class="sec">Time of day</div>
+      <div class="seg" id="window">
+        <button data-v="07-11" aria-pressed="true">7–11</button><button data-v="11-15">11–15</button><button data-v="15-19">15–19</button>
+      </div>
+
+      <div class="sec">Change the curb</div>
+      <div class="row"><label for="convert">Parking spaces turned into loading, per face</label><output id="o-convert"></output></div>
+      <input type="range" id="convert" min="0" max="4" step="1" value="0">
+      <div class="seg" id="where" style="margin-top:8px">
+        <button data-v="short" aria-pressed="true">Only where short</button><button data-v="all">Every face</button>
+      </div>
+      <p class="note" id="moved-note"></p>
+
+      <div class="sec">Change the deliveries</div>
+      <div class="row"><label for="offpeak">Moved outside the window (off-peak)</label><output id="o-offpeak"></output></div>
+      <input type="range" id="offpeak" min="0" max="0.5" step="0.05" value="0">
+      <div class="row"><label for="bikes">Moved to cargo bikes</label><output id="o-bikes"></output></div>
+      <input type="range" id="bikes" min="0" max="0.3" step="0.05" value="0">
+
+      <div class="sec">Assumptions</div>
+      <div class="row"><label>Demand scenario</label></div>
+      <div class="seg" id="demand"><button data-v="low">Low</button><button data-v="high" aria-pressed="true">High</button></div>
+      <div class="row"><label for="dwell">Time a truck stays (min)</label><output id="o-dwell"></output></div>
+      <input type="range" id="dwell" min="8" max="20" step="0.1" value="13.4">
+      <div class="row"><label for="vacant">Parking that is empty</label><output id="o-vacant"></output></div>
+      <input type="range" id="vacant" min="0.15" max="0.5" step="0.05" value="0.3">
+    </aside>
+
+    <div class="mapbox">
+      <div id="map" role="img" aria-label="Map of block faces coloured by the selected layer"></div>
+      <div class="tabs seg" id="layer">
+        <button data-v="mi" aria-pressed="true">Shortage</button><button data-v="deliv">Deliveries</button><button data-v="obs">Seen on video</button>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="tip" id="tip" hidden></div>
+    </div>
+  </main>
+
+  <article>
+    <div>
+      <h2>What the street showed</h2>
+      <p>We filmed 62 sampled block faces on three weekday mornings and checked every candidate frame by hand. We found 9 double-parking events over 14.2 km of curb driven past.</p>
+      <p>Blocks with more businesses had about four times the double parking of quieter blocks. Blocks the model calls short of loading space did not have clearly more.</p>
+    </div>
+    <div class="caveat">
+      <h2>Read the map with care</h2>
+      <p>The shortage map is a model, not a count. Nine events is a small sample, so the test could not rule out a real effect of curb supply. A plain count of businesses predicted double parking as well as the full model. Treat the map as a way to compare blocks and test ideas, not as a measured truth.</p>
+    </div>
+  </article>
+
+  <footer>Data: Ville de Montréal open data and Agence de mobilité durable (CC BY 4.0). Basemap © CARTO, © OpenStreetMap contributors. Draft A, for review.</footer>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="../model.js"></script>
+<script src="../map-fit.js"></script>
+<script>
+const MI = ["#1c5cab", "#86b6ef", "#c9c5b8", "#e9a093", "#b8432f"];
+const SEQ = ["#e3dccb", "#c9b996", "#a28a5a", "#6f5a31", "#3a2e17"];
+const OBS = ["#e3dccb", "#e9a093", "#b8432f"];
+const state = { window: "07-11", demand: "high", dwell: 13.4, vacant: 0.3, convert: 0, convertWhere: "short", offPeak: 0, bikes: 0, layer: "mi" };
+let geo, model, baseline;
+
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString("en-CA");
+
+function colour(layer) {
+  if (layer === "mi") return ["case", ["!", ["get", "active"]], "#ddd8cb",
+    ["step", ["get", "mi"], MI[0], -0.5, MI[1], -0.25, MI[2], 0.25, MI[3], 0.75, MI[4]]];
+  if (layer === "deliv") return ["step", ["get", "deliv"], SEQ[0], 1, SEQ[1], 3, SEQ[2], 6, SEQ[3], 12, SEQ[4]];
+  return ["case", ["!", ["get", "sampled"]], "#e6e1d4", ["==", ["get", "dp_events"], 0], OBS[0], ["<", ["get", "dp_rate"], 0.6], OBS[1], OBS[2]];
+}
+
+function legend(layer) {
+  const L = {
+    mi: ["Loading space vs need", MI, ["more than enough", "about right", "very short"]],
+    deliv: ["Deliveries a weekday", SEQ, ["under 1", "6", "12 or more"]],
+    obs: ["Double parking seen, per km", OBS, ["none", "", "1 or more"]],
+  }[layer];
+  $("legend").innerHTML = `<h4>${L[0]}</h4><div class="ramp">${L[1].map(c => `<i style="background:${c}"></i>`).join("")}</div>` +
+    `<div class="ramp-l">${L[2].map(t => `<span>${t}</span>`).join("")}</div>`;
+}
+
+function update() {
+  const r = CurbModel.run(geo.features, model, state);
+  for (const f of geo.features) {
+    const q = f.properties, x = r.byId.get(q.id);
+    q.mi = x.mi; q.active = x.required > 0 || x.usable > 0; q.deliv = x.deliv;
+    q.required = x.required; q.usable = x.usable; q.p = x.p;
+    q.dp_rate = q.dp_km ? q.dp_events / q.dp_km : 0;
+  }
+  map.getSource("faces").setData(geo);
+  map.setPaintProperty("faces", "line-color", colour(state.layer));
+  legend(state.layer);
+  const s = r.summary, b = baseline;
+  $("k-short").textContent = fmt(s.short);
+  $("k-metres").textContent = fmt(s.shortM);
+  $("k-missed").textContent = fmt(s.missed);
+  const d = (now, was) => (b && Math.round(now) !== Math.round(was)) ? `${now < was ? "−" : "+"}${fmt(Math.abs(now - was))} vs today` : "";
+  $("d-short").textContent = d(s.short, b.short);
+  $("d-metres").textContent = d(s.shortM, b.shortM);
+  $("d-missed").textContent = d(s.missed, b.missed);
+  $("moved-note").textContent = s.spacesMoved ? `${fmt(s.spacesMoved)} parking spaces become loading curb.` : "";
+  $("o-convert").textContent = state.convert;
+  $("o-offpeak").textContent = `${Math.round(state.offPeak * 100)}%`;
+  $("o-bikes").textContent = `${Math.round(state.bikes * 100)}%`;
+  $("o-dwell").textContent = state.dwell.toFixed(1);
+  $("o-vacant").textContent = `${Math.round(state.vacant * 100)}%`;
+}
+
+function sync() {
+  for (const k of ["convert", "offpeak", "bikes", "dwell", "vacant"]) {
+    const key = { offpeak: "offPeak" }[k] || k;
+    $(k).value = state[key];
+  }
+  for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["layer", "layer"]])
+    for (const btn of $(id).querySelectorAll("button")) btn.setAttribute("aria-pressed", btn.dataset.v === state[key]);
+}
+
+const PRESETS = {
+  today: { convert: 0, offPeak: 0, bikes: 0 },
+  convert: { convert: 1, convertWhere: "short", offPeak: 0, bikes: 0 },
+  offpeak: { convert: 0, offPeak: 0.3, bikes: 0 },
+  combined: { convert: 1, convertWhere: "short", offPeak: 0.3, bikes: 0.1 },
+};
+
+const map = new maplibregl.Map({
+  container: "map", style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+  center: [-73.5745, 45.5005], zoom: 14.6, bearing: -56, attributionControl: { compact: true },
+});
+map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
+
+map.once("style.load", async () => {   // draw as soon as the style is ready, not after every tile
+  [geo, model] = await Promise.all([fetch("../data/blockfaces.geojson").then(r => r.json()), fetch("../data/model.json").then(r => r.json())]);
+  baseline = CurbModel.run(geo.features, model, { ...state }).summary;
+  map.addSource("faces", { type: "geojson", data: geo });
+  map.addLayer({ id: "faces", type: "line", source: "faces", layout: { "line-cap": "round" },
+    paint: { "line-width": ["interpolate", ["linear"], ["zoom"], 13, 1.5, 16, 5], "line-color": "#999" } });
+  const pts = geo.features.flatMap(f => f.geometry.coordinates.flat());
+  const fit = () => fitRotated(map, pts, -56, { top: 70, bottom: 80, left: 24, right: 24 });
+  fit(); addEventListener("resize", fit);
+  update();
+
+  map.on("mousemove", "faces", e => {
+    const q = e.features[0].properties;
+    const obs = q.sampled === true || q.sampled === "true"
+      ? `<dt>Double parking seen</dt><dd>${q.dp_events} on ${q.dp_km} km</dd>` : "";
+    $("tip").innerHTML = `<b>${q.street}, ${q.side} side</b><dl>
+      <dt>Deliveries a day</dt><dd>${(+q.deliv).toFixed(1)}</dd>
+      <dt>Usable curb</dt><dd>${fmt(q.usable)} m</dd><dt>Needed</dt><dd>${fmt(q.required)} m</dd>
+      <dt>Trucks finding no space</dt><dd>${Math.round(q.p * 100)}%</dd>${obs}</dl>`;
+    const box = map.getContainer().getBoundingClientRect();
+    $("tip").style.left = `${Math.min(e.point.x + 14, box.width - 270)}px`;
+    $("tip").style.top = `${e.point.y + 14}px`;
+    $("tip").hidden = false;
+    map.getCanvas().style.cursor = "pointer";
+  });
+  map.on("mouseleave", "faces", () => { $("tip").hidden = true; map.getCanvas().style.cursor = ""; });
+});
+
+for (const [id, key] of [["window", "window"], ["demand", "demand"], ["where", "convertWhere"], ["layer", "layer"]])
+  $(id).addEventListener("click", e => {
+    if (!e.target.dataset.v) return;
+    state[key] = e.target.dataset.v;
+    if (key === "window" || key === "demand") baseline = CurbModel.run(geo.features, model, { ...state, convert: 0, offPeak: 0, bikes: 0 }).summary;
+    sync(); update();
+  });
+for (const [id, key] of [["convert", "convert"], ["offpeak", "offPeak"], ["bikes", "bikes"], ["dwell", "dwell"], ["vacant", "vacant"]])
+  $(id).addEventListener("input", e => {
+    state[key] = +e.target.value;
+    if (key === "dwell" || key === "vacant") baseline = CurbModel.run(geo.features, model, { ...state, convert: 0, offPeak: 0, bikes: 0 }).summary;
+    update();
+  });
+document.querySelector(".presets").addEventListener("click", e => {
+  const p = PRESETS[e.target.dataset.preset];
+  if (!p) return;
+  Object.assign(state, p); sync(); update();
+});
+sync();
+</script>
+</body>
+</html>
