@@ -49,7 +49,7 @@ SIDEWALK_ONLY = {"20261113_L_4_000225", "20261113_L_4_000226", "20261113_L_4_000
 PARTIAL = [("20261111_F_1", 688, 692), ("20261111_F_1", 1039, 1041), ("20261111_F_1", 1638, 1643)]
 MAIN = ("high", 13.4)
 WINDOW = "07-11"
-SCALE = {"mi": 10, "p_no_space": 10, "log2_deliveries": 1, "log2_no_space": 1}   # per +0.1, +0.1, doubling, doubling
+SCALE = {"mi": 10, "p_no_space": 10, "log2_deliveries": 1, "log2_no_space": 1, "log2_density": 1}   # per +0.1, +0.1, then per doubling
 
 
 # ---------------------------------------------------------------- events
@@ -153,6 +153,7 @@ def main():
     b["events"] = dp.block.value_counts().reindex(b.index, fill_value=0)
     b["events_full"] = dp[~dp.partial].block.value_counts().reindex(b.index, fill_value=0)
     b = b.join(predictors(*MAIN))
+    b["log2_density"] = np.log2(1 + b.premises / b.length_m * 100)   # plain business count, the baseline to beat
     b["rate_per_km"] = b.events / b.exposure_100m * 10
     b.round(3).to_csv(DERIVED / "dp_blocks.csv")
 
